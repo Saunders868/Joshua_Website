@@ -1,6 +1,8 @@
 "use client";
 
+import { USERS_URL } from "@/constants";
 import { initialUserValues } from "@/data";
+import { axiosCall } from "@/utils/Axios";
 import { CreateUserValidation } from "@/validations";
 import { useFormik } from "formik";
 import React from "react";
@@ -9,8 +11,17 @@ const CreateUser = () => {
   const formik = useFormik({
     initialValues: initialUserValues,
     validationSchema: CreateUserValidation,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      const response = await axiosCall({method: "post", url: USERS_URL, payload: {...values}});
+      
+      if (response?.status === 200) {
+        // prompt the user that thier profile was created successfully then redirect
+      } else if (response?.status === 409) {
+        // let the user know what happened
+        console.log("look at the error", response.data.error);
+      } else {
+        // alert the user that an error occured
+      }
     },
   });
   return (
