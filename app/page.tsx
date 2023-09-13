@@ -1,7 +1,12 @@
+import Hero from "@/sections/hero";
+import Image from "next/image";
+
 export default function Home() {
   return (
     <main>
-      <h1>Joshua Greene</h1>
+      <section className="home__section">
+        <Hero />
+      </section>
     </main>
-  )
+  );
 }

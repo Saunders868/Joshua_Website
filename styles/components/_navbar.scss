@@ -1,8 +1,13 @@
 header {
   background-color: $black;
-
   padding: 1.5rem;
   overflow: hidden;
+
+  // @media (min-width: 768px) {
+  //   background-color: none;
+  //   background: rgb(0, 0, 0);
+  //   background: linear-gradient(90deg, rgba($black, 1) 10%, rgba(0,0,0, 0.3) 100%);
+  // }
 
   nav {
     display: flex;
@@ -10,50 +15,21 @@ header {
     justify-content: space-between;
     align-items: center;
 
-    // move to mobile menu component
-    .mobile {
+    .links {
+      display: none;
+
       @media (min-width: 768px) {
-        display: none;
-      }
-      .hamburger {
-        position: relative;
-        cursor: pointer;
-        z-index: 2;
-
-        #hamburger {
-          transition: fill 1s ease-in-out;
-        }
-        &.active {
-          #hamburger {
-            fill: $black;
-            background-color: $black;
-          }
-        }
+        display: block;
       }
 
-      .mobile-menu {
-        background-color: $white;
-        position: absolute;
-        z-index: 1;
-        top: 0;
-        right: 0;
-        width: 50vw;
-        height: 100vh;
+      ul {
         display: flex;
         align-items: center;
         justify-content: center;
-        transform: translateX(1000px);
-        transition: 1.15s ease-out all;
 
-        &.active {
-          transform: translateX(0px);
-        }
-
-        ul {
-          li {
-            &:not(:nth-child(1)) {
-              margin-top: 1rem;
-            }
+        li {
+          &:not(:nth-child(1)) {
+            margin-left: 1rem;
           }
         }
       }

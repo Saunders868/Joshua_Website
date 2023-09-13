@@ -1,0 +1,128 @@
+.home__section {
+  min-height: 90vh;
+  padding: 2rem 0;
+  position: relative;
+  max-width: 1200px;
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 2;
+    background: rgb(0, 0, 0);
+    background: linear-gradient(
+      180deg,
+      rgba($black, 1) 10%,
+      rgba(0, 0, 0, 0.3) 100%
+    );
+
+    @media (min-width: 768px) {
+      background: rgb(0, 0, 0);
+      background: linear-gradient(
+        90deg,
+        rgba($black, 1) 20%,
+        rgba(0, 0, 0, 0.3) 100%
+      );
+    }
+  }
+
+  &__img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+    img {
+      max-width: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__content {
+    padding-top: 4rem;
+    position: relative;
+    z-index: 3;
+
+    @media (min-width: 768px) {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .pill {
+      margin: auto;
+      width: 13.5rem;
+      height: 1.5rem;
+      border-radius: 99999px;
+      background-color: gray;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      @media (min-width: 768px) {
+        margin: 0 1.5rem;
+      }
+
+      p {
+        color: $white;
+        text-transform: capitalize;
+      }
+    }
+
+    &__title {
+      margin: 1.25rem auto 0;
+      color: $white;
+      text-align: center;
+      font-size: $title-font-mobile;
+      font-style: normal;
+      font-weight: 700;
+      line-height: normal;
+      letter-spacing: 0.0125rem;
+      width: 17.5rem;
+
+      @media (min-width: 768px) {
+        margin: 2rem 1.5rem 0;
+        text-align: left;
+        font-size: $title-font-desktop;
+        width: 39.3125rem;
+      }
+    }
+
+    &__text {
+      margin: 1.5rem auto 0;
+      color: $white;
+      opacity: 0.7;
+      text-align: center;
+      font-size: $subtitle-font-mobile;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      width: 17.5rem;
+
+      @media (min-width: 768px) {
+        margin: 1rem 1.5rem 0;
+        text-align: left;
+        font-size: $subtitle-font-desktop;
+        width: 36.6875rem;
+      }
+    }
+  }
+
+  &__wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 200px;
+    width: 100%;
+    z-index: 4;
+
+    img {
+      width: 100%;
+    }
+  }
+}

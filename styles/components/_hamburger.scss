@@ -1,0 +1,47 @@
+.mobile {
+  @media (min-width: 768px) {
+    display: none;
+  }
+  .hamburger {
+    position: relative;
+    cursor: pointer;
+    z-index: 11;
+
+    #hamburger {
+      transition: fill 1s ease-in-out;
+    }
+    &.active {
+      #hamburger {
+        fill: $black;
+        background-color: $black;
+      }
+    }
+  }
+
+  .mobile-menu {
+    background-color: $white;
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    right: 0;
+    width: 50vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateX(800px);
+    transition: 1.15s ease-out all;
+
+    &.active {
+      transform: translateX(0px);
+    }
+
+    ul {
+      li {
+        &:not(:nth-child(1)) {
+          margin-top: 1rem;
+        }
+      }
+    }
+  }
+}
