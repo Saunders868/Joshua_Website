@@ -25,10 +25,11 @@ const CreateUser = () => {
     },
   });
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <div className="form__control">
-        <label htmlFor="firstName">First Name:</label>
+    <form className="form" onSubmit={formik.handleSubmit}>
+      <div className="form__input">
+        <label className="form__input__label" htmlFor="firstName">First Name:</label>
         <input
+          className="form__input__field"
           id="firstName"
           type="text"
           {...formik.getFieldProps('firstName')}
@@ -39,9 +40,10 @@ const CreateUser = () => {
         ) : null}
       </div>
 
-      <div className="form__control">
-        <label htmlFor="lastName">Surname:</label>
+      <div className="form__input">
+        <label className="form__input__label" htmlFor="lastName">Surname:</label>
         <input
+          className="form__input__field"
           id="lastName"
           type="text"
           {...formik.getFieldProps('lastName')}
@@ -52,9 +54,10 @@ const CreateUser = () => {
         ) : null}
       </div>
 
-      <div className="form__control">
-        <label htmlFor="email">Email:</label>
+      <div className="form__input">
+        <label className="form__input__label" htmlFor="email">Email:</label>
         <input
+          className="form__input__field"
           id="email"
           type="email"
           {...formik.getFieldProps('email')}
@@ -65,9 +68,10 @@ const CreateUser = () => {
         ) : null}
       </div>
 
-      <div className="form__control">
-        <label htmlFor="username">Username:</label>
+      <div className="form__input">
+        <label className="form__input__label" htmlFor="username">Username:</label>
         <input
+          className="form__input__field"
           id="username"
           type="text"
           {...formik.getFieldProps('username')}
@@ -78,9 +82,10 @@ const CreateUser = () => {
         ) : null}
       </div>
 
-      <div className="form__control">
-        <label htmlFor="password">Password:</label>
+      <div className="form__input">
+        <label className="form__input__label" htmlFor="password">Password:</label>
         <input
+          className="form__input__field"
           id="password"
           type="text"
           {...formik.getFieldProps('password')}
@@ -91,9 +96,10 @@ const CreateUser = () => {
         ) : null}
       </div>
 
-      <div className="form__control">
-        <label htmlFor="passwordConfirmation">Confirm Password:</label>
+      <div className="form__input">
+        <label className="form__input__label" htmlFor="passwordConfirmation">Confirm Password:</label>
         <input
+          className="form__input__field"
           id="passwordConfirmation"
           type="text"
           {...formik.getFieldProps('passwordConfirmation')}
@@ -103,7 +109,9 @@ const CreateUser = () => {
           <div>{formik.errors.passwordConfirmation}</div>
         ) : null}
       </div>
-      <button type="submit">Submit</button>
+      <div className="action">
+				<button className="action-button" type="submit">Get started</button>
+			</div>
     </form>
   );
 };

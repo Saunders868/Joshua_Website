@@ -18,5 +18,7 @@ export const CreateUserValidation = Yup.object({
     [Yup.ref("password")],
     "Passwords do not match"
   ),
-  username: Yup.string().min(10, "Must be at least 10 characters"),
+  username: Yup.string()
+    .min(10, "Must be at least 10 characters")
+    .required("Required"),
 });
