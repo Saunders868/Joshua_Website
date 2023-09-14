@@ -39,6 +39,16 @@
         }
       }
     }
+
+    &.session {
+      background-image: url("https://images.unsplash.com/photo-1524055988636-436cfa46e59e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nzl8fGxvZ2lufGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60");
+      background-size: cover;
+      background-position: bottom; 
+
+      .hero__image__heading {
+        color: rgb(21, 41, 3);
+      }
+    }
   }
 
   &__info {

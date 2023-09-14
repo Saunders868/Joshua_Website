@@ -11,3 +11,8 @@ export interface UserT {
   firstName: string;
   lastName: string;
 }
+
+export interface SessionT {
+  token: string;
+  refreshToken: string;
+}

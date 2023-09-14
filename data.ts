@@ -23,3 +23,8 @@ export const initialUserValues: UserT = {
   firstName: "",
   lastName: "",
 };
+
+export const initialSessionValues: Omit<UserT, "passwordConfirmation" | "email" | "firstName" | "lastName"> = {
+  username: "",
+  password: ""
+}

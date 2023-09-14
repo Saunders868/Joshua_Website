@@ -22,3 +22,13 @@ export const CreateUserValidation = Yup.object({
     .min(10, "Must be at least 10 characters")
     .required("Required"),
 });
+
+export const CreateSessionValidation = Yup.object({
+  username: Yup.string().required("Required"),
+  password: Yup.string()
+    .required()
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/,
+      "Password must be at least 8 characters long and contain 1 lowercase letter, 1 uppercase letter, 1 digit, and 1 special character"
+    ),
+});
