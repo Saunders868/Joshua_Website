@@ -1,0 +1,26 @@
+.btn {
+  font-family: $text-font-mobile;
+  color: $white;
+  background-color: $black;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin: 1rem 1.5rem;
+  text-decoration: none;
+
+  &.fill {
+    color: $black;
+    background-color: transparent;
+    border: 2px solid $black;
+
+    &.light {
+      color: $white;
+      background-color: transparent;
+      border: 2px solid $white;
+    }
+  }
+
+  &.light {
+    color: $black;
+    background-color: $white;
+  }
+}

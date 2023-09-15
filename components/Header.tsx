@@ -4,6 +4,7 @@ import { useState } from "react";
 import Hamburger from "./Layout/Hamburger";
 import LinkItem from "./LinkItem";
 import { linksData } from "@/data";
+import Button from "./Button";
 
 function Header() {
   const [isClicked, setIsClicked] = useState<boolean>(false);
@@ -27,6 +28,7 @@ function Header() {
                   <LinkItem path={link.path} linkname={link.linkname} />
                 </li>
               ))}
+              <Button text="Login" link="sign-in" light />
             </ul>
           </div>
         </div>

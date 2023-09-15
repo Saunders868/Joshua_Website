@@ -1,8 +1,16 @@
+"use client";
+
 import CreateSession from "@/components/Forms/CreateSession";
 import LinkItem from "@/components/LinkItem";
-import React from "react";
+import { useAppSelector } from "@/redux/hooks";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
+  const { push } = useRouter();
+  const userData = useAppSelector((state) => state.user);
+  if (userData.email !== "") {
+    push("/");
+  }
   return (
     <section>
       <div className="container">

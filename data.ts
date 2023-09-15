@@ -8,10 +8,6 @@ export const linksData: LinkT[] = [
   {
     path: "/about",
     linkname: "about",
-  },
-  {
-    path: "/create-profile",
-    linkname: "create"
   }
 ];
 
@@ -24,7 +20,7 @@ export const initialUserValues: UserT = {
   lastName: "",
 };
 
-export const initialSessionValues: Omit<UserT, "passwordConfirmation" | "email" | "firstName" | "lastName"> = {
-  username: "",
+export const initialSessionValues: Omit<UserT, "passwordConfirmation" | "username" | "firstName" | "lastName"> = {
+  email: "",
   password: ""
 }

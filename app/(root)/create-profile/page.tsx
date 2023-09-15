@@ -1,8 +1,16 @@
+"use client";
+
 import CreateUser from "@/components/Forms/CreateUser";
 import LinkItem from "@/components/LinkItem";
-import React from "react";
+import { useAppSelector } from "@/redux/hooks";
+import { useRouter } from "next/navigation";
 
-const page = () => {
+const Page = () => {
+  const { push } = useRouter();
+  const userData = useAppSelector((state) => state.user);
+  if (userData.email !== "") {
+    push("/");
+  }
   return (
     <section>
       <div className="container">
@@ -26,4 +34,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

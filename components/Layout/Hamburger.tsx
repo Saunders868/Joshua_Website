@@ -1,6 +1,7 @@
 import React, { SetStateAction } from "react";
 import LinkItem from "../LinkItem";
 import { linksData } from "@/data";
+import Button from "../Button";
 
 const Hamburger = ({
   setIsClicked,
@@ -39,6 +40,7 @@ const Hamburger = ({
               <LinkItem path={link.path} linkname={link.linkname} />
             </li>
           ))}
+          <Button fill text="Login" link="/sign-in" />
         </ul>
       </div>
     </div>

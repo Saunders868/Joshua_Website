@@ -2,13 +2,21 @@
 
 import { SESSIONS_URL } from "@/constants";
 import { initialSessionValues } from "@/data";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { login } from "@/redux/slices/user.slice";
 import { axiosCall } from "@/utils/Axios";
 import { CreateSessionValidation } from "@/validations";
 import { useFormik } from "formik";
+import { redirect } from "next/navigation";
 import React from "react";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const CreateSession = () => {
+  const dispatch = useAppDispatch();
+  const userData = useAppSelector((state) => state.user);
+  const { push } = useRouter();
+
   const formik = useFormik({
     initialValues: initialSessionValues,
     validationSchema: CreateSessionValidation,
@@ -20,11 +28,15 @@ const CreateSession = () => {
       });
 
       if (response?.status === 200) {
-        // prompt the user that thier profile was created successfully then redirect
+        await dispatch(
+          login({
+            token: response.data.accessToken,
+            refreshToken: response.data.refreshToken,
+          })
+        );
+        redirect("/");
       } else if (response?.status === 401) {
-        // let the user know what happened
-        console.log(response);
-        /* toast.error(response.data.error, {
+        toast.error(response.data, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -33,9 +45,8 @@ const CreateSession = () => {
           draggable: true,
           progress: undefined,
           theme: "light",
-          }); */
+        });
       } else {
-        // alert the user that an error occured
         toast.error("An error occured. Please try again later.", {
           position: "bottom-right",
           autoClose: 5000,
@@ -52,18 +63,18 @@ const CreateSession = () => {
   return (
     <form className="form" onSubmit={formik.handleSubmit}>
       <div className="form__input">
-        <label className="form__input__label" htmlFor="username">
-          Username:
+        <label className="form__input__label" htmlFor="email">
+          Email:
         </label>
         <input
           className="form__input__field"
-          id="username"
+          id="email"
           type="text"
-          {...formik.getFieldProps("username")}
+          {...formik.getFieldProps("email")}
         />
 
-        {formik.touched.username && formik.errors.username ? (
-          <div>{formik.errors.password}</div>
+        {formik.touched.email && formik.errors.email ? (
+          <div>{formik.errors.email}</div>
         ) : null}
       </div>
 

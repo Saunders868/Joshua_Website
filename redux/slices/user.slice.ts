@@ -10,6 +10,21 @@ const initialState: Omit<UserT, "password" | "passwordConfirmation"> = {
   lastName: "",
 };
 
+export interface DecodedUserT extends UserT {
+  createdAt: string;
+  exp: number;
+  iat: number;
+  image: string;
+  orders: string[];
+  productPermissions: string[];
+  role: "user" | "admin";
+  session: string;
+  updatedAt: string;
+  __v: number;
+  _id: string;
+  name: string;
+}
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -19,8 +34,15 @@ export const userSlice = createSlice({
       action: PayloadAction<SessionT>
     ) => {
       const token = action.payload.token;
-      const user = jwt_decode(token);
-      state.username = "state updated";
+      const user: DecodedUserT = jwt_decode(token);
+
+      const fullName = user.name;
+      const nameParts = fullName.split(" ")
+
+      state.username = user.username;
+      state.email = user.email;
+      state.firstName = nameParts[0];
+      state.lastName = nameParts[1];
     },
     logout: (state) => {
       state.username = "";
