@@ -7,7 +7,6 @@ import { login } from "@/redux/slices/user.slice";
 import { axiosCall } from "@/utils/Axios";
 import { CreateSessionValidation } from "@/validations";
 import { useFormik } from "formik";
-import { redirect } from "next/navigation";
 import React from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
@@ -34,7 +33,7 @@ const CreateSession = () => {
             refreshToken: response.data.refreshToken,
           })
         );
-        redirect("/");
+        push("/");
       } else if (response?.status === 401) {
         toast.error(response.data, {
           position: "bottom-right",
@@ -74,7 +73,7 @@ const CreateSession = () => {
         />
 
         {formik.touched.email && formik.errors.email ? (
-          <div>{formik.errors.email}</div>
+          <div className="error">{formik.errors.email}</div>
         ) : null}
       </div>
 
@@ -90,7 +89,7 @@ const CreateSession = () => {
         />
 
         {formik.touched.password && formik.errors.password ? (
-          <div>{formik.errors.password}</div>
+          <div className="error">{formik.errors.password}</div>
         ) : null}
       </div>
       <div className="action">

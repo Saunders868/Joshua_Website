@@ -5,6 +5,10 @@
   max-width: 1200px;
   background-color: #fff;
 
+  @media (min-width: 1200px) {
+    margin: 2rem auto;
+  }
+
   &__image {
     border-radius: 8px;
     overflow: hidden;

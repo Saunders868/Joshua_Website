@@ -62,7 +62,7 @@ const CreateUser = () => {
         />
 
         {formik.touched.firstName && formik.errors.firstName ? (
-          <div>{formik.errors.firstName}</div>
+          <div className="error">{formik.errors.firstName}</div>
         ) : null}
       </div>
 
@@ -78,7 +78,7 @@ const CreateUser = () => {
         />
 
         {formik.touched.lastName && formik.errors.lastName ? (
-          <div>{formik.errors.lastName}</div>
+          <div className="error">{formik.errors.lastName}</div>
         ) : null}
       </div>
 
@@ -94,7 +94,7 @@ const CreateUser = () => {
         />
 
         {formik.touched.email && formik.errors.email ? (
-          <div>{formik.errors.email}</div>
+          <div className="error">{formik.errors.email}</div>
         ) : null}
       </div>
 
@@ -110,7 +110,7 @@ const CreateUser = () => {
         />
 
         {formik.touched.username && formik.errors.username ? (
-          <div>{formik.errors.username}</div>
+          <div className="error">{formik.errors.username}</div>
         ) : null}
       </div>
 
@@ -126,7 +126,7 @@ const CreateUser = () => {
         />
 
         {formik.touched.password && formik.errors.password ? (
-          <div>{formik.errors.password}</div>
+          <div className="error">{formik.errors.password}</div>
         ) : null}
       </div>
 
@@ -143,7 +143,7 @@ const CreateUser = () => {
 
         {formik.touched.passwordConfirmation &&
         formik.errors.passwordConfirmation ? (
-          <div>{formik.errors.passwordConfirmation}</div>
+          <div className="error">{formik.errors.passwordConfirmation}</div>
         ) : null}
       </div>
       <div className="action">

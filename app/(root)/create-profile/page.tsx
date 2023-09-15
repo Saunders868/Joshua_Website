@@ -12,7 +12,7 @@ const Page = () => {
     push("/");
   }
   return (
-    <section>
+    <main>
       <div className="container">
         <div className="hero">
           <div className="hero__image">
@@ -30,7 +30,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-    </section>
+    </main>
   );
 };
 
