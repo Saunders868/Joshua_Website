@@ -2,7 +2,6 @@
   min-height: 90vh;
   padding: 2rem 0;
   position: relative;
-  max-width: 1200px;
 
   &__overlay {
     position: absolute;
@@ -46,12 +45,14 @@
     padding-top: 4rem;
     position: relative;
     z-index: 3;
+    max-width: 1200px;
 
     @media (min-width: 768px) {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       justify-content: space-between;
+      margin: 0 auto;
     }
 
     .pill {
@@ -124,5 +125,103 @@
     img {
       width: 100%;
     }
+  }
+}
+
+.info__section {
+  max-width: 1200px;
+  margin: 1.5rem;
+
+  @media (min-width: 768px) {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-start;
+    justify-content: space-around;
+    margin: 1.5rem auto;
+  }
+
+  &__content {
+    h2 {
+      @include section-title;
+    }
+
+    p {
+      @include text;
+      margin-top: 0.5rem;
+    }
+
+    @media (min-width: 768px) {
+      width: 48%;
+    }
+  }
+
+  &__images {
+    margin: 1.5rem auto;
+    max-width: 500px;
+
+    @media (min-width: 768px) {
+      width: 48%;
+      margin: 0;
+    }
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
+
+    &__large {
+      width: 100%;
+      height: 18.75rem;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    &__small {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+
+      div {
+        position: relative;
+        border-radius: 8px;
+        overflow: hidden;
+        width: 48%;
+        height: 6.0625rem;
+      }
+    }
+  }
+}
+
+.products__section {
+  max-width: 1200px;
+  margin: 2.5rem 1.5rem;
+
+  @media (min-width: 768px) {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    margin: 4.5rem auto;
+    padding: 0 0.5rem;
+  }
+
+  &__content {
+    h2 {
+      @include section-title;
+    }
+
+    p {
+      @include text;
+      margin-top: 0.5rem;
+    }
+
+    @media (min-width: 768px) {
+      width: 48%;
+    }
+  }
+
+  .slider {
+    display: block;
+    max-width: 500px;
   }
 }

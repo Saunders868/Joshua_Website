@@ -3,11 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import jwt_decode from "jwt-decode";
 
-const initialState: Omit<UserT, "password" | "passwordConfirmation"> = {
+const initialState: Omit<UserT, "password" | "passwordConfirmation"> & SessionT = {
   username: "",
   email: "",
   firstName: "",
   lastName: "",
+  token: "",
+  refreshToken: ""
 };
 
 export interface DecodedUserT extends UserT {
@@ -30,10 +32,12 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     login: (
-      state: Omit<UserT, "password" | "passwordConfirmation">,
+      state: Omit<UserT, "password" | "passwordConfirmation"> & SessionT,
       action: PayloadAction<SessionT>
     ) => {
       const token = action.payload.token;
+      state.refreshToken = action.payload.refreshToken;
+      state.token = action.payload.token;
       const user: DecodedUserT = jwt_decode(token);
 
       const fullName = user.name;
@@ -49,6 +53,8 @@ export const userSlice = createSlice({
       state.firstName = "";
       state.lastName = "";
       state.email = "";
+      state.refreshToken = ""
+      state.token = "";
     },
   },
 });

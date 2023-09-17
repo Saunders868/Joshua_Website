@@ -21,7 +21,7 @@ const DashboardLinkItem = ({
     <div className="dashboard-link-container">
       <Link
         className={
-          pathname === path ? "active" : `${isDesktop ? "desktop" : ""}`
+          pathname.includes(path) ? "active" : `${isDesktop ? "desktop" : ""}`
         }
         href={path}
       >

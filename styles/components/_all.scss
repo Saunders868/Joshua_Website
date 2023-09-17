@@ -7,3 +7,14 @@
 @import './dashboard_link';
 @import './section_header';
 @import './form_validation';
+@import './slider';
+
+.no-data {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    @include text;
+  }
+}

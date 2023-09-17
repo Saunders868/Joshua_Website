@@ -1,4 +1,5 @@
 import { BASE_URL } from "@/constants";
+import { SessionT } from "@/types";
 import axios, { AxiosResponse } from "axios";
 
 const instance = axios.create({
@@ -10,26 +11,26 @@ export async function axiosCall({
   method,
   url,
   payload,
+  token
 }: {
   method: string;
   url: string;
   payload: object | null;
+  token?: SessionT,
 }) {
-  // token?: sessionType,
 
   try {
     const response: AxiosResponse = await instance.request({
       data: payload,
       url: url,
-      // headers: {
-      //   authorization: token.accessToken,
-      //   "x-refresh": token.refreshToken,
-      // },
+      headers: {
+        authorization: token ? token.token : "",
+        "x-refresh": token ? token.refreshToken : "",
+      },
       method: method,
     });
 
     return response;
-    // add notification
   } catch (error: any) {
     return error.response;
   }

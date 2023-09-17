@@ -1,8 +1,26 @@
 @mixin section-title {
   font-size: $section-title-font-mobile;
-  font-weight: 700;
+  font-weight: $bold-font;
 
-  @media (max-width: 768px) {
+  @media (min-width: 768px) {
     font-size: $section-title-font-desktop;
+  }
+}
+
+@mixin subtitle {
+  font-size: $subtitle-font-mobile;
+  font-weight: $medium-font;
+
+  @media (min-width: 768px) {
+    font-size: $subtitle-font-desktop;
+  }
+}
+
+@mixin text {
+  font-size: $text-font-mobile;
+  font-weight: $light-font;
+
+  @media (min-width: 768px) {
+    font-size: $text-font-desktop;
   }
 }
