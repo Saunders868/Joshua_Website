@@ -1,20 +1,22 @@
 "use client";
 
-import { USERS_URL } from "@/constants";
+import { MAIL_URL, USERS_URL } from "@/constants";
 import { initialUserValues } from "@/data";
 import { axiosCall } from "@/utils/Axios";
 import { CreateUserValidation } from "@/validations";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 
 const CreateUser = () => {
+  const [loading, setLoading] = useState<boolean>(false);
   const { push } = useRouter();
   const formik = useFormik({
     initialValues: initialUserValues,
     validationSchema: CreateUserValidation,
     onSubmit: async (values) => {
+      setLoading(true);
       const response = await axiosCall({
         method: "post",
         url: USERS_URL,
@@ -22,6 +24,16 @@ const CreateUser = () => {
       });
 
       if (response?.status === 200) {
+        await axiosCall({
+          method: "post",
+          url: MAIL_URL,
+          payload: {
+            username: values.username,
+            userEmail: values.email,
+            text: "Welcome from Joshua Greene! We're thrilled to have you join our community of valued customers!",
+            subject: "Signup Successfull"
+          },
+        });
         push("/sign-in");
       } else if (response?.status === 409) {
         toast.error(response.data.error, {
@@ -46,8 +58,12 @@ const CreateUser = () => {
           theme: "light",
         });
       }
+      setLoading(false)
     },
   });
+
+  if (loading) return "Loading...";
+
   return (
     <form className="form" onSubmit={formik.handleSubmit}>
       <div className="form__input">

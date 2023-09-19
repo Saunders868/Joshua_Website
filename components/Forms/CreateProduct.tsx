@@ -2,32 +2,60 @@
 
 import { PRODUCTS_URL } from "@/constants";
 import { initialProductValues } from "@/data";
+import { useAppSelector } from "@/redux/hooks";
 import { axiosCall } from "@/utils/Axios";
 import { CreateProductValidation } from "@/validations";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 
 const CreateProduct = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const userData = useAppSelector((state) => state.user);
   const { push } = useRouter();
   const formik = useFormik({
     initialValues: initialProductValues,
     validationSchema: CreateProductValidation,
     onSubmit: async (values) => {
+      setLoading(true);
       const response = await axiosCall({
         method: "post",
         url: PRODUCTS_URL,
-        payload: { ...values, type: "virtual" },
+        payload: {
+          ...values,
+          type: "virtual",
+          image:
+            "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjd8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+        },
+        token: { token: userData.token, refreshToken: userData.refreshToken },
       });
 
-      console.log(response);
-      
-
       if (response?.status === 200) {
+        toast.success("Product Created Successfully!", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         push("/admin/products");
       } else if (response?.status === 409) {
         toast.error(response.data.error, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      } else if (response?.status === 403) {
+        toast.error("Unauthorized user!", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -49,13 +77,17 @@ const CreateProduct = () => {
           theme: "light",
         });
       }
+      setLoading(false);
     },
   });
+
+  if (loading) return "Loading...";
+
   return (
     <form className="form" onSubmit={formik.handleSubmit}>
       <div className="form__input">
         <label className="form__input__label" htmlFor="title">
-          First Name:
+          Title:
         </label>
         <input
           className="form__input__field"
@@ -71,7 +103,7 @@ const CreateProduct = () => {
 
       <div className="form__input">
         <label className="form__input__label" htmlFor="desc">
-          Surname:
+          Description:
         </label>
         <input
           className="form__input__field"
@@ -108,6 +140,6 @@ const CreateProduct = () => {
       </div>
     </form>
   );
-}
+};
 
-export default CreateProduct
+export default CreateProduct;

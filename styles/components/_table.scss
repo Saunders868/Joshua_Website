@@ -1,0 +1,100 @@
+.table-data {
+  display: flex;
+  flex-wrap: wrap;
+  grid-gap: 24px;
+  width: 100%;
+  color: $table-data-color;
+
+  > div {
+    border-radius: 20px;
+    background: $table-data-bg;
+    padding: 24px;
+    overflow-x: auto;
+
+    .head {
+      display: flex;
+      align-items: center;
+      grid-gap: 16px;
+      margin-bottom: 24px;
+
+      h3 {
+        margin-right: auto;
+        font-size: 24px;
+        font-weight: 600;
+      }
+
+      .bx {
+        cursor: pointer;
+      }
+    }
+
+    &.order {
+      flex-grow: 1;
+      flex-basis: 500px;
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+
+        th {
+          padding-bottom: 12px;
+          font-size: 13px;
+          text-align: left;
+          border-bottom: 1px solid $table-data-grey;
+        }
+
+        tr {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          td {
+            padding: 16px 0;
+
+            &:first-child {
+              display: flex;
+              align-items: center;
+              grid-gap: 12px;
+              padding-left: 6px;
+
+              div {
+                width: 36px;
+                height: 36px;
+                position: relative;
+                img {
+                  width: 36px;
+                  height: 36px;
+                  border-radius: 50%;
+                  object-fit: cover;
+                }
+              }
+            }
+          }
+
+          .status {
+            font-size: 10px;
+            padding: 6px 16px;
+            color: $table-data-bg;
+            border-radius: 20px;
+            font-weight: 700;
+
+            &.completed {
+              background: $table-data-blue;
+            }
+
+            &.process {
+              background: $table-data-yellow;
+            }
+
+            &.pending {
+              background: $table-data-orange;
+            }
+          }
+        }
+
+        tbody tr:hover {
+          background: $table-data-grey;
+        }
+      }
+    }
+  }
+}

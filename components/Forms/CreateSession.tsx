@@ -7,11 +7,12 @@ import { login } from "@/redux/slices/user.slice";
 import { axiosCall } from "@/utils/Axios";
 import { CreateSessionValidation } from "@/validations";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
 const CreateSession = () => {
+  const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const userData = useAppSelector((state) => state.user);
   const { push } = useRouter();
@@ -20,6 +21,7 @@ const CreateSession = () => {
     initialValues: initialSessionValues,
     validationSchema: CreateSessionValidation,
     onSubmit: async (values) => {
+      setLoading(true);
       const response = await axiosCall({
         method: "post",
         url: SESSIONS_URL,
@@ -57,8 +59,12 @@ const CreateSession = () => {
           theme: "dark",
         });
       }
+      setLoading(false)
     },
   });
+
+  if (loading) return "Loading...";
+
   return (
     <form className="form" onSubmit={formik.handleSubmit}>
       <div className="form__input">

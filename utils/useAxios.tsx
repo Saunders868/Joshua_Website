@@ -1,3 +1,5 @@
+"use client";
+
 import { BASE_URL } from "@/constants";
 import { SessionT } from "@/types";
 import axios, { AxiosError, AxiosResponse } from "axios";
@@ -8,9 +10,9 @@ const instance = axios.create({
   timeout: 5000,
 });
 
-export function useAxios(url: string, token: SessionT) {
+export function useAxios({ url, token }: { url: string; token: SessionT }) {
   const [response, setResponse] = useState<AxiosResponse>();
-  const [error, setError] = useState<AxiosError>();
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   const getAreaDetails = async () => {
@@ -25,6 +27,7 @@ export function useAxios(url: string, token: SessionT) {
       });
       setResponse(result);
     } catch (err: any) {
+      console.log(err);
       setError(err);
     } finally {
       setLoading(false);

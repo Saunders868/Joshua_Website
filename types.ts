@@ -30,4 +30,11 @@ export interface ProductT {
   desc: string; 
   price: number;
   type?: "virtual" | "simple";
+  createdAt?: string;
+  id?: string;
+  image?: string;
+  updatedAt?: string;
+  user: string;
+  __v?: number;
+  _id: string;
 }
