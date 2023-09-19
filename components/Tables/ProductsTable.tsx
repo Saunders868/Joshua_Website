@@ -2,17 +2,7 @@ import { ProductT } from "@/types";
 import Image from "next/image";
 import React from "react";
 
-const ProductsTable = ({
-  theadOne,
-  theadTwo,
-  theadThree,
-  dataArray,
-}: {
-  theadOne?: string;
-  theadTwo?: string;
-  theadThree?: string;
-  dataArray: ProductT[];
-}) => {
+const ProductsTable = ({ dataArray }: { dataArray: ProductT[] }) => {
   return (
     <div className="table-data">
       <div className="order">
@@ -37,9 +27,10 @@ const ProductsTable = ({
                 </td>
                 <td>
                   <p>{product.title}</p>
-                  {/* <span className="status completed">Completed</span> */}
                 </td>
-                <td>{`${product.desc.substring(0,10)}...`}</td>
+                <td>
+                  <p>{`${product.desc.substring(0, 10)}...`}</p>
+                </td>
               </tr>
             ))}
           </tbody>

@@ -44,7 +44,7 @@ function Header() {
                   <li>
                     <LinkItem path={"/admin/dashboard"} linkname={"admin"} />
                   </li>
-                  <Button text="Logout" link="sign-out" light />
+                  <Button text="Logout" link={"sign-out"} light />
                 </>
               ) : (
                 <Button text="Login" link="sign-in" light />

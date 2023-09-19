@@ -2,6 +2,7 @@
 
 import DashboardPageHeader from "@/components/DashboardPageHeader";
 import NoData from "@/components/NoData";
+import SessionsTable from "@/components/Tables/SessionsTable";
 import { SESSIONS_URL } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
@@ -15,6 +16,10 @@ const Page = () => {
       refreshToken: userData.refreshToken,
     },
   });
+
+  console.log(userData);
+  
+  
   return (
     <section>
       <DashboardPageHeader title="Sessions" />
@@ -27,11 +32,10 @@ const Page = () => {
           <>
             {error === null ? (
               <>
-                {/* @ts-ignore */}
-                {response && response.length === 0 ? (
+                {response && response.data.length === 0 ? (
                   <NoData text="Carts" />
                 ) : (
-                  "data goes here"
+                  <SessionsTable dataArray={response?.data} />
                 )}
               </>
             ) : (
