@@ -40,18 +40,17 @@ const SessionsTable = ({ dataArray }: { dataArray: UserSessionT[] }) => {
                 <td>
                   <div>
                     <p>
-                      {}
+                      {session.user}
                     </p>
                   </div>
                 </td>
                 <td>
-                  <p>{session.userAgent}</p>
-                  {/* <span className="status completed">Completed</span> */}
+                  <p>{session.userAgent.substring(0, 10)}...</p>
                 </td>
                 <td>
                   <p>
                     <span className={`${session.valid ? "completed" : "process"} status`}>
-                      {session.valid}
+                      {session.valid ? "true" : "false"}
                     </span>
                   </p>
                 </td>

@@ -36,13 +36,13 @@ export const userSlice = createSlice({
       action: PayloadAction<SessionT>
     ) => {
       const token = action.payload.token;
-      state.refreshToken = action.payload.refreshToken;
-      state.token = action.payload.token;
       const user: DecodedUserT = jwt_decode(token);
-
+      
       const fullName = user.name;
       const nameParts = fullName.split(" ")
-
+      
+      state.token = token;
+      state.refreshToken = action.payload.refreshToken;
       state.username = user.username;
       state.email = user.email;
       state.firstName = nameParts[0];

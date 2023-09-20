@@ -24,6 +24,7 @@ const Button = ({
   const { push } = useRouter();
 
   const logOutServer = async () => {
+    setLoading(true);
     const response = await axiosCall({
       method: "post",
       url: USERS_URL,
@@ -31,17 +32,10 @@ const Button = ({
     });
 
     await dispatch(logout());
+    setLoading(false);
 
     push("/");
   };
-
-  useEffect(() => {
-    if (link === "sign-out") {
-      setLoading(true);
-      logOutServer();
-      setLoading(false);
-    }
-  }, []);
 
   if (loading) return "Loading...";
 
@@ -49,6 +43,7 @@ const Button = ({
     <Link
       className={`btn ${fill ? "fill" : ""} ${light ? "light" : ""}`}
       href={link === "sign-out" ? "/" : link}
+      onClick={link === "sign-out" ? logOutServer : ()=>{}}
     >
       {text}
     </Link>
