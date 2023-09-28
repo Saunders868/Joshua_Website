@@ -4,9 +4,9 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { axiosCall } from "@/utils/Axios";
-import { USERS_URL } from "@/constants";
+import { SESSIONS_URL } from "@/constants";
 import { logout } from "@/redux/slices/user.slice";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 const Button = ({
   link,
@@ -20,15 +20,20 @@ const Button = ({
   light?: boolean;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
+  const userData = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const { push } = useRouter();
 
   const logOutServer = async () => {
     setLoading(true);
     const response = await axiosCall({
-      method: "post",
-      url: USERS_URL,
+      method: "delete",
+      url: SESSIONS_URL,
       payload: null,
+      token: {
+        token: userData.token,
+        refreshToken: userData.refreshToken,
+      },
     });
 
     await dispatch(logout());
