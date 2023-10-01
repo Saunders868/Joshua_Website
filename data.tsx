@@ -15,6 +15,10 @@ export const linksData: LinkT[] = [
     path: "/about",
     linkname: "about",
   },
+  {
+    path: "/shop",
+    linkname: "shop",
+  }
 ];
 
 export const initialUserValues: UserT = {

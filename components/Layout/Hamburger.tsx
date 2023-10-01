@@ -1,7 +1,10 @@
+"use client";
+
 import React, { SetStateAction } from "react";
 import LinkItem from "../LinkItem";
 import { linksData } from "@/data";
 import Button from "../Button";
+import { useAppSelector } from "@/redux/hooks";
 
 const Hamburger = ({
   setIsClicked,
@@ -10,6 +13,7 @@ const Hamburger = ({
   setIsClicked: React.Dispatch<SetStateAction<boolean>>;
   isClicked: boolean;
 }) => {
+  const userData = useAppSelector((state) => state.user);
   return (
     <div className="mobile">
       <div
@@ -36,11 +40,20 @@ const Hamburger = ({
       <div className={`mobile-menu ${isClicked ? "active" : ""}`}>
         <ul>
           {linksData.map((link) => (
-            <li key={link.linkname}>
+            <li onClick={() => setIsClicked(false)} key={link.linkname}>
               <LinkItem path={link.path} linkname={link.linkname} />
             </li>
           ))}
-          <Button fill text="Login" link="/sign-in" />
+          {userData.email !== "" ? (
+            <>
+              <li onClick={() => setIsClicked(false)}>
+                <LinkItem path={"/admin/dashboard"} linkname={"admin"} />
+              </li>
+              <Button text="Logout" link={"sign-out"} light />
+            </>
+          ) : (
+            <Button text="Login" link="sign-in" />
+          )}
         </ul>
       </div>
     </div>

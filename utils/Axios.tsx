@@ -11,14 +11,13 @@ export async function axiosCall({
   method,
   url,
   payload,
-  token
+  token,
 }: {
   method: string;
   url: string;
   payload: object | null;
-  token?: SessionT,
+  token?: SessionT;
 }) {
-
   try {
     const response: AxiosResponse = await instance.request({
       data: payload,
@@ -34,6 +33,4 @@ export async function axiosCall({
   } catch (error: any) {
     return error.response;
   }
-
-  return;
 }

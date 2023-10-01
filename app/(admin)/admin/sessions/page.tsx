@@ -6,7 +6,7 @@ import { SESSIONS_URL } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
 import { UserSessionT } from "@/types";
 import { useAxios } from "@/utils/useAxios";
-import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 interface AdminSessionT extends UserSessionT {
   user: any;
@@ -69,25 +69,30 @@ const Page = () => {
       field: "userAgent",
       headerName: "Browser User",
       type: "string",
-      width: 150,
+      minWidth: 150,
+      flex: 1
     },
     {
       field: "name",
       headerName: "Name",
       type: "string",
       valueGetter: (sessionData) => sessionData.row.user.name,
-      width: 150,
+      minWidth: 150,
+      flex: 1
     },
     {
       field: "timeDifference",
       headerName: "Length",
       type: "string",
-      width: 150
+      minWidth: 150,
+      flex: 1
     },
     {
       field: "valid",
       headerName: "Status",
       type: "boolean",
+      minWidth: 150,
+      flex: 1,
       renderCell: (params) => {
         return params.value ? (
           <div>

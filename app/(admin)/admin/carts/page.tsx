@@ -5,6 +5,11 @@ import NoData from "@/components/NoData";
 import { CARTS_URL } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+
+interface CartT {
+
+}
 
 const Page = () => {
   const userData = useAppSelector((state) => state.user);
@@ -15,6 +20,19 @@ const Page = () => {
       refreshToken: userData.refreshToken,
     },
   });
+
+  const cartsData: [] = response?.data;
+  // console.log(cartsData);
+
+  const columns: GridColDef[] = [
+    {
+      field: "name",
+      headerName: "Name",
+      type: "string",
+      minWidth: 150,
+      flex: 1
+    }
+  ];
   return (
     <section>
       <DashboardPageHeader title="Carts" />
@@ -28,8 +46,8 @@ const Page = () => {
             {error === null ? (
               <>
                 {/* @ts-ignore */}
-                {response && response.length === 0 ? (
-                  <NoData text="Carts" />
+                {response && response.data.length === 0 ? (
+                  <NoData text="Cart" />
                 ) : (
                   "data goes here"
                 )}

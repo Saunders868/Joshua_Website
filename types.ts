@@ -34,9 +34,11 @@ export interface ProductT {
   id?: string;
   image?: string;
   updatedAt?: string;
-  user: string;
+  user?: string;
+  // user: string;
   __v?: number;
-  _id: string;
+  _id?: string;
+  // _id: string;
 }
 
 export interface UserSessionT {

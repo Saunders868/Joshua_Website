@@ -2,3 +2,10 @@
 @import './image_hero';
 @import './dashboard';
 @import './admin_page';
+@import './shop';
+@import './product';
+
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+}

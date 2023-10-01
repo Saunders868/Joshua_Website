@@ -5,6 +5,11 @@ import NoData from "@/components/NoData";
 import { ORDERS_URL } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+
+interface OrderT {
+
+}
 
 const Page = () => {
   const userData = useAppSelector((state) => state.user);  
@@ -15,6 +20,19 @@ const Page = () => {
       refreshToken: userData.refreshToken,
     },
   });
+
+  const ordersData: [] = response?.data;
+  // console.log(ordersData);
+
+  const columns: GridColDef[] = [
+    {
+      field: "name",
+      headerName: "Name",
+      type: "string",
+      minWidth: 150,
+      flex: 1
+    }
+  ];
   
   return (
     <section>
@@ -29,8 +47,8 @@ const Page = () => {
             {error === null ? (
               <>
                 {/* @ts-ignore */}
-                {response && response.length === 0 ? (
-                  <NoData text="Carts" />
+                {response && response.data.length === 0 ? (
+                  <NoData text="Order" />
                 ) : (
                   "data goes here"
                 )}

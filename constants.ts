@@ -5,3 +5,4 @@ export const PRODUCTS_URL: string = process.env.NEXT_PUBLIC_PRODUCTS_ENDPOINT!;
 export const CARTS_URL: string = process.env.NEXT_PUBLIC_CARTS_ENDPOINT!;
 export const ORDERS_URL: string = process.env.NEXT_PUBLIC_ORDERS_ENDPOINT!;
 export const MAIL_URL: string = process.env.NEXT_PUBLIC_MAIL_ENDPOINT!;
+export const FRONTEND_URL: string = "http://localhost:3000";

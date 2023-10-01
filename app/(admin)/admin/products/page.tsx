@@ -2,11 +2,13 @@
 
 import DashboardPageHeader from "@/components/DashboardPageHeader";
 import NoData from "@/components/NoData";
-import ProductsTable from "@/components/Tables/ProductsTable";
 import { PRODUCTS_URL } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
 import Link from "next/link";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { ProductT } from "@/types";
+import Image from "next/image";
 
 const Page = () => {
   const userData = useAppSelector((state) => state.user);
@@ -18,6 +20,56 @@ const Page = () => {
       refreshToken: userData.refreshToken,
     },
   });
+
+  const productsData: ProductT[] = response?.data;
+  console.log(productsData);
+
+  const columns: GridColDef[] = [
+    {
+      field: "title",
+      headerName: "Title",
+      type: "string",
+      minWidth: 150,
+      flex: 1,
+    },
+    {
+      field: "price",
+      headerName: "Price",
+      type: "number",
+      minWidth: 150,
+      flex: 1,
+    },
+    {
+      field: "image",
+      headerName: "Image",
+      type: "string",
+      minWidth: 150,
+      flex: 1,
+      renderCell: (params) => {
+        return (
+          <div>
+            <Image height={40} width={40} src={params.value} alt="none" />
+          </div>
+        );
+      },
+    },
+    {
+      field: "id",
+      headerName: "Edit",
+      type: "string",
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <div>
+            <Link href={params.value}>
+              Edit
+            </Link>
+          </div>
+        );
+      },
+    },
+
+  ];
   
   return (
     <section>
@@ -38,7 +90,17 @@ const Page = () => {
                 {response && response.data.length === 0 ? (
                   <NoData text="Carts" />
                 ) : (
-                  <ProductsTable dataArray={response?.data} />
+                  <DataGrid
+                    getRowId={(row) => row._id}
+                    rows={productsData}
+                    columns={columns}
+                    initialState={{
+                      pagination: {
+                        paginationModel: { page: 0, pageSize: 10 },
+                      },
+                    }}
+                    pageSizeOptions={[10, 20]}
+                  />
                 )}
               </>
             ) : (

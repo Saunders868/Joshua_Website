@@ -44,10 +44,14 @@ function Header() {
                   <li>
                     <LinkItem path={"/admin/dashboard"} linkname={"admin"} />
                   </li>
-                  <Button text="Logout" link={"sign-out"} light />
+                  <li>
+                    <Button text="Logout" link={"sign-out"} light />
+                  </li>
                 </>
               ) : (
-                <Button text="Login" link="sign-in" light />
+                <li>
+                  <Button text="Login" link="sign-in" light />
+                </li>
               )}
             </ul>
           </div>
