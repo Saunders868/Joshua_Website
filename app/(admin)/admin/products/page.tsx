@@ -11,7 +11,7 @@ import { ProductT } from "@/types";
 import Image from "next/image";
 
 const Page = () => {
-  const userData = useAppSelector((state) => state.user);
+  const userData = useAppSelector((state) => state.user.user);
   
   const { loading, response, error } = useAxios({
     url: PRODUCTS_URL,

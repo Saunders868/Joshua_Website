@@ -20,7 +20,7 @@ const Button = ({
   light?: boolean;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const userData = useAppSelector((state) => state.user);
+  const userData = useAppSelector((state) => state.user.user);
   const dispatch = useAppDispatch();
   const { push } = useRouter();
 

@@ -13,7 +13,7 @@ interface UserT {
 }
 
 const Page = () => {
-  const userData = useAppSelector((state) => state.user);
+  const userData = useAppSelector((state) => state.user.user);
   const { loading, response, error } = useAxios({
     url: USERS_URL,
     token: {

@@ -14,7 +14,7 @@ interface AdminSessionT extends UserSessionT {
 }
 
 const Page = () => {
-  const userData = useAppSelector((state) => state.user);
+  const userData = useAppSelector((state) => state.user.user);
   const { loading, response, error } = useAxios({
     url: SESSIONS_URL,
     token: {

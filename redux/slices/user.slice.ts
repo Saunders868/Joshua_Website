@@ -3,13 +3,16 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import jwt_decode from "jwt-decode";
 
-const initialState: Omit<UserT, "password" | "passwordConfirmation"> & SessionT = {
-  username: "",
-  email: "",
-  firstName: "",
-  lastName: "",
-  token: "",
-  refreshToken: ""
+const initialState: {user: Omit<UserT, "password" | "passwordConfirmation"> &
+SessionT } = {
+  user: {
+    username: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    token: "",
+    refreshToken: "",
+  },
 };
 
 export interface DecodedUserT extends UserT {
@@ -32,29 +35,29 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     login: (
-      state: Omit<UserT, "password" | "passwordConfirmation"> & SessionT,
+      state: { user: Omit<UserT, "password" | "passwordConfirmation"> & SessionT },
       action: PayloadAction<SessionT>
     ) => {
       const token = action.payload.token;
       const user: DecodedUserT = jwt_decode(token);
-      
+
       const fullName = user.name;
-      const nameParts = fullName.split(" ")
-      
-      state.token = token;
-      state.refreshToken = action.payload.refreshToken;
-      state.username = user.username;
-      state.email = user.email;
-      state.firstName = nameParts[0];
-      state.lastName = nameParts[1];
+      const nameParts = fullName.split(" ");
+
+      state.user.token = token;
+      state.user.refreshToken = action.payload.refreshToken;
+      state.user.username = user.username;
+      state.user.email = user.email;
+      state.user.firstName = nameParts[0];
+      state.user.lastName = nameParts[1];
     },
     logout: (state) => {
-      state.username = "";
-      state.firstName = "";
-      state.lastName = "";
-      state.email = "";
-      state.refreshToken = ""
-      state.token = "";
+      state.user.username = "";
+      state.user.firstName = "";
+      state.user.lastName = "";
+      state.user.email = "";
+      state.user.refreshToken = "";
+      state.user.token = "";
     },
   },
 });

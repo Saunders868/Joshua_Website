@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 const CreateSession = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const userData = useAppSelector((state) => state.user);
+  const userData = useAppSelector((state) => state.user.user);
   const { push } = useRouter();
 
   const formik = useFormik({

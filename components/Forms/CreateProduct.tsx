@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 
 const CreateProduct = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const userData = useAppSelector((state) => state.user);
+  const userData = useAppSelector((state) => state.user.user);
   const { push } = useRouter();
   const formik = useFormik({
     initialValues: initialProductValues,

@@ -14,12 +14,13 @@ const ProductPage = ({ product }: { product: ProductT }) => {
   const [count, setCount] = useState(1);
   const dispatch = useAppDispatch();
 
-  const handleCart = (product: {
+  const handleProductAdd = (product: {
     product_id: string;
     quantity: number;
     title: string;
     image: string;
     desc: string;
+    price: number;
   }) => {
     dispatch(
       addProduct({
@@ -28,6 +29,7 @@ const ProductPage = ({ product }: { product: ProductT }) => {
         title: product.title,
         image: product.image,
         desc: product.desc,
+        price: product.price,
       })
     );
   };
@@ -77,12 +79,13 @@ const ProductPage = ({ product }: { product: ProductT }) => {
           </div>
           <div
             onClick={() =>
-              handleCart({
+              handleProductAdd({
                 product_id: product.id!,
                 quantity: count,
                 title: product.title!,
                 image: product.image!,
                 desc: product.desc!,
+                price: product.price!
               })
             }
             className="button"
