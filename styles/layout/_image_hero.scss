@@ -10,7 +10,7 @@
   }
 
   &__image {
-    border-radius: 8px;
+    border-radius: $b-radius;
     overflow: hidden;
     padding-bottom: 200px;
     background-image: url("https://assets.codepen.io/285131/coffee_1.jpg");

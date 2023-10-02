@@ -24,11 +24,11 @@ const Page = () => {
   if (error) return "A network error occured. Please try again later...";
 
   return (
-    <section className="shop">
+    <main className="shop">
       {productsData.map((product) => (
         <Card key={product._id} product={product} />
       ))}
-    </section>
+    </main>
   )
 }
 

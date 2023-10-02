@@ -4,6 +4,8 @@
   width: 100%;
   height: 100%;
   position: relative;
+  border-radius: $b-radius;
+  overflow: hidden;
 
   cursor: pointer;
 
@@ -47,7 +49,7 @@
     }
 
     .head {
-      font-size: 30px;
+      @include section-title;
       line-height: 40px;
 
       transform: translateY(40px);
@@ -68,8 +70,9 @@
     }
 
     .price {
+      @include text;
+      font-weight: $bold-font;
       margin-top: 1rem;
-      font-size: 22px;
       line-height: 10px;
       font-weight: bold;
       opacity: 0;

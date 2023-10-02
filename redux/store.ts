@@ -1,25 +1,40 @@
-import { configureStore } from "@reduxjs/toolkit";
-import userReducer from './slices/user.slice';
-import storage from 'redux-persist/lib/storage';
-import { persistReducer, persistStore } from 'redux-persist';
-import thunk from 'redux-thunk';
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import userReducer from "./slices/user.slice";
+import cartReducer from "./slices/cart.slice";
+import storage from "redux-persist/lib/storage";
+import { persistReducer, persistStore } from "redux-persist";
+import thunk from "redux-thunk";
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage,
-}
+  stateReconciler: autoMergeLevel2
+};
 
-const persistedReducer = persistReducer(persistConfig, userReducer)
+type UserReducer = ReturnType<typeof userReducer>;
+type CartReducer = ReturnType<typeof cartReducer>;
 
-export const store = configureStore({
-  reducer: {
-    user: persistedReducer,
-  },
-  devTools: process.env.NODE_ENV !== 'production',
-  middleware: [thunk]
+const persistedUserReducer = persistReducer<UserReducer>(persistConfig, userReducer);
+const persistedCartReducer = persistReducer<CartReducer>(persistConfig, cartReducer);
+
+const rootReducer = combineReducers({
+  user: persistedUserReducer,
+  cart: persistedCartReducer
 });
 
-export const persistor = persistStore(store)
+export const store = configureStore({
+  reducer: rootReducer,
+  // reducer: {
+  //   user: persistedUserReducer,
+  //   cart: persistedCartReducer
+  // },
+  devTools: process.env.NODE_ENV !== "production",
+  middleware: [thunk],
+});
+
+export const persistor = persistStore(store);
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
