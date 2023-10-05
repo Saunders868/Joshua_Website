@@ -22,7 +22,6 @@ const Page = () => {
   });
 
   const productsData: ProductT[] = response?.data;
-  console.log(productsData);
 
   const columns: GridColDef[] = [
     {

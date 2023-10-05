@@ -21,3 +21,9 @@
     @include text;
   }
 }
+
+.black_link {
+  a {
+    color: $black;
+  }
+}

@@ -9,7 +9,7 @@ import { useAppSelector } from "@/redux/hooks";
 
 function Header() {
   const [isClicked, setIsClicked] = useState<boolean>(false);
-  const userData = useAppSelector((state) => state.user);
+  const userData = useAppSelector((state) => state.user.user);
   return (
     <header>
       <nav>

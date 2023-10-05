@@ -1,20 +1,25 @@
 "use client";
 
-import { CARTS_URL } from "@/constants";
+import { CARTS_URL, ORDERS_URL } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
 import { CartP } from "@/redux/slices/cart.slice";
 import { axiosCall } from "@/utils/Axios";
-import Link from "next/link"
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const Page = () => {
   const userData = useAppSelector((state) => state.user.user);
   const cartData = useAppSelector((state) => state.cart.products);
   const cartId = useAppSelector((state) => state.cart.id);
+  const [loading, setLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
+
+  console.log(cartId);
+  
 
   const handleCartDelete = async () => {
     // delete cart on back to cart
+    setLoading(true);
     const response = await axiosCall({
       method: "delete",
       url: `${CARTS_URL}/${cartId}`,
@@ -24,9 +29,33 @@ const Page = () => {
         refreshToken: userData.refreshToken,
       },
     });
-  }
 
-  const handleCreatOrder = async () => {}
+    setLoading(false);
+
+    // handle the responses
+    // or should i create the cart on order creation?????????
+  };
+
+  const handleCreateOrder = async () => {
+    setLoading(true);
+    const response = await axiosCall({
+      method: "post",
+      url: ORDERS_URL,
+      payload: {
+        isCompleted: false,
+        // @ts-ignore
+        cartId: cartId.id,
+      },
+      token: {
+        token: userData.token,
+        refreshToken: userData.refreshToken,
+      },
+    });
+
+    console.log(response);
+
+    setLoading(false);
+  };
 
   useEffect(() => {
     let totalPrice: number = 0;
@@ -37,6 +66,8 @@ const Page = () => {
 
     setTotalPrice(totalPrice);
   }, [cartData]);
+
+  if (loading) return "Loading...";
   return (
     <main className="page checkout__page">
       <section>
@@ -65,8 +96,7 @@ const Page = () => {
         </Link>
       </section>
 
-      <section>
-      </section>
+      <section></section>
 
       <section>
         <h3>
@@ -76,13 +106,13 @@ const Page = () => {
 
       <section>
         <div className="button">
-          <span className="btn" onClick={handleCreatOrder}>
+          <span className="btn" onClick={handleCreateOrder}>
             Place Order
           </span>
         </div>
       </section>
     </main>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;

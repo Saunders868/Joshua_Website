@@ -2,10 +2,11 @@
 
 import DashboardPageHeader from "@/components/DashboardPageHeader";
 import NoData from "@/components/NoData";
-import { ORDERS_URL } from "@/constants";
+import { FRONTEND_URL, ORDERS_URL } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import Link from "next/link";
 
 interface OrderT {
 
@@ -27,11 +28,86 @@ const Page = () => {
   const columns: GridColDef[] = [
     {
       field: "name",
-      headerName: "Name",
+      headerName: "Customer",
+      type: "string",
+      valueGetter: (cartsData) => cartsData.row.user,
+      renderCell: (params) => {
+        return (
+          <div className="black_link">
+            <Link href={`${FRONTEND_URL}/admin/users/${params.value._id}`} key={params.value._id}>
+              {params.value.name}
+            </Link>
+          </div>
+        );
+      },
+      minWidth: 150,
+      flex: 1
+    },
+    {
+      field: "createdAt",
+      headerName: "Placed On",
       type: "string",
       minWidth: 150,
       flex: 1
-    }
+    },
+    {
+      field: "isCompleted",
+      headerName: "Status",
+      type: "boolean",
+      minWidth: 150,
+      flex: 1,
+      renderCell: (params) => {
+        return params.value === true ? (
+          <div>
+            <p>
+              <span className="status completed">
+                completed
+              </span>
+            </p>
+          </div>
+        ) : (
+          <div>
+            <p>
+              <span className="status process">
+                pending
+              </span>
+            </p>
+          </div>
+        );
+      },
+    },
+    {
+      field: "cart",
+      headerName: "View Cart",
+      type: "string",
+      minWidth: 150,
+      flex: 1,
+      renderCell: (params) => {
+        return (
+          <div className="black_link">
+            <Link href={`${FRONTEND_URL}/admin/carts/${params.value}`} key={params.value}>
+              view
+            </Link>
+          </div>
+        );
+      },
+    },
+    {
+      field: "id",
+      headerName: "View Order",
+      type: "string",
+      minWidth: 150,
+      flex: 1,
+      renderCell: (params) => {
+        return (
+          <div className="black_link">
+            <Link href={`${FRONTEND_URL}/admin/orders/${params.value}`} key={params.value}>
+              view
+            </Link>
+          </div>
+        );
+      },
+    },
   ];
   
   return (
@@ -50,7 +126,17 @@ const Page = () => {
                 {response && response.data.length === 0 ? (
                   <NoData text="Order" />
                 ) : (
-                  "data goes here"
+                  <DataGrid
+                    getRowId={(row) => row._id}
+                    rows={ordersData}
+                    columns={columns}
+                    initialState={{
+                      pagination: {
+                        paginationModel: { page: 0, pageSize: 10 },
+                      },
+                    }}
+                    pageSizeOptions={[10, 20]}
+                  />
                 )}
               </>
             ) : (

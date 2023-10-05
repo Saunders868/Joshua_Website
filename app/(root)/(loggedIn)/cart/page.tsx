@@ -141,12 +141,9 @@ const Page = () => {
       },
     });
 
-    console.log(response);
-
     if (response.status === 201) {
-      // push("/checkout");
-
-      // dispatch(setCart({ product_id: response.data}));
+      push("/checkout");
+      dispatch(setCart({ product_id: response.data }));
     } else {
       toast.error("A network error occured. Please try again later", {
         position: "bottom-right",

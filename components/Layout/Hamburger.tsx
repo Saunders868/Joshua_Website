@@ -13,7 +13,7 @@ const Hamburger = ({
   setIsClicked: React.Dispatch<SetStateAction<boolean>>;
   isClicked: boolean;
 }) => {
-  const userData = useAppSelector((state) => state.user);
+  const userData = useAppSelector((state) => state.user.user);
   return (
     <div className="mobile">
       <div
