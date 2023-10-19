@@ -10,18 +10,22 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
-const CreateProduct = () => {
+const CreateProduct = ({ title, desc, price, method, button, endpoint }: { title: string, desc: string; price: number, method?: string, button?: string, endpoint?: string }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const userData = useAppSelector((state) => state.user.user);
   const { push } = useRouter();
   const formik = useFormik({
-    initialValues: initialProductValues,
+    initialValues: {
+      title,
+      desc,
+      price
+    },
     validationSchema: CreateProductValidation,
     onSubmit: async (values) => {
       setLoading(true);
       const response = await axiosCall({
-        method: "post",
-        url: PRODUCTS_URL,
+        method: method ? method : "post",
+        url: endpoint ? `${PRODUCTS_URL}/${endpoint}` : PRODUCTS_URL,
         payload: {
           ...values,
           type: "virtual",
@@ -32,7 +36,7 @@ const CreateProduct = () => {
       });
 
       if (response?.status === 200) {
-        toast.success("Product Created Successfully!", {
+        toast.success(method == "patch" ? "Product Updated Successfully!" : "Product Created Successfully!", {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -135,7 +139,7 @@ const CreateProduct = () => {
 
       <div className="action">
         <button className="action-button" type="submit">
-          Create
+          {button ? button : "Create"}
         </button>
       </div>
     </form>

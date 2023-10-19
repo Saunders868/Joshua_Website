@@ -7,7 +7,7 @@ const Page = () => {
       <DashboardPageHeader title="Create Product" />
 
       <div className="admin__content">
-        <CreateProduct />
+        <CreateProduct title="" desc="" price={0} />
       </div>
     </section>
   )

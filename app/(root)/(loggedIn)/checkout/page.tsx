@@ -6,18 +6,18 @@ import { CartP } from "@/redux/slices/cart.slice";
 import { axiosCall } from "@/utils/Axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const Page = () => {
   const userData = useAppSelector((state) => state.user.user);
   const cartData = useAppSelector((state) => state.cart.products);
-  const cartId = useAppSelector((state) => state.cart.id);
+  // const cartId = useAppSelector((state) => state.cart.id);
   const [loading, setLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  console.log(cartId);
+  // console.log(cartId);
   
-
-  const handleCartDelete = async () => {
+ /*  const handleCartDelete = async () => {
     // delete cart on back to cart
     setLoading(true);
     const response = await axiosCall({
@@ -34,17 +34,15 @@ const Page = () => {
 
     // handle the responses
     // or should i create the cart on order creation?????????
-  };
+  }; */
 
   const handleCreateOrder = async () => {
     setLoading(true);
-    const response = await axiosCall({
+    const cartResponse = await axiosCall({
       method: "post",
-      url: ORDERS_URL,
+      url: CARTS_URL,
       payload: {
-        isCompleted: false,
-        // @ts-ignore
-        cartId: cartId.id,
+        // products: serializedData,
       },
       token: {
         token: userData.token,
@@ -52,7 +50,39 @@ const Page = () => {
       },
     });
 
-    console.log(response);
+    console.log(cartResponse);
+
+    if (cartResponse.status === 201) {
+      // const cartId = cartResponse.data;
+      // dispatch(setCart({ cart_id: cartId }));
+      const order = await axiosCall({
+        method: "post",
+        url: ORDERS_URL,
+        payload: {
+          isCompleted: false,
+          // @ts-ignore
+          // cartId: cartId.id,
+          cartId: cartId,
+        },
+        token: {
+          token: userData.token,
+          refreshToken: userData.refreshToken,
+        },
+      });
+
+      console.log(order);
+    } else {
+      toast.error("A network error occured. Please try again later", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
 
     setLoading(false);
   };
@@ -75,7 +105,8 @@ const Page = () => {
       </section>
 
       <section>
-        <Link onClick={handleCartDelete} className="back" href="/shop">
+        {/* <Link onClick={handleCartDelete} className="back" href="/shop"> */}
+        <Link className="back" href="/shop">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"

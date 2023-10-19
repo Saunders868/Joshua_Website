@@ -21,8 +21,8 @@ export function useAxios({ url, token }: { url: string; token: SessionT }) {
         url: url,
         method: "GET",
         headers: {
-          authorization: token ? token.token : "",
-          "x-refresh": token ? token.refreshToken : "",
+          authorization: token ? `Bearer ${token.token}` : "",
+          "x-refresh": token ? `Bearer ${token.refreshToken}` : "",
         },
       });
       setResponse(result);

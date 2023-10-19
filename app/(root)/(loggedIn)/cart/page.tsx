@@ -129,7 +129,9 @@ const Page = () => {
 
   const handleCreateCart = async () => {
     setLoading(true);
-    const response = await axiosCall({
+    // dispatch(setCart({ cart_id: response.data }));
+    
+    /* const response = await axiosCall({
       method: "post",
       url: CARTS_URL,
       payload: {
@@ -155,11 +157,11 @@ const Page = () => {
         progress: undefined,
         theme: "light",
       });
-    }
+    } */
 
     setLoading(false);
 
-    console.log(response);
+    // console.log(response);
   };
 
   if (loading) return "Loading...";

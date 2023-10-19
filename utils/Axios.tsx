@@ -23,8 +23,8 @@ export async function axiosCall({
       data: payload,
       url: url,
       headers: {
-        authorization: token ? token.token : "",
-        "x-refresh": token ? token.refreshToken : "",
+        authorization: token ? `Bearer ${token.token}` : "",
+        "x-refresh": token ? `Bearer ${token.refreshToken}` : "",
       },
       method: method,
     });

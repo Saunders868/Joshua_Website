@@ -44,9 +44,9 @@ export const cartSlice = createSlice({
     },
     setCart: (
       state: CartState,
-      action: PayloadAction<{ product_id: string }>
+      action: PayloadAction<{ cart_id: string }>
     ) => {
-      state.id = action.payload.product_id;
+      state.id = action.payload.cart_id;
     },
     clearCart: (state: CartState) => {
       return (state = initialState);

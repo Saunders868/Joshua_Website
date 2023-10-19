@@ -60,7 +60,7 @@ const Page = () => {
       renderCell: (params) => {
         return (
           <div>
-            <Link href={params.value}>
+            <Link href={`products/${params.value}`}>
               Edit
             </Link>
           </div>
