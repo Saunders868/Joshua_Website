@@ -1,6 +1,7 @@
 "use client";
 
 import DashboardPageHeader from "@/components/DashboardPageHeader";
+import Loading from "@/components/Loading";
 import NoData from "@/components/NoData";
 import { CARTS_URL, FRONTEND_URL } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
@@ -23,7 +24,6 @@ const Page = () => {
   });
 
   const cartsData: [] = response?.data;
-  // console.log(cartsData);
   
   const columns: GridColDef[] = [
     {
@@ -83,7 +83,7 @@ const Page = () => {
 
       <div className="m-top">
         {loading ? (
-          "Loading..."
+          <Loading />
         ) : (
           <>
             {error === null ? (

@@ -1,16 +1,13 @@
 "use client";
 
 import DashboardPageHeader from "@/components/DashboardPageHeader";
+import Loading from "@/components/Loading";
 import NoData from "@/components/NoData";
 import { FRONTEND_URL, ORDERS_URL } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Link from "next/link";
-
-interface OrderT {
-
-}
 
 const Page = () => {
   const userData = useAppSelector((state) => state.user.user);  
@@ -117,7 +114,7 @@ const Page = () => {
 
       <div className="m-top">
         {loading ? (
-          "Loading..."
+          <Loading />
         ) : (
           <>
             {error === null ? (

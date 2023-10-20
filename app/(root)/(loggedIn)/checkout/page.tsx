@@ -1,6 +1,7 @@
 "use client";
 
-import { CARTS_URL, ORDERS_URL } from "@/constants";
+import Loading from "@/components/Loading";
+import { CARTS_URL, ORDERS_URL, PAYPAL_CAPTURE, PAYPAL_CREATE } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
 import { CartP } from "@/redux/slices/cart.slice";
 import { axiosCall } from "@/utils/Axios";
@@ -14,6 +15,28 @@ const Page = () => {
   // const cartId = useAppSelector((state) => state.cart.id);
   const [loading, setLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [serializedData, setSerializedData] = useState<
+    { product_id: string; quantity: number }[]
+  >([]);
+
+  useEffect(() => {
+    let totalPrice: number = 0;
+
+    cartData.forEach((product: CartP) => {
+      totalPrice += product.price * product.quantity;
+    });
+
+    setTotalPrice(totalPrice);
+    let serializedData: { product_id: string; quantity: number }[] = [];
+    cartData.forEach((product: CartP) => {
+      serializedData.push({
+        product_id: product.product_id,
+        quantity: product.quantity,
+      });
+    });
+
+    setSerializedData(serializedData);
+  }, [cartData]);
 
   // console.log(cartId);
   
@@ -42,7 +65,7 @@ const Page = () => {
       method: "post",
       url: CARTS_URL,
       payload: {
-        // products: serializedData,
+        products: serializedData,
       },
       token: {
         token: userData.token,
@@ -53,15 +76,12 @@ const Page = () => {
     console.log(cartResponse);
 
     if (cartResponse.status === 201) {
-      // const cartId = cartResponse.data;
-      // dispatch(setCart({ cart_id: cartId }));
-      const order = await axiosCall({
+      const cartId = cartResponse.data.id;
+      const orderResponse = await axiosCall({
         method: "post",
         url: ORDERS_URL,
         payload: {
           isCompleted: false,
-          // @ts-ignore
-          // cartId: cartId.id,
           cartId: cartId,
         },
         token: {
@@ -70,7 +90,67 @@ const Page = () => {
         },
       });
 
-      console.log(order);
+      console.log(orderResponse);
+      if (orderResponse.status === 200) {
+        const orderId = orderResponse.data.id;
+        const paypalCreateOrder = await axiosCall({
+          method: "post",
+          url: `${ORDERS_URL}/${PAYPAL_CREATE}`,
+          payload: {
+            cartId: cartId,
+            orderId: orderId
+          },
+          token: {
+            token: userData.token,
+            refreshToken: userData.refreshToken,
+          },
+        });
+
+        const paypalOrderId = paypalCreateOrder.data.id;
+        const paypalUpdateOrder = await axiosCall({
+          method: "post",
+          url: `${ORDERS_URL}/${PAYPAL_CAPTURE}`,
+          payload: {
+            cartId: cartId,
+            orderId: paypalOrderId
+          },
+          token: {
+            token: userData.token,
+            refreshToken: userData.refreshToken,
+          },
+        });
+        console.log("create order paypal: ",paypalCreateOrder);
+        console.log("update order paypal: ",paypalUpdateOrder);
+
+        if (paypalCreateOrder.status === 201 && paypalUpdateOrder.status === 201) {
+          console.log("create order paypal: ",paypalCreateOrder);
+          console.log("update order paypal: ",paypalUpdateOrder);
+          
+        } else {
+          toast.error("An network error occured when connecting to paypal. Please try again later", {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+      } else {
+        toast.error("An network error occured when placing your order. Please try again later", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      }
+
     } else {
       toast.error("A network error occured. Please try again later", {
         position: "bottom-right",
@@ -87,17 +167,8 @@ const Page = () => {
     setLoading(false);
   };
 
-  useEffect(() => {
-    let totalPrice: number = 0;
+  if (loading) return <Loading />;
 
-    cartData.forEach((product: CartP) => {
-      totalPrice += product.price * product.quantity;
-    });
-
-    setTotalPrice(totalPrice);
-  }, [cartData]);
-
-  if (loading) return "Loading...";
   return (
     <main className="page checkout__page">
       <section>

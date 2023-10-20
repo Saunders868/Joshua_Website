@@ -128,7 +128,7 @@ const Page = () => {
   ];
 
   const handleCreateCart = async () => {
-    setLoading(true);
+    push("/checkout");
     // dispatch(setCart({ cart_id: response.data }));
     
     /* const response = await axiosCall({
@@ -158,8 +158,6 @@ const Page = () => {
         theme: "light",
       });
     } */
-
-    setLoading(false);
 
     // console.log(response);
   };

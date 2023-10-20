@@ -9,6 +9,7 @@ import Link from "next/link";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { ProductT } from "@/types";
 import Image from "next/image";
+import Loading from "@/components/Loading";
 
 const Page = () => {
   const userData = useAppSelector((state) => state.user.user);
@@ -81,7 +82,7 @@ const Page = () => {
 
       <div className="m-top">
         {loading ? (
-          "Loading..."
+          <Loading />
         ) : (
           <>
             {error === null ? (

@@ -2,6 +2,7 @@
 
 import DashboardPageHeader from '@/components/DashboardPageHeader';
 import CreateProduct from '@/components/Forms/CreateProduct';
+import Loading from '@/components/Loading';
 import { PRODUCTS_URL } from '@/constants';
 import { useAppSelector } from '@/redux/hooks';
 import { useAxios } from '@/utils/useAxios';
@@ -19,12 +20,12 @@ const Page = () => {
 
   if (error) return "A network error occured. Please try again later...";
 
-  if (loading) return "Loading...";
+  if (loading) return <Loading />;
 
   return (
     <section>
       <DashboardPageHeader title="Update Product" />
-      <div className="admin__content">
+      <div className="admin__content single__admin__page">
 
         <CreateProduct title={response?.data.title} desc={response?.data.desc} price={response?.data.price} method="patch" button="Update" endpoint={id as string} />
       </div>

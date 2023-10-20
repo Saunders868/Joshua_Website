@@ -2,6 +2,7 @@
 
 import Cart from "@/components/Cart";
 import DashboardPageHeader from "@/components/DashboardPageHeader";
+import Loading from "@/components/Loading";
 import { CARTS_URL } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
@@ -19,11 +20,11 @@ const Page = () => {
 
   if (error) return "A network error occured. Please try again later...";
 
-  if (loading) return "Loading...";
+  if (loading) return <Loading />;
   return (
     <section>
       <DashboardPageHeader title="View Cart" />
-      <div className="admin__content">
+      <div className="admin__content single__admin__page">
         <h3>Customer: {response?.data.userId.name}</h3>
         <Cart id={response?.data.id} />
       </div>
