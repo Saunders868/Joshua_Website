@@ -8,6 +8,7 @@ import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import Loading from "../Loading";
 
 const CreateUser = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -62,7 +63,7 @@ const CreateUser = () => {
     },
   });
 
-  if (loading) return "Loading...";
+  if (loading) return <Loading />;
 
   return (
     <form className="form" onSubmit={formik.handleSubmit}>

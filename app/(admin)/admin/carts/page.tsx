@@ -9,10 +9,6 @@ import { useAxios } from "@/utils/useAxios";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Link from "next/link";
 
-interface CartT {
-
-}
-
 const Page = () => {
   const userData = useAppSelector((state) => state.user.user);
   const { loading, response, error } = useAxios({

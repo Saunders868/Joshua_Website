@@ -21,6 +21,12 @@
         font-weight: $bold-font;
       }
     }
+
+    .paypal__buttons {
+      margin: 2.5rem auto; 
+      width: 50%;
+      
+    }
   }
 
   p {
@@ -43,16 +49,5 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  .button {
-    margin: 2.5rem 0;
-    span {
-      padding: 1rem;
-      border-radius: $b-radius;
-      cursor: pointer;
-      margin-left: 0;
-      margin-right: 0;
-    }
   }
 }

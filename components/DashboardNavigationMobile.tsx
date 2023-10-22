@@ -1,7 +1,8 @@
-import { dashboardLinks } from "@/data";
-import DashboardLinkItem from "./DashboardLinkItem";
 
-const DashboardNavigationMobile = () => {
+import DashboardLinkItem from "./DashboardLinkItem";
+import { AdminDasboardLink } from "@/types";
+
+const DashboardNavigationMobile = ({ dashboardLinks }: { dashboardLinks: AdminDasboardLink[] }) => {
   return (
     <aside className="dashboard__navigation__mobile">
       <nav>

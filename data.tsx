@@ -1,4 +1,5 @@
 import Carts from "./icons/Carts";
+import Downloads from "./icons/Downloads";
 import Home from "./icons/Home";
 import Orders from "./icons/Orders";
 import Products from "./icons/Products";
@@ -76,6 +77,29 @@ export const dashboardLinks: AdminDasboardLink[] = [
     icon: <Sessions />,
   },
 ];
+
+export const userDasboardLinks: AdminDasboardLink[] = [
+  {
+    path: "/profile/dashboard",
+    linkname: "Dashboard",
+    icon: <Home />,
+  },
+  {
+    path: "/profile/user",
+    linkname: "User",
+    icon: <Users />,
+  },
+  {
+    path: "/profile/orders",
+    linkname: "Orders",
+    icon: <Orders />,
+  },
+  {
+    path: "/profile/downloads",
+    linkname: "Downloads",
+    icon: <Downloads />,
+  },
+]
 
 export const foodSliderData = [
   {

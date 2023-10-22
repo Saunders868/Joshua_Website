@@ -1,8 +1,8 @@
 import DashboardLinkItem from "@/components/DashboardLinkItem";
 import DashboardNavigationMobile from "@/components/DashboardNavigationMobile";
-import { dashboardLinks } from "@/data";
+import { userDasboardLinks } from "@/data";
 
-export default function DashboardLayout({
+export default function ProfileLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -13,11 +13,11 @@ export default function DashboardLayout({
         {children}
       </section>
       {/* mobile navigation for admin */}
-      <DashboardNavigationMobile dashboardLinks={dashboardLinks} />
+      <DashboardNavigationMobile dashboardLinks={userDasboardLinks} />
       <aside className="dashboard__navigation__desktop">
         <nav>
           <ul>
-            {dashboardLinks.map((link) => (
+            {userDasboardLinks.map((link) => (
               <li key={link.linkname}>
                 <DashboardLinkItem
                   linkname={link.linkname}

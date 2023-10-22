@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppSelector } from "@/redux/hooks";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";

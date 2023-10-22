@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 
 const Page = () => {
   const { push } = useRouter();
-  const userData = useAppSelector((state) => state.user);
+  const userData = useAppSelector((state) => state.user.user);
   if (userData.email !== "") {
     push("/");
   }

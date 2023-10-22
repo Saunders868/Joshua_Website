@@ -1,9 +1,9 @@
 "use client";
 
 import Loading from "@/components/Loading";
-import { BASE_URL, CARTS_URL, ORDERS_URL, PAYPAL_CAPTURE, PAYPAL_CLIENT_ID, PAYPAL_CREATE } from "@/constants";
-import { useAppSelector } from "@/redux/hooks";
-import { CartP } from "@/redux/slices/cart.slice";
+import { BASE_URL, ORDERS_URL, PAYPAL_CAPTURE, PAYPAL_CLIENT_ID } from "@/constants";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { CartP, clearCart } from "@/redux/slices/cart.slice";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -28,6 +28,7 @@ const Page = () => {
   const [serializedData, setSerializedData] = useState<
     { product_id: string; quantity: number }[]
   >([]);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     let serializedData: { product_id: string; quantity: number }[] = [];
@@ -82,95 +83,99 @@ const Page = () => {
       </section>
 
       <section>
-        <PayPalScriptProvider options={initialOptions}>
-          <PayPalButtons
-            style={{
-              shape: "rect",
-              layout: "vertical",
-            }}
-            createOrder={async () => {
-              try {
-                const { isSuccessful, cartId } = await handleAPIOrderCreate({ userData, serializedData });
-                return await paypalCreateOrder({ isSuccessful, cartId });
-              } catch (error) {
-                console.error(error);
-              }
-            }}
-            onApprove={async (data, actions) => {
-              try {
-                const response = await fetch(
-                  `${BASE_URL}${ORDERS_URL}/${PAYPAL_CAPTURE}`,
-                  {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                      cartId: "",
-                      orderId: data.orderID
-                    }),
-                  },
-                );
-
-                const orderData = await response.json();
-
-                const errorDetail = orderData?.details?.[0];
-
-                if (errorDetail?.issue === "INSTRUMENT_DECLINED") {
-                  return actions.restart();
-                } else if (errorDetail) {
-                  toast.error(`${errorDetail.description} (${orderData.debug_id})`, {
-                    position: "bottom-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
-                  throw new Error(
-                    `${errorDetail.description} (${orderData.debug_id})`,
-                  );
-                } else {
-                  const transaction =
-                    orderData.purchase_units[0].payments.captures[0];
-
-                  toast.success(`Transaction ${transaction.status}: Thank you ${transaction.payer.name.given_name}!`, {
-                    position: "bottom-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
-
-                  console.log(
-                    "Capture result",
-                    orderData,
-                    JSON.stringify(orderData, null, 2),
-                  );
-                  // clear cart and carry user to account page
-                  push("/shop");
+        <div className="paypal__buttons">
+          <PayPalScriptProvider options={initialOptions}>
+            <PayPalButtons
+              style={{
+                shape: "rect",
+                layout: "vertical",
+              }}
+              createOrder={async () => {
+                try {
+                  const { isSuccessful, cartId } = await handleAPIOrderCreate({ userData, serializedData });
+                  console.log("here");
+                  
+                  return await paypalCreateOrder({ isSuccessful, cartId });
+                } catch (error) {
+                  console.error(error);
                 }
-              } catch (error) {
-                console.error(error);
-                toast.error(`Sorry, your transaction could not be processed...${error}`, {
-                  position: "bottom-right",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: "light",
-                });
-              }
-            }}
-          />
-        </PayPalScriptProvider>
+              }}
+              onApprove={async (data, actions) => {
+                try {
+                  const response = await fetch(
+                    `${BASE_URL}${ORDERS_URL}/${PAYPAL_CAPTURE}`,
+                    {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        cartId: "",
+                        orderId: data.orderID
+                      }),
+                    },
+                  );
+
+                  const orderData = await response.json();
+
+                  const errorDetail = orderData?.details?.[0];
+
+                  if (errorDetail?.issue === "INSTRUMENT_DECLINED") {
+                    return actions.restart();
+                  } else if (errorDetail) {
+                    toast.error(`${errorDetail.description} (${orderData.debug_id})`, {
+                      position: "bottom-right",
+                      autoClose: 5000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "light",
+                    });
+                    throw new Error(
+                      `${errorDetail.description} (${orderData.debug_id})`,
+                    );
+                  } else {
+                    const transaction =
+                      orderData.purchase_units[0].payments.captures[0];
+
+                    toast.success(`Transaction ${transaction.status}: Thank you!`, {
+                      position: "bottom-right",
+                      autoClose: 5000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "light",
+                    });
+
+                    console.log(
+                      "Capture result",
+                      orderData,
+                      JSON.stringify(orderData, null, 2),
+                    );
+                    dispatch(clearCart());
+                    push("/shop");
+                  }
+                } catch (error) {
+                  console.error(error);
+                  toast.error(`Sorry, your transaction could not be processed...${error}`, {
+                    position: "bottom-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                  });
+                }
+              }}
+            />
+          </PayPalScriptProvider>
+        </div>
       </section>
     </main>
   );

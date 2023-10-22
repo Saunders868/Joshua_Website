@@ -23,6 +23,20 @@ export const CreateUserValidation = Yup.object({
     .required("Required"),
 });
 
+export const UpdateUserValidation = Yup.object({
+  firstName: Yup.string()
+    .max(15, "Must be 15 characters or less")
+    .required("Required"),
+  lastName: Yup.string()
+    .max(20, "Must be 20 characters or less")
+    .required("Required"),
+  email: Yup.string().email("Invalid email address").required("Required"),
+  username: Yup.string()
+    .min(10, "Must be at least 10 characters")
+    .required("Required"),
+  role: Yup.string()
+});
+
 export const CreateSessionValidation = Yup.object({
   email: Yup.string().email("Invalid email address").required("Required"),
   password: Yup.string()
@@ -36,7 +50,7 @@ export const CreateSessionValidation = Yup.object({
 export const CreateProductValidation = Yup.object({
   title: Yup.string().required("A title for this product is required"),
   desc: Yup.string()
-  .min(120, "The description for this product must be at least 120 characters")
-  .required("Required"),
+    .min(120, "The description for this product must be at least 120 characters")
+    .required("Required"),
   price: Yup.number().required("Please provide the cost of this product"),
 });
