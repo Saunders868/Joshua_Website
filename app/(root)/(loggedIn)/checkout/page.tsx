@@ -1,18 +1,28 @@
 "use client";
 
 import Loading from "@/components/Loading";
-import { CARTS_URL, ORDERS_URL, PAYPAL_CAPTURE, PAYPAL_CREATE } from "@/constants";
+import { BASE_URL, CARTS_URL, ORDERS_URL, PAYPAL_CAPTURE, PAYPAL_CLIENT_ID, PAYPAL_CREATE } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
 import { CartP } from "@/redux/slices/cart.slice";
-import { axiosCall } from "@/utils/Axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import ClientCart from "@/components/ClientCart";
+import { handleAPIOrderCreate, paypalCreateOrder } from "@/utils/paypal.utis";
+
+const initialOptions = {
+  clientId: PAYPAL_CLIENT_ID,
+  "enable-funding": "venmo,card",
+  "disable-funding": "paylater",
+  "data-sdk-integration-source": "integrationbuilder_sc",
+};
 
 const Page = () => {
   const userData = useAppSelector((state) => state.user.user);
   const cartData = useAppSelector((state) => state.cart.products);
-  // const cartId = useAppSelector((state) => state.cart.id);
+  const { push } = useRouter();
   const [loading, setLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const [serializedData, setSerializedData] = useState<
@@ -20,13 +30,6 @@ const Page = () => {
   >([]);
 
   useEffect(() => {
-    let totalPrice: number = 0;
-
-    cartData.forEach((product: CartP) => {
-      totalPrice += product.price * product.quantity;
-    });
-
-    setTotalPrice(totalPrice);
     let serializedData: { product_id: string; quantity: number }[] = [];
     cartData.forEach((product: CartP) => {
       serializedData.push({
@@ -38,135 +41,6 @@ const Page = () => {
     setSerializedData(serializedData);
   }, [cartData]);
 
-  // console.log(cartId);
-  
- /*  const handleCartDelete = async () => {
-    // delete cart on back to cart
-    setLoading(true);
-    const response = await axiosCall({
-      method: "delete",
-      url: `${CARTS_URL}/${cartId}`,
-      payload: null,
-      token: {
-        token: userData.token,
-        refreshToken: userData.refreshToken,
-      },
-    });
-
-    setLoading(false);
-
-    // handle the responses
-    // or should i create the cart on order creation?????????
-  }; */
-
-  const handleCreateOrder = async () => {
-    setLoading(true);
-    const cartResponse = await axiosCall({
-      method: "post",
-      url: CARTS_URL,
-      payload: {
-        products: serializedData,
-      },
-      token: {
-        token: userData.token,
-        refreshToken: userData.refreshToken,
-      },
-    });
-
-    console.log(cartResponse);
-
-    if (cartResponse.status === 201) {
-      const cartId = cartResponse.data.id;
-      const orderResponse = await axiosCall({
-        method: "post",
-        url: ORDERS_URL,
-        payload: {
-          isCompleted: false,
-          cartId: cartId,
-        },
-        token: {
-          token: userData.token,
-          refreshToken: userData.refreshToken,
-        },
-      });
-
-      console.log(orderResponse);
-      if (orderResponse.status === 200) {
-        const orderId = orderResponse.data.id;
-        const paypalCreateOrder = await axiosCall({
-          method: "post",
-          url: `${ORDERS_URL}/${PAYPAL_CREATE}`,
-          payload: {
-            cartId: cartId,
-            orderId: orderId
-          },
-          token: {
-            token: userData.token,
-            refreshToken: userData.refreshToken,
-          },
-        });
-
-        const paypalOrderId = paypalCreateOrder.data.id;
-        const paypalUpdateOrder = await axiosCall({
-          method: "post",
-          url: `${ORDERS_URL}/${PAYPAL_CAPTURE}`,
-          payload: {
-            cartId: cartId,
-            orderId: paypalOrderId
-          },
-          token: {
-            token: userData.token,
-            refreshToken: userData.refreshToken,
-          },
-        });
-        console.log("create order paypal: ",paypalCreateOrder);
-        console.log("update order paypal: ",paypalUpdateOrder);
-
-        if (paypalCreateOrder.status === 201 && paypalUpdateOrder.status === 201) {
-          console.log("create order paypal: ",paypalCreateOrder);
-          console.log("update order paypal: ",paypalUpdateOrder);
-          
-        } else {
-          toast.error("An network error occured when connecting to paypal. Please try again later", {
-            position: "bottom-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
-        }
-      } else {
-        toast.error("An network error occured when placing your order. Please try again later", {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      }
-
-    } else {
-      toast.error("A network error occured. Please try again later", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-    }
-
-    setLoading(false);
-  };
-
   if (loading) return <Loading />;
 
   return (
@@ -176,8 +50,7 @@ const Page = () => {
       </section>
 
       <section>
-        {/* <Link onClick={handleCartDelete} className="back" href="/shop"> */}
-        <Link className="back" href="/shop">
+        <Link className="back" href="/cart">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -198,7 +71,9 @@ const Page = () => {
         </Link>
       </section>
 
-      <section></section>
+      <section>
+        <ClientCart setLoading={setLoading} setTotalPrice={setTotalPrice} />
+      </section>
 
       <section>
         <h3>
@@ -207,11 +82,95 @@ const Page = () => {
       </section>
 
       <section>
-        <div className="button">
-          <span className="btn" onClick={handleCreateOrder}>
-            Place Order
-          </span>
-        </div>
+        <PayPalScriptProvider options={initialOptions}>
+          <PayPalButtons
+            style={{
+              shape: "rect",
+              layout: "vertical",
+            }}
+            createOrder={async () => {
+              try {
+                const { isSuccessful, cartId } = await handleAPIOrderCreate({ userData, serializedData });
+                return await paypalCreateOrder({ isSuccessful, cartId });
+              } catch (error) {
+                console.error(error);
+              }
+            }}
+            onApprove={async (data, actions) => {
+              try {
+                const response = await fetch(
+                  `${BASE_URL}${ORDERS_URL}/${PAYPAL_CAPTURE}`,
+                  {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      cartId: "",
+                      orderId: data.orderID
+                    }),
+                  },
+                );
+
+                const orderData = await response.json();
+
+                const errorDetail = orderData?.details?.[0];
+
+                if (errorDetail?.issue === "INSTRUMENT_DECLINED") {
+                  return actions.restart();
+                } else if (errorDetail) {
+                  toast.error(`${errorDetail.description} (${orderData.debug_id})`, {
+                    position: "bottom-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                  });
+                  throw new Error(
+                    `${errorDetail.description} (${orderData.debug_id})`,
+                  );
+                } else {
+                  const transaction =
+                    orderData.purchase_units[0].payments.captures[0];
+
+                  toast.success(`Transaction ${transaction.status}: Thank you ${transaction.payer.name.given_name}!`, {
+                    position: "bottom-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                  });
+
+                  console.log(
+                    "Capture result",
+                    orderData,
+                    JSON.stringify(orderData, null, 2),
+                  );
+                  // clear cart and carry user to account page
+                  push("/shop");
+                }
+              } catch (error) {
+                console.error(error);
+                toast.error(`Sorry, your transaction could not be processed...${error}`, {
+                  position: "bottom-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                });
+              }
+            }}
+          />
+        </PayPalScriptProvider>
       </section>
     </main>
   );

@@ -9,10 +9,12 @@ import { ProductT } from "@/types";
 import { useState } from "react";
 import { useAppDispatch } from "@/redux/hooks";
 import { addProduct } from "@/redux/slices/cart.slice";
+import Loading from "../Loading";
 
 const ProductPage = ({ product }: { product: ProductT }) => {
   const [count, setCount] = useState(1);
   const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(false);
 
   const handleProductAdd = (product: {
     product_id: string;
@@ -22,6 +24,7 @@ const ProductPage = ({ product }: { product: ProductT }) => {
     desc: string;
     price: number;
   }) => {
+    setLoading(true);
     dispatch(
       addProduct({
         product_id: product.product_id,
@@ -32,7 +35,10 @@ const ProductPage = ({ product }: { product: ProductT }) => {
         price: product.price,
       })
     );
+    setLoading(false);
   };
+
+  if (loading) return <Loading />;
 
   return (
     <div className="product__page">

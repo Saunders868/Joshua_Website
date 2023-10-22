@@ -23,6 +23,8 @@ const Cart = ({ id }: { id: string }) => {
                 cartTotal += product.price * product.quantity;
             });
 
+            cartTotal = Number(cartTotal.toFixed(2));
+
             return cartTotal;
         }
         const calculatedCartTotal = calculateCartTotal();
@@ -75,7 +77,7 @@ const Cart = ({ id }: { id: string }) => {
                 pageSizeOptions={[10, 20]}
             />
             <div>
-                <p><b>Cart Total:</b> ${cartTotal}</p>
+                <p><b>Cart Total:</b> ${cartTotal} TTD</p>
             </div>
         </section>
     )
