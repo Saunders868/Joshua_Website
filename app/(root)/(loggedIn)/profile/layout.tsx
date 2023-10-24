@@ -1,3 +1,4 @@
+import Button from "@/components/Button";
 import DashboardLinkItem from "@/components/DashboardLinkItem";
 import DashboardNavigationMobile from "@/components/DashboardNavigationMobile";
 import { userDasboardLinks } from "@/data";
@@ -27,6 +28,9 @@ export default function ProfileLayout({
                 />
               </li>
             ))}
+            <li className="logout">
+              <Button text="Logout" link={"sign-out"} />
+            </li>
           </ul>
         </nav>
       </aside>

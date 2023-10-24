@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { CartP, removeProduct } from "@/redux/slices/cart.slice";
 import { DataGrid, GridColDef } from "@mui/x-data-grid"
 import Image from "next/image";
-import React, { SetStateAction, useEffect, useState } from "react";
+import React, { SetStateAction, useEffect } from "react";
 
 const ClientCart = ({ setLoading, setTotalPrice }:
     { 

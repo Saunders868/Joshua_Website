@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Hanken_Grotesk } from "next/font/google";
 import { Providers } from "@/redux/provider";
 import ToastProvider from "@/components/toast.provider";
+import Confirmation from "@/components/Confirmation";
 
 const hankenGrotesk = Hanken_Grotesk({ subsets: ["latin"] });
 

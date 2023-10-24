@@ -9,6 +9,7 @@ import { ORDERS_URL } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
 import { useParams } from "next/navigation";
+import moment from "moment";
 
 const Page = () => {
   const { id } = useParams();
@@ -31,6 +32,7 @@ const Page = () => {
         <h3>Customer: {response?.data.user.name}</h3>
         <p><b>Email:</b> <a href={`mailto:${response?.data.user.email}`}>{response?.data.user.email}</a></p>
         <p><b>Order Status:</b> {response?.data.isCompleted ? <span className="status completed">completed</span> : <span className="status process">pending</span>}</p>
+        <p><b>Order Placed on:</b> {moment(response?.data.createdAt).format("MMM Do YY")}</p>
         {/* cart that links to the actual cart */}
         <Cart id={response?.data.cart} />
 

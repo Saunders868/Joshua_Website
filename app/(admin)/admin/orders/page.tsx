@@ -8,6 +8,7 @@ import { FRONTEND_URL, ORDERS_URL } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import moment from "moment";
 import Link from "next/link";
 
 const Page = () => {
@@ -46,7 +47,14 @@ const Page = () => {
       headerName: "Placed On",
       type: "string",
       minWidth: 150,
-      flex: 1
+      flex: 1,
+      renderCell: (params) => {
+        return (
+            <p>
+              {moment(params.value).format("MMM Do YY")}
+            </p>
+        );
+      },
     },
     {
       field: "isCompleted",

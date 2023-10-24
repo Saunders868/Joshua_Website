@@ -21,6 +21,7 @@ export const CreateUserValidation = Yup.object({
     "Passwords do not match"
   ),
   username: Yup.string()
+    .matches(/^[a-zA-Z0-9]+$/, 'Username can only contain letters and numbers')
     .min(10, "Must be at least 10 characters")
     .required("Required"),
 });

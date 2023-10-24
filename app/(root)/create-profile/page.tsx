@@ -1,11 +1,14 @@
 "use client";
 
+import Confirmation from "@/components/Confirmation";
 import CreateUser from "@/components/Forms/CreateUser";
 import LinkItem from "@/components/LinkItem";
 import { useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const Page = () => {
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const { push } = useRouter();
   const userData = useAppSelector((state) => state.user.user);
   if (userData.email !== "") {
@@ -21,7 +24,7 @@ const Page = () => {
               <small>Let us create your account</small>
             </h2>
           </div>
-          <CreateUser />
+          <CreateUser setShowConfirmation={setShowConfirmation} />
           <div className="hero__info">
             <p>
               Already have an account?{" "}
@@ -30,6 +33,7 @@ const Page = () => {
           </div>
         </div>
       </div>
+      {showConfirmation && <Confirmation text="User Created Successfully!" location="/sign-in" />}
     </main>
   );
 };

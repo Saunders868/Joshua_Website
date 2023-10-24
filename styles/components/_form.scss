@@ -7,6 +7,10 @@
   	flex-direction: column;
 	position: relative;
 	padding-top: 1.5rem;
+
+	.error {
+		margin: 10px 0;
+	}
 }
 
 .form__input__label {

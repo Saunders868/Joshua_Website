@@ -6,11 +6,15 @@ import { axiosCall } from "@/utils/Axios";
 import { CreateUserValidation } from "@/validations";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, SetStateAction } from "react";
 import { toast } from "react-toastify";
 import Loading from "../Loading";
 
-const CreateUser = () => {
+const CreateUser = ({
+  setShowConfirmation,
+}: {
+  setShowConfirmation: React.Dispatch<SetStateAction<boolean>>;
+}) => {
   const [loading, setLoading] = useState<boolean>(false);
   const { push } = useRouter();
   const formik = useFormik({
@@ -25,17 +29,17 @@ const CreateUser = () => {
       });
 
       if (response?.status === 200) {
-        await axiosCall({
-          method: "post",
-          url: MAIL_URL,
-          payload: {
-            username: values.username,
-            userEmail: values.email,
-            text: "Welcome from Joshua Greene! We're thrilled to have you join our community of valued customers!",
-            subject: "Signup Successfull"
-          },
-        });
-        push("/sign-in");
+        // await axiosCall({
+        //   method: "post",
+        //   url: MAIL_URL,
+        //   payload: {
+        //     username: values.username,
+        //     userEmail: values.email,
+        //     text: "Welcome from Joshua Greene! We're thrilled to have you join our community of valued customers!",
+        //     subject: "Signup Successfull",
+        //   },
+        // });
+        setShowConfirmation(true);
       } else if (response?.status === 409) {
         toast.error(response.data.error, {
           position: "bottom-right",
@@ -59,7 +63,7 @@ const CreateUser = () => {
           theme: "light",
         });
       }
-      setLoading(false)
+      setLoading(false);
     },
   });
 
