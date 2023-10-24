@@ -35,24 +35,17 @@ function Header() {
           <div className="links">
             <ul>
               {linksData.map((link) => (
-                <li key={link.linkname}>
+                <li key={link.path}>
                   <LinkItem path={link.path} linkname={link.linkname} />
                 </li>
               ))}
-              {userData.email !== "" ? (
+              {userData.auth == "admin" ? (
                 <>
                   <li>
                     <LinkItem path={"/admin/dashboard"} linkname={"admin"} />
                   </li>
-                  <li>
-                    <Button text="Logout" link={"sign-out"} light />
-                  </li>
                 </>
-              ) : (
-                <li>
-                  <Button text="Login" link="sign-in" light />
-                </li>
-              )}
+              ) : null}
             </ul>
           </div>
         </div>

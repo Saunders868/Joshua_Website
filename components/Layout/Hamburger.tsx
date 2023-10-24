@@ -2,7 +2,7 @@
 
 import React, { SetStateAction } from "react";
 import LinkItem from "../LinkItem";
-import { linksData } from "@/data";
+import { linksDataMobile } from "@/data";
 import Button from "../Button";
 import { useAppSelector } from "@/redux/hooks";
 
@@ -39,21 +39,23 @@ const Hamburger = ({
 
       <div className={`mobile-menu ${isClicked ? "active" : ""}`}>
         <ul>
-          {linksData.map((link) => (
-            <li onClick={() => setIsClicked(false)} key={link.linkname}>
+          {linksDataMobile.map((link) => (
+            <li onClick={() => setIsClicked(false)} key={link.path}>
               <LinkItem path={link.path} linkname={link.linkname} />
             </li>
           ))}
-          {userData.email !== "" ? (
+          {userData.auth == "admin" ? (
             <>
               <li onClick={() => setIsClicked(false)}>
                 <LinkItem path={"/admin/dashboard"} linkname={"admin"} />
               </li>
-              <Button text="Logout" link={"sign-out"} light />
             </>
-          ) : (
-            <Button text="Login" link="sign-in" />
-          )}
+          ) : null}
+          {userData.email !== "" ? (
+            <>
+              <Button text="Logout" link={"sign-out"} />
+            </>
+          ) : null}
         </ul>
       </div>
     </div>

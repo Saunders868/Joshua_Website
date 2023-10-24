@@ -2,6 +2,7 @@
 
 import Cart from "@/components/Cart";
 import DashboardPageHeader from "@/components/DashboardPageHeader";
+import UpdateOrder from "@/components/Forms/UpdateOrder";
 import Loading from "@/components/Loading";
 import { ORDERS_URL } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
@@ -33,6 +34,7 @@ const Page = () => {
         <Cart id={response?.data.cart} />
 
         {/* update order status */}
+        <UpdateOrder orderId={response?.data.id} isCompleted={response?.data.isCompleted as string} />
       </div>
     </section>
   );

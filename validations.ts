@@ -1,5 +1,7 @@
 import * as Yup from "yup";
 
+
+/* USER VALIDATIONS */
 export const CreateUserValidation = Yup.object({
   firstName: Yup.string()
     .max(15, "Must be 15 characters or less")
@@ -37,6 +39,7 @@ export const UpdateUserValidation = Yup.object({
   role: Yup.string()
 });
 
+/* SESSION VALLIDATIONS */
 export const CreateSessionValidation = Yup.object({
   email: Yup.string().email("Invalid email address").required("Required"),
   password: Yup.string()
@@ -47,10 +50,16 @@ export const CreateSessionValidation = Yup.object({
     ),
 });
 
+/* PRODUCT VALIDATIONS */
 export const CreateProductValidation = Yup.object({
   title: Yup.string().required("A title for this product is required"),
   desc: Yup.string()
     .min(120, "The description for this product must be at least 120 characters")
     .required("Required"),
   price: Yup.number().required("Please provide the cost of this product"),
+});
+
+/* ORDER VALIDATIONS */
+export const UpdateOrderValidation = Yup.object({
+  isCompleted: Yup.string().required()
 });

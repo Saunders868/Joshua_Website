@@ -1,3 +1,4 @@
+import Button from "@/components/Button";
 import DashboardLinkItem from "@/components/DashboardLinkItem";
 import DashboardNavigationMobile from "@/components/DashboardNavigationMobile";
 import { dashboardLinks } from "@/data";
@@ -9,9 +10,7 @@ export default function DashboardLayout({
 }) {
   return (
     <main className="dashboard">
-      <section className="dashboard__content">
-        {children}
-      </section>
+      <section className="dashboard__content">{children}</section>
       {/* mobile navigation for admin */}
       <DashboardNavigationMobile dashboardLinks={dashboardLinks} />
       <aside className="dashboard__navigation__desktop">
@@ -27,6 +26,9 @@ export default function DashboardLayout({
                 />
               </li>
             ))}
+            <li className="logout">
+              <Button text="Logout" link={"sign-out"} />
+            </li>
           </ul>
         </nav>
       </aside>

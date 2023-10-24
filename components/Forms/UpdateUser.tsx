@@ -29,8 +29,6 @@ const UpdateUser = ({ id, username, email, firstName, lastName, role, profile }:
                 payload: { ...values },
             });
 
-            console.log(response);
-
             if (response?.status === 200) {
                 toast.success("User updated successfully.", {
                     position: "bottom-right",

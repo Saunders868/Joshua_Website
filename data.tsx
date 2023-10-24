@@ -30,6 +30,29 @@ export const linksData: LinkT[] = [
   }
 ];
 
+export const linksDataMobile: LinkT[] = [
+  {
+    path: "/",
+    linkname: "home",
+  },
+  {
+    path: "/about",
+    linkname: "about",
+  },
+  {
+    path: "/shop",
+    linkname: "shop",
+  },
+  {
+    path: "/profile/dashboard",
+    linkname: <Users />
+  },
+  {
+    path: "/cart",
+    linkname: <Carts />
+  }
+];
+
 export const initialUserValues: UserT = {
   username: "",
   password: "",

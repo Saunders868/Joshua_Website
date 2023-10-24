@@ -5,7 +5,7 @@ import jwt_decode from "jwt-decode";
 
 const initialState: {
   user: Omit<UserT, "password" | "passwordConfirmation"> &
-  SessionT & { id: string }
+  SessionT & { id: string, auth: string }
 } = {
   user: {
     username: "",
@@ -14,7 +14,8 @@ const initialState: {
     lastName: "",
     token: "",
     refreshToken: "",
-    id: ""
+    id: "",
+    auth: ""
   },
 };
 
@@ -38,7 +39,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     login: (
-      state: { user: Omit<UserT, "password" | "passwordConfirmation"> & SessionT & { id: string }},
+      state: { user: Omit<UserT, "password" | "passwordConfirmation"> & SessionT & { id: string, auth: string }},
       action: PayloadAction<SessionT>
     ) => {
       const token = action.payload.token;
@@ -54,6 +55,7 @@ export const userSlice = createSlice({
       state.user.firstName = nameParts[0];
       state.user.lastName = nameParts[1];
       state.user.id = user._id as string;
+      state.user.auth = user.role;
     },
     logout: (state) => {
       state.user.username = "";
@@ -63,6 +65,7 @@ export const userSlice = createSlice({
       state.user.refreshToken = "";
       state.user.token = "";
       state.user.id = "";
+      state.user.auth = "";
     },
   },
 });

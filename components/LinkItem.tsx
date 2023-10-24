@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const LinkItem = ({ path, linkname }: { path: string; linkname: string }) => {
+const LinkItem = ({ path, linkname }: { path: string; linkname: string | React.ReactElement }) => {
   const pathname = usePathname();
 
   return (
