@@ -1,6 +1,7 @@
 "use client";
 
 import DashboardPageHeader from "@/components/DashboardPageHeader";
+import Error from "@/components/Error";
 import Loading from "@/components/Loading";
 import NoData from "@/components/NoData";
 import { CARTS_URL, FRONTEND_URL } from "@/constants";
@@ -102,7 +103,7 @@ const Page = () => {
                 )}
               </>
             ) : (
-              `A network error has occured. Please try again later`
+              <Error />
             )}
           </>
         )}

@@ -1,6 +1,7 @@
 "use client";
 
 import DashboardPageHeader from '@/components/DashboardPageHeader';
+import Error from '@/components/Error';
 import CreateProduct from '@/components/Forms/CreateProduct';
 import Loading from '@/components/Loading';
 import { PRODUCTS_URL } from '@/constants';
@@ -18,7 +19,7 @@ const Page = () => {
     }
   });
 
-  if (error) return "A network error occured. Please try again later...";
+  if (error) return <Error />;
 
   if (loading) return <Loading />;
 

@@ -1,6 +1,7 @@
 "use client";
 
 import DashboardPageHeader from "@/components/DashboardPageHeader";
+import Error from "@/components/Error";
 import UpdateUser from "@/components/Forms/UpdateUser";
 import Loading from "@/components/Loading";
 import { USERS_URL } from "@/constants";
@@ -18,7 +19,7 @@ const Page = () => {
 
     if (loading) return <Loading />;
 
-    if (error) return "A network error occured. Please try again later...";
+    if (error) return <Error />;
 
     // console.log(response);
     

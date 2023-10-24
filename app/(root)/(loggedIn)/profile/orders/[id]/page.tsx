@@ -2,6 +2,7 @@
 
 import Cart from "@/components/Cart";
 import DashboardPageHeader from "@/components/DashboardPageHeader";
+import Error from "@/components/Error";
 import Loading from "@/components/Loading";
 import { ORDERS_URL } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
@@ -18,7 +19,7 @@ const Page = () => {
     }
   });
 
-  if (error) return "A network error occured. Please try again later...";
+  if (error) return <Error />;
 
   if (loading) return <Loading />;
 

@@ -1,6 +1,7 @@
 "use client";
 
 import Card from "@/components/Card";
+import Error from "@/components/Error";
 import Loading from "@/components/Loading";
 import { PRODUCTS_URL } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
@@ -22,7 +23,7 @@ const Page = () => {
 
   if (loading) return <Loading />;
 
-  if (error) return "A network error occured. Please try again later...";
+  if (error) return <Error />;
 
   return (
     <main className="shop">

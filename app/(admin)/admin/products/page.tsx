@@ -10,6 +10,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { ProductT } from "@/types";
 import Image from "next/image";
 import Loading from "@/components/Loading";
+import Error from "@/components/Error";
 
 const Page = () => {
   const userData = useAppSelector((state) => state.user.user);
@@ -104,7 +105,7 @@ const Page = () => {
                 )}
               </>
             ) : (
-              `A network error has occured. Please try again later`
+              <Error />
             )}
           </>
         )}
