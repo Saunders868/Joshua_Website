@@ -7,11 +7,7 @@ import { USERS_URL } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-
-// fill out this 
-interface UserT {
-
-}
+import Link from "next/link";
 
 const Page = () => {
   const userData = useAppSelector((state) => state.user.user);
@@ -76,6 +72,20 @@ const Page = () => {
                 User
               </span>
             </p>
+          </div>
+        );
+      },
+    },
+    {
+      field: "_id",
+      headerName: "Edit",
+      type: "string",
+      renderCell: (params) => {
+        return (
+          <div>
+            <Link className="link" href={`users/${params.value}`}>
+              Edit
+            </Link>
           </div>
         );
       },

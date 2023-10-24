@@ -19,6 +19,14 @@ export const linksData: LinkT[] = [
   {
     path: "/shop",
     linkname: "shop",
+  },
+  {
+    path: "/profile/dashboard",
+    linkname: <Users color="white" />
+  },
+  {
+    path: "/cart",
+    linkname: <Carts color="white" />
   }
 ];
 

@@ -1,9 +1,9 @@
 "use client";
 
+import Cart from "@/components/Cart";
 import DashboardPageHeader from "@/components/DashboardPageHeader";
-import UpdateUser from "@/components/Forms/UpdateUser";
 import Loading from "@/components/Loading";
-import { USERS_URL } from "@/constants";
+import { ORDERS_URL } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
 import { useParams } from "next/navigation";
@@ -12,38 +12,27 @@ const Page = () => {
   const { id } = useParams();
   const user = useAppSelector((state) => state.user.user);
   const { response, error, loading } = useAxios({
-    url: `${USERS_URL}/${id}`, token: {
+    url: `${ORDERS_URL}/${id}`, token: {
       token: user.token,
       refreshToken: user.refreshToken
     }
   });
 
-  if (loading) return <Loading />;
-
   if (error) return "A network error occured. Please try again later...";
 
-  console.log(response);
-
-  const parts = response?.data.user.name.split(" ");
-  const firstName = parts[0];
-  const lastName = parts[1];
+  if (loading) return <Loading />;
 
   return (
     <section>
-      <DashboardPageHeader title="Update User" />
+      <DashboardPageHeader title="Order" />
       <div className="admin__content single__admin__page">
-
-        <UpdateUser
-          id={response?.data.user._id}
-          username={response?.data.user.username}
-          email={response?.data.user.email}
-          firstName={firstName}
-          lastName={lastName}
-          role={response?.data.user.role}
-        />
+        <h3>Order Id: {response?.data.id}</h3>
+        <p><b>Email:</b> <a href={`mailto:${response?.data.user.email}`}>{response?.data.user.email}</a></p>
+        <p><b>Order Status:</b> {response?.data.isCompleted ? <span className="status completed">completed</span> : <span className="status process">pending</span>}</p>
+        <Cart id={response?.data.cart} />
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;

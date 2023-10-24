@@ -20,7 +20,7 @@ const Page = () => {
 
     if (error) return "A network error occured. Please try again later...";
 
-    console.log(response);
+    // console.log(response);
     
     const parts = response?.data.user.name.split(" ");
     const firstName = parts[0];

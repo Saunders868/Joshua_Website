@@ -24,7 +24,7 @@ export async function axiosCall({
       url: url,
       headers: {
         authorization: token ? `Bearer ${token.token}` : "",
-        "x-refresh": token ? `Bearer ${token.refreshToken}` : "",
+        "x-refresh": token ? `${token.refreshToken}` : "",
       },
       method: method,
     });
