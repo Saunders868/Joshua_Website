@@ -13,10 +13,11 @@ const Page = () => {
   const { id } = useParams();
   const user = useAppSelector((state) => state.user.user);
   const { response, error, loading } = useAxios({
-    url: `${ORDERS_URL}/${id}`, token: {
+    url: `${ORDERS_URL}/${id}`,
+    token: {
       token: user.token,
-      refreshToken: user.refreshToken
-    }
+      refreshToken: user.refreshToken,
+    },
   });
 
   if (error) return <Error />;
@@ -28,8 +29,20 @@ const Page = () => {
       <DashboardPageHeader title="Order" />
       <div className="admin__content single__admin__page">
         <h3>Order Id: {response?.data.id}</h3>
-        <p><b>Email:</b> <a href={`mailto:${response?.data.user.email}`}>{response?.data.user.email}</a></p>
-        <p><b>Order Status:</b> {response?.data.isCompleted ? <span className="status completed">completed</span> : <span className="status process">pending</span>}</p>
+        <p>
+          <b>Email:</b>{" "}
+          <a href={`mailto:${response?.data.user.email}`}>
+            {response?.data.user.email}
+          </a>
+        </p>
+        <p>
+          <b>Order Status:</b>{" "}
+          {response?.data.isCompleted ? (
+            <span className="status completed">completed</span>
+          ) : (
+            <span className="status process">pending</span>
+          )}
+        </p>
         <Cart id={response?.data.cart} />
       </div>
     </section>

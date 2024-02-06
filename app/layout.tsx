@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Hanken_Grotesk } from "next/font/google";
 import { Providers } from "@/redux/provider";
 import ToastProvider from "@/components/toast.provider";
-import Confirmation from "@/components/Confirmation";
+import Footer from "@/components/Footer";
 
 const hankenGrotesk = Hanken_Grotesk({ subsets: ["latin"] });
 
@@ -25,6 +25,7 @@ export default function RootLayout({
           <ToastProvider>
             <Header />
             {children}
+            <Footer />
           </ToastProvider>
         </Providers>
       </body>

@@ -4,7 +4,7 @@ import DashboardPageHeader from "@/components/DashboardPageHeader";
 import Error from "@/components/Error";
 import Loading from "@/components/Loading";
 import NoData from "@/components/NoData";
-import { USERS_URL } from "@/constants";
+import { ORDERS_URL, USERS_URL } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
@@ -13,17 +13,18 @@ import Link from "next/link";
 const Page = () => {
   const user = useAppSelector((state) => state.user.user);
   const { response, error, loading } = useAxios({
-    url: `${USERS_URL}/${user.id}`, token: {
+    url: `${ORDERS_URL}/user/${user.id}`,
+    token: {
       token: user.token,
-      refreshToken: user.refreshToken
-    }
+      refreshToken: user.refreshToken,
+    },
   });
 
   if (loading) return <Loading />;
 
   if (error) return <Error />;
 
-  const ordersData = response?.data.orders;
+  const ordersData = response?.data;
 
   const columns: GridColDef[] = [
     {
@@ -31,7 +32,7 @@ const Page = () => {
       headerName: "Placed On",
       type: "string",
       minWidth: 150,
-      flex: 1
+      flex: 1,
     },
     {
       field: "isCompleted",
@@ -43,17 +44,13 @@ const Page = () => {
         return params.value === true ? (
           <div>
             <p>
-              <span className="status completed">
-                completed
-              </span>
+              <span className="status completed">completed</span>
             </p>
           </div>
         ) : (
           <div>
             <p>
-              <span className="status process">
-                pending
-              </span>
+              <span className="status process">pending</span>
             </p>
           </div>
         );
@@ -76,13 +73,12 @@ const Page = () => {
       },
     },
   ];
-  
+
   return (
     <section>
       <DashboardPageHeader title="My Orders" />
       <div className="admin__content single__admin__page">
-
-        {response && response.data.orders.length === 0 ? (
+        {response && response.data.length === 0 ? (
           <NoData text="Order" />
         ) : (
           <DataGrid
@@ -99,7 +95,7 @@ const Page = () => {
         )}
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
