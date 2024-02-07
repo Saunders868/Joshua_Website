@@ -1,34 +1,44 @@
 "use client";
 
-import { SESSIONS_URL } from "@/constants";
-import { initialSessionValues } from "@/data";
+import { USERS_URL } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { login } from "@/redux/slices/user.slice";
 import { axiosCall } from "@/utils/Axios";
-import { CreateSessionValidation } from "@/validations";
+import { UsernameValidation } from "@/validations";
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React, { SetStateAction, useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import Loading from "@/components/Loading";
 
-const CreateSession = () => {
+const UserName = ({
+  setActive,
+}: {
+  setActive: React.Dispatch<SetStateAction<string>>;
+}) => {
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const userData = useAppSelector((state) => state.user.user);
   const { push } = useRouter();
 
   const formik = useFormik({
-    initialValues: initialSessionValues,
-    validationSchema: CreateSessionValidation,
+    initialValues: {
+      username: "",
+    },
+    validationSchema: UsernameValidation,
     onSubmit: async (values) => {
       setLoading(true);
-      const response = await axiosCall({
+      setActive("otp");
+      /* const response = await axiosCall({
         method: "post",
-        url: SESSIONS_URL,
+        url: `${USERS_URL}/generateOTP`,
+        params: {
+          username: values.username,
+        },
         payload: { ...values },
       });
 
       if (response?.status === 200) {
+        // update state
         dispatch(
           login({
             token: response.data.accessToken,
@@ -58,53 +68,37 @@ const CreateSession = () => {
           progress: undefined,
           theme: "dark",
         });
-      }
+      } */
       setLoading(false);
     },
   });
 
-  if (loading) return "Loading...";
+  if (loading) return <Loading />;
 
   return (
     <form className="form" onSubmit={formik.handleSubmit}>
       <div className="form__input">
-        <label className="form__input__label" htmlFor="email">
-          Email:
+        <label className="form__input__label" htmlFor="username">
+          Enter your username:
         </label>
         <input
           className="form__input__field"
-          id="email"
+          id="username"
           type="text"
-          {...formik.getFieldProps("email")}
+          {...formik.getFieldProps("username")}
         />
 
-        {formik.touched.email && formik.errors.email ? (
-          <div className="error">{formik.errors.email}</div>
-        ) : null}
-      </div>
-
-      <div className="form__input">
-        <label className="form__input__label" htmlFor="password">
-          Password:
-        </label>
-        <input
-          className="form__input__field"
-          id="password"
-          type="text"
-          {...formik.getFieldProps("password")}
-        />
-
-        {formik.touched.password && formik.errors.password ? (
-          <div className="error">{formik.errors.password}</div>
+        {formik.touched.username && formik.errors.username ? (
+          <div className="error">{formik.errors.username}</div>
         ) : null}
       </div>
       <div className="action">
         <button className="action-button" type="submit">
-          Login
+          Send OTP
         </button>
       </div>
     </form>
   );
 };
 
-export default CreateSession;
+export default UserName;

@@ -1,34 +1,41 @@
 "use client";
 
-import { SESSIONS_URL } from "@/constants";
-import { initialSessionValues } from "@/data";
+import { USERS_URL } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { login } from "@/redux/slices/user.slice";
 import { axiosCall } from "@/utils/Axios";
-import { CreateSessionValidation } from "@/validations";
+import { ChangePasswordValidation } from "@/validations";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import Loading from "@/components/Loading";
 
-const CreateSession = () => {
+const ChangePassword = ({ username }: { username: string }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const userData = useAppSelector((state) => state.user.user);
   const { push } = useRouter();
 
   const formik = useFormik({
-    initialValues: initialSessionValues,
-    validationSchema: CreateSessionValidation,
+    initialValues: {
+      password: "",
+    },
+    validationSchema: ChangePasswordValidation,
     onSubmit: async (values) => {
       setLoading(true);
-      const response = await axiosCall({
+      /* const response = await axiosCall({
         method: "post",
-        url: SESSIONS_URL,
+        url: `${USERS_URL}/resetPassword`,
+        params: {
+          username: username,
+        //   encrypt password before sending
+          OTP: values.password,
+        },
         payload: { ...values },
       });
 
       if (response?.status === 200) {
+        // update state
         dispatch(
           login({
             token: response.data.accessToken,
@@ -58,34 +65,18 @@ const CreateSession = () => {
           progress: undefined,
           theme: "dark",
         });
-      }
+      } */
       setLoading(false);
     },
   });
 
-  if (loading) return "Loading...";
+  if (loading) return <Loading />;
 
   return (
     <form className="form" onSubmit={formik.handleSubmit}>
       <div className="form__input">
-        <label className="form__input__label" htmlFor="email">
-          Email:
-        </label>
-        <input
-          className="form__input__field"
-          id="email"
-          type="text"
-          {...formik.getFieldProps("email")}
-        />
-
-        {formik.touched.email && formik.errors.email ? (
-          <div className="error">{formik.errors.email}</div>
-        ) : null}
-      </div>
-
-      <div className="form__input">
         <label className="form__input__label" htmlFor="password">
-          Password:
+          Enter new password:
         </label>
         <input
           className="form__input__field"
@@ -100,11 +91,11 @@ const CreateSession = () => {
       </div>
       <div className="action">
         <button className="action-button" type="submit">
-          Login
+          Change Password
         </button>
       </div>
     </form>
   );
 };
 
-export default CreateSession;
+export default ChangePassword;

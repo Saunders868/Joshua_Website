@@ -23,9 +23,11 @@ export default function RootLayout({
       <body className={hankenGrotesk.className}>
         <Providers>
           <ToastProvider>
-            <Header />
-            {children}
-            <Footer />
+            <div className="flex">
+              <Header />
+              {children}
+              <Footer />
+            </div>
           </ToastProvider>
         </Providers>
       </body>

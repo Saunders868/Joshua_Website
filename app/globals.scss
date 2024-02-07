@@ -1,5 +1,16 @@
-@import '../styles/index.scss';
+@import "../styles/index.scss";
 
 html {
-    min-height: 100vh;
+  min-height: 100vh;
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+
+  .grow {
+    flex-grow: 1;
+  }
 }
