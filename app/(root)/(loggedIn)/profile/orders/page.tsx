@@ -4,7 +4,7 @@ import DashboardPageHeader from "@/components/DashboardPageHeader";
 import Error from "@/components/Error";
 import Loading from "@/components/Loading";
 import NoData from "@/components/NoData";
-import { ORDERS_URL, USERS_URL } from "@/constants";
+import { ORDERS_URL } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";

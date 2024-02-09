@@ -1,5 +1,7 @@
 "use client";
 
+import Error from "@/components/Error";
+import Loading from "@/components/Loading";
 import { USERS_URL } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
@@ -16,8 +18,19 @@ const Page = () => {
     },
   });
 
-  console.log(response);
-  return <div>Page</div>;
+  if (loading) return <Loading />;
+
+  if (error) return <Error />;
+
+  return (
+    <div>
+      {response?.data.productPermissions.length > 0 ? (
+        <p>Your downloads go here...</p>
+      ) : (
+        <p>You have no downloads as yet...</p>
+      )}
+    </div>
+  );
 };
 
 export default Page;
