@@ -7,8 +7,22 @@ import { PRODUCTS_URL, USERS_URL } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
 import Link from "next/link";
+import ChartsEmbedSDK from "@mongodb-js/charts-embed-dom";
+import { useEffect, useRef, useState } from "react";
 
 const Page = () => {
+  const [rendered, setRendered] = useState(false);
+  const sdk = new ChartsEmbedSDK({
+    baseUrl: "https://charts.mongodb.com/charts-joshua-development-rdbgd",
+    showAttribution: false,
+  });
+  const [chart] = useState(
+    sdk.createChart({
+      chartId: "65c62f0d-87e0-449e-8a1a-25e696b13627",
+      height: 500,
+      width: 300,
+    })
+  );
   const userData = useAppSelector((state) => state.user.user);
   const {
     loading: userLoading,
@@ -33,6 +47,15 @@ const Page = () => {
       refreshToken: userData.refreshToken,
     },
   });
+
+  const chartDiv = useRef(null);
+
+  useEffect(() => {
+    chart
+      .render(chartDiv.current!)
+      .then(() => setRendered(true))
+      .catch((err) => console.log("Error during Charts rendering.", err));
+  }, [chart]);
 
   if (userLoading || productLoading) return <Loading />;
 
@@ -63,6 +86,11 @@ const Page = () => {
               <div className="dashboard-link-container">
                 <Link href={"products"}>view all</Link>
               </div>
+            </div>
+          </div>
+          <div className="single__admin__page__dashboard__card">
+            <div className="chart">
+              <div ref={chartDiv} />
             </div>
           </div>
         </div>
