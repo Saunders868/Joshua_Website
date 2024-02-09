@@ -12,19 +12,20 @@ const Page = () => {
   const { id } = useParams();
   const user = useAppSelector((state) => state.user.user);
   const { response, error, loading } = useAxios({
-    url: `${USERS_URL}/${id}`, token: {
+    url: `${USERS_URL}/${id}`,
+    token: {
       token: user.token,
-      refreshToken: user.refreshToken
-    }
+      refreshToken: user.refreshToken,
+    },
   });
 
   if (loading) return <Loading />;
 
   if (error) return "A network error occured. Please try again later...";
 
-  console.log(response);
+  // console.log(response);
 
-  const parts = response?.data.user.name.split(" ");
+  const parts = response?.data.name.split(" ");
   const firstName = parts[0];
   const lastName = parts[1];
 
@@ -32,18 +33,17 @@ const Page = () => {
     <section>
       <DashboardPageHeader title="Update User" />
       <div className="admin__content single__admin__page">
-
         <UpdateUser
-          id={response?.data.user._id}
-          username={response?.data.user.username}
-          email={response?.data.user.email}
+          id={response?.data._id}
+          username={response?.data.username}
+          email={response?.data.email}
           firstName={firstName}
           lastName={lastName}
-          role={response?.data.user.role}
+          role={response?.data.role}
         />
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;

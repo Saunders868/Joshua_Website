@@ -24,3 +24,12 @@
     font-size: $text-font-desktop;
   }
 }
+
+@mixin dashboard-card-heading {
+  font-size: $subtitle-font-desktop;
+  font-weight: $bold-font;
+
+  @media (min-width: 768px) {
+    font-size: $title-font-mobile;
+  }
+}

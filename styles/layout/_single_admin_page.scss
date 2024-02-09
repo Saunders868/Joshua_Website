@@ -1,15 +1,62 @@
 .single__admin__page {
-    h3 {
+  h3 {
+    @include subtitle;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    @include text;
+    padding: 0.5em 0;
+  }
+
+  b {
+    font-weight: 600;
+  }
+
+  &__dashboard {
+    width: 100%;
+    height: 100%;
+    border: 1px solid red;
+    @media (min-width: 1200px) {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    &__card {
+      padding: 2rem;
+      text-align: left;
+      border-radius: 10px;
+      box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.25);
+      -webkit-box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.25);
+      -moz-box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.25);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+
+      &:nth-child(1) {
+        grid-area: 1 / 1 / 3 / 3;
+      }
+      &:nth-child(2) {
+        grid-area: 1 / 3 / 3 / 5;
+      }
+      &:nth-child(3) {
+        grid-area: 3 / 1 / 5 / 5;
+      }
+
+      @media (min-width: 1200px) {
+        padding: 3rem;
+      }
+
+      h3 {
+        @include dashboard-card-heading;
+      }
+
+      p {
         @include subtitle;
-        margin-bottom: 1rem;
+        padding: 0;
+      }
     }
-
-    p {
-        @include text;
-        padding: 0.5em 0;
-    }
-
-    b {
-        font-weight: 600;
-    }
+  }
 }
