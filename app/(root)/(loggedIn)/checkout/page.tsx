@@ -1,7 +1,12 @@
 "use client";
 
 import Loading from "@/components/Loading";
-import { BASE_URL, ORDERS_URL, PAYPAL_CAPTURE, PAYPAL_CLIENT_ID } from "@/constants";
+import {
+  BASE_URL,
+  ORDERS_URL,
+  PAYPAL_CAPTURE,
+  PAYPAL_CLIENT_ID,
+} from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { CartP, clearCart } from "@/redux/slices/cart.slice";
 import Link from "next/link";
@@ -92,10 +97,12 @@ const Page = () => {
               }}
               createOrder={async () => {
                 try {
-                  const { isSuccessful, cartId } = await handleAPIOrderCreate({ userData, serializedData });
-                  console.log("here");
-                  
-                  return await paypalCreateOrder({ isSuccessful, cartId });
+                  const { isSuccessful, orderId } = await handleAPIOrderCreate({
+                    userData,
+                    serializedData,
+                  });
+
+                  return await paypalCreateOrder({ isSuccessful, orderId });
                 } catch (error) {
                   console.error(error);
                 }
@@ -110,10 +117,9 @@ const Page = () => {
                         "Content-Type": "application/json",
                       },
                       body: JSON.stringify({
-                        cartId: "",
-                        orderId: data.orderID
+                        orderId: data.orderID,
                       }),
-                    },
+                    }
                   );
 
                   const orderData = await response.json();
@@ -123,54 +129,63 @@ const Page = () => {
                   if (errorDetail?.issue === "INSTRUMENT_DECLINED") {
                     return actions.restart();
                   } else if (errorDetail) {
-                    toast.error(`${errorDetail.description} (${orderData.debug_id})`, {
-                      position: "bottom-right",
-                      autoClose: 5000,
-                      hideProgressBar: false,
-                      closeOnClick: true,
-                      pauseOnHover: true,
-                      draggable: true,
-                      progress: undefined,
-                      theme: "light",
-                    });
-                    throw new Error(
+                    toast.error(
                       `${errorDetail.description} (${orderData.debug_id})`,
+                      {
+                        position: "bottom-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                      }
+                    );
+                    throw new Error(
+                      `${errorDetail.description} (${orderData.debug_id})`
                     );
                   } else {
                     const transaction =
                       orderData.purchase_units[0].payments.captures[0];
 
-                    toast.success(`Transaction ${transaction.status}: Thank you!`, {
-                      position: "bottom-right",
-                      autoClose: 5000,
-                      hideProgressBar: false,
-                      closeOnClick: true,
-                      pauseOnHover: true,
-                      draggable: true,
-                      progress: undefined,
-                      theme: "light",
-                    });
+                    toast.success(
+                      `Transaction ${transaction.status}: Thank you!`,
+                      {
+                        position: "bottom-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                      }
+                    );
 
                     console.log(
                       "Capture result",
                       orderData,
-                      JSON.stringify(orderData, null, 2),
+                      JSON.stringify(orderData, null, 2)
                     );
                     dispatch(clearCart());
                     push("/shop");
                   }
                 } catch (error) {
                   console.error(error);
-                  toast.error(`Sorry, your transaction could not be processed...${error}`, {
-                    position: "bottom-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                  });
+                  toast.error(
+                    `Sorry, your transaction could not be processed...${error}`,
+                    {
+                      position: "bottom-right",
+                      autoClose: 5000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "light",
+                    }
+                  );
                 }
               }}
             />
