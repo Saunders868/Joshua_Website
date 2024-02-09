@@ -7,23 +7,16 @@ import { PRODUCTS_URL, USERS_URL } from "@/constants";
 import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
 import Link from "next/link";
-import ChartsEmbedSDK from "@mongodb-js/charts-embed-dom";
-import { useEffect, useRef, useState } from "react";
+import DashboardGrid from "@/components/DashboardGrid";
+import Chart from "@/components/Chart";
+import { useState } from "react";
+import Users from "@/icons/Users";
+import Products from "@/icons/Products";
 
 const Page = () => {
-  const [rendered, setRendered] = useState(false);
-  const sdk = new ChartsEmbedSDK({
-    baseUrl: "https://charts.mongodb.com/charts-joshua-development-rdbgd",
-    showAttribution: false,
-  });
-  const [chart] = useState(
-    sdk.createChart({
-      chartId: "65c62f0d-87e0-449e-8a1a-25e696b13627",
-      height: 500,
-      width: 300,
-    })
-  );
   const userData = useAppSelector((state) => state.user.user);
+  const [filter, setFilter] = useState({});
+
   const {
     loading: userLoading,
     response: userResponse,
@@ -48,15 +41,6 @@ const Page = () => {
     },
   });
 
-  const chartDiv = useRef(null);
-
-  useEffect(() => {
-    chart
-      .render(chartDiv.current!)
-      .then(() => setRendered(true))
-      .catch((err) => console.log("Error during Charts rendering.", err));
-  }, [chart]);
-
   if (userLoading || productLoading) return <Loading />;
 
   if (userError || productError) return <Error />;
@@ -66,31 +50,26 @@ const Page = () => {
       <DashboardPageHeader title="Dashboard" />
       <div className="admin__content single__admin__page">
         <div className="single__admin__page__dashboard">
-          <div className="single__admin__page__dashboard__card">
-            <div className="single__admin__page__dashboard__card__left">
-              <h3>Users</h3>
-              <p>{userResponse?.data.length}</p>
-            </div>
-            <div className="single__admin__page__dashboard__card__right">
-              <div className="dashboard-link-container">
-                <Link href={"users"}>view all</Link>
-              </div>
-            </div>
-          </div>
-          <div className="single__admin__page__dashboard__card">
-            <div className="single__admin__page__dashboard__card__left">
-              <h3>Products</h3>
-              <p>{productResponse?.data.length}</p>
-            </div>
-            <div className="single__admin__page__dashboard__card__right">
-              <div className="dashboard-link-container">
-                <Link href={"products"}>view all</Link>
-              </div>
-            </div>
-          </div>
+          <DashboardGrid
+            number={userResponse?.data.length}
+            title="Users"
+            link="users"
+            icon={<Users width={128} height={128} />}
+          />
+          <DashboardGrid
+            number={productResponse?.data.length}
+            title="Products"
+            link="products"
+            icon={<Products width={128} height={128} />}
+          />
           <div className="single__admin__page__dashboard__card">
             <div className="chart">
-              <div ref={chartDiv} />
+              <Chart
+                chartId="65c62f0d-87e0-449e-8a1a-25e696b13627"
+                width={500}
+                height={500}
+                filter={filter}
+              />
             </div>
           </div>
         </div>

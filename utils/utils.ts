@@ -7,6 +7,4 @@ export function convertStringToBoolean(string: string) {
   }
 
   return boolean;
-
 }
-

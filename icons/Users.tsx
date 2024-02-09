@@ -1,11 +1,17 @@
 import React from "react";
 
-const Users = ({ color }: {color?: string}) => {
+interface Props {
+  width?: number;
+  height?: number;
+  color?: string;
+}
+
+const Users = ({ width, height, color }: Props) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
+      width={width ? width : "24"}
+      height={height ? height : "24"}
       viewBox="0 0 256 256"
     >
       <path
