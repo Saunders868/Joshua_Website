@@ -7,14 +7,26 @@ import Button from "@/components/Button";
 import Counter from "@/components/Counter";
 import { ProductT } from "@/types";
 import { useState } from "react";
-import { useAppDispatch } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addProduct } from "@/redux/slices/cart.slice";
 import Loading from "../Loading";
 
 const ProductPage = ({ product }: { product: ProductT }) => {
   const [count, setCount] = useState(1);
-  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
+  const dispatch = useAppDispatch();
+  const cart = useAppSelector((state) => state.cart);
+
+  console.log(
+    "Cart",
+    cart.products.filter((prod) => product.id == prod.product_id)
+  );
+
+  const cartItemsLength = cart.products.filter(
+    (prod) => product.id == prod.product_id
+  ).length;
+
+  const virtualProductAlreadyInCart = cartItemsLength > 0 ? true : false;
 
   const handleProductAdd = (product: {
     product_id: string;
@@ -80,24 +92,32 @@ const ProductPage = ({ product }: { product: ProductT }) => {
           </h3>
         </div>
         <div className="cart__info">
-          <div className="counter">
-            <Counter count={count} setCount={setCount} />
-          </div>
-          <div
-            onClick={() =>
-              handleProductAdd({
-                product_id: product.id!,
-                quantity: count,
-                title: product.title!,
-                image: product.image!,
-                desc: product.desc!,
-                price: product.price!
-              })
-            }
-            className="button"
-          >
-            <Button link="/cart" text="Add to cart" />
-          </div>
+          {product.type === "simple" ? (
+            <div className="counter">
+              <Counter count={count} setCount={setCount} />
+            </div>
+          ) : null}
+          {virtualProductAlreadyInCart ? (
+            <div title="item already in cart" className="button">
+              <Button disabled link="/cart" text="Add to cart" />
+            </div>
+          ) : (
+            <div
+              onClick={() =>
+                handleProductAdd({
+                  product_id: product.id!,
+                  quantity: count,
+                  title: product.title!,
+                  image: product.image!,
+                  desc: product.desc!,
+                  price: product.price!,
+                })
+              }
+              className="button"
+            >
+              <Button link="/cart" text="Add to cart" />
+            </div>
+          )}
         </div>
       </div>
     </div>

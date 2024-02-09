@@ -13,11 +13,13 @@ const Button = ({
   text,
   fill,
   light,
+  disabled,
 }: {
   link: string;
   text: string;
   fill?: boolean;
   light?: boolean;
+  disabled?: boolean;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const userData = useAppSelector((state) => state.user.user);
@@ -36,7 +38,7 @@ const Button = ({
       },
     });
 
-    await dispatch(logout());
+    dispatch(logout());
     setLoading(false);
 
     push("/");
@@ -46,9 +48,11 @@ const Button = ({
 
   return (
     <Link
-      className={`btn ${fill ? "fill" : ""} ${light ? "light" : ""}`}
+      className={`btn ${fill ? "fill" : ""} ${light ? "light" : ""} ${
+        disabled ? "disabled" : ""
+      }`}
       href={link === "sign-out" ? "/" : link}
-      onClick={link === "sign-out" ? logOutServer : ()=>{}}
+      onClick={link === "sign-out" ? logOutServer : () => {}}
     >
       {text}
     </Link>
