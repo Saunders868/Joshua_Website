@@ -6,6 +6,7 @@ import {
   ORDERS_URL,
   PAYPAL_CAPTURE,
   PAYPAL_CLIENT_ID,
+  USERS_URL,
 } from "@/constants";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { CartP, clearCart } from "@/redux/slices/cart.slice";
@@ -16,6 +17,8 @@ import { useRouter } from "next/navigation";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import ClientCart from "@/components/ClientCart";
 import { handleAPIOrderCreate, paypalCreateOrder } from "@/utils/paypal.utis";
+import { axiosCall } from "@/utils/Axios";
+import { update } from "@/redux/slices/user.slice";
 
 const initialOptions = {
   clientId: PAYPAL_CLIENT_ID,
@@ -46,6 +49,8 @@ const Page = () => {
 
     setSerializedData(serializedData);
   }, [cartData]);
+
+  let permissions: string[] = [];
 
   if (loading) return <Loading />;
 
@@ -97,12 +102,21 @@ const Page = () => {
               }}
               createOrder={async () => {
                 try {
-                  const { isSuccessful, orderId } = await handleAPIOrderCreate({
+                  const {
+                    isSuccessful,
+                    orderId,
+                    permissions: orderPermissions,
+                  } = await handleAPIOrderCreate({
                     userData,
                     serializedData,
                   });
-
-                  return await paypalCreateOrder({ isSuccessful, orderId });
+                  permissions = orderPermissions;
+                  return await paypalCreateOrder({
+                    isSuccessful,
+                    orderId,
+                    userData,
+                    permissions,
+                  });
                 } catch (error) {
                   console.error(error);
                 }
@@ -121,6 +135,22 @@ const Page = () => {
                       }),
                     }
                   );
+
+                  const userUpdateResponse = await axiosCall({
+                    method: "patch",
+                    url: `${USERS_URL}/${userData.id}`,
+                    payload: {
+                      productPermissions: permissions,
+                    },
+                    token: {
+                      token: userData.token,
+                      refreshToken: userData.refreshToken,
+                    },
+                  });
+
+                  if (permissions) {
+                    dispatch(update(permissions));
+                  }
 
                   const orderData = await response.json();
 
@@ -163,11 +193,11 @@ const Page = () => {
                       }
                     );
 
-                    console.log(
+                    /* console.log(
                       "Capture result",
                       orderData,
                       JSON.stringify(orderData, null, 2)
-                    );
+                    ); */
                     dispatch(clearCart());
                     push("/shop");
                   }

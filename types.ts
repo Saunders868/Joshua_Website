@@ -12,6 +12,7 @@ export interface UserT {
   email: string;
   firstName: string;
   lastName: string;
+  productPermissions: string[];
 }
 
 export interface SessionT {
@@ -26,15 +27,15 @@ export interface AdminDasboardLink {
 }
 
 export interface ProductT {
+  user?: string;
   title: string;
   desc: string;
   price: number;
   type?: "virtual" | "simple";
-  createdAt?: string;
   id?: string;
   image?: string;
+  createdAt?: string;
   updatedAt?: string;
-  user?: string;
   // user: string;
   __v?: number;
   _id?: string;

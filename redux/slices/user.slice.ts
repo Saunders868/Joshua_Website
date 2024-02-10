@@ -5,7 +5,7 @@ import jwt_decode from "jwt-decode";
 
 const initialState: {
   user: Omit<UserT, "password" | "passwordConfirmation"> &
-  SessionT & { id: string, auth: string }
+    SessionT & { id: string; auth: string };
 } = {
   user: {
     username: "",
@@ -15,7 +15,8 @@ const initialState: {
     token: "",
     refreshToken: "",
     id: "",
-    auth: ""
+    auth: "",
+    productPermissions: [],
   },
 };
 
@@ -39,7 +40,10 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     login: (
-      state: { user: Omit<UserT, "password" | "passwordConfirmation"> & SessionT & { id: string, auth: string }},
+      state: {
+        user: Omit<UserT, "password" | "passwordConfirmation"> &
+          SessionT & { id: string; auth: string };
+      },
       action: PayloadAction<SessionT>
     ) => {
       const token = action.payload.token;
@@ -56,6 +60,10 @@ export const userSlice = createSlice({
       state.user.lastName = nameParts[1];
       state.user.id = user._id as string;
       state.user.auth = user.role;
+      state.user.productPermissions = user.productPermissions;
+    },
+    update: (state, action: PayloadAction<string[]>) => {
+      state.user.productPermissions = action.payload;
     },
     logout: (state) => {
       state.user.username = "";
@@ -66,11 +74,12 @@ export const userSlice = createSlice({
       state.user.token = "";
       state.user.id = "";
       state.user.auth = "";
+      state.user.productPermissions = [];
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { login, logout } = userSlice.actions;
+export const { login, logout, update } = userSlice.actions;
 
 export default userSlice.reducer;

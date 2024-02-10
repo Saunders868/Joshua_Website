@@ -17,11 +17,6 @@ const ProductPage = ({ product }: { product: ProductT }) => {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart);
 
-  console.log(
-    "Cart",
-    cart.products.filter((prod) => product.id == prod.product_id)
-  );
-
   const cartItemsLength = cart.products.filter(
     (prod) => product.id == prod.product_id
   ).length;

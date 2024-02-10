@@ -1,6 +1,13 @@
-import { BASE_URL, CARTS_URL, ORDERS_URL, PAYPAL_CREATE } from "@/constants";
+import { BASE_URL, ORDERS_URL, PAYPAL_CREATE } from "@/constants";
 import { axiosCall } from "./Axios";
 import { toast } from "react-toastify";
+import { ProductT } from "@/types";
+import React, { Dispatch, SetStateAction } from "react";
+
+type OrderResponseProduct = Omit<
+  ProductT,
+  "createdAt" | "updatedAt" | "user" | "__v" | "id"
+> & { product_id: string; quantitiy: number };
 
 export const handleAPIOrderCreate = async ({
   userData,
@@ -10,6 +17,7 @@ export const handleAPIOrderCreate = async ({
   serializedData: { product_id: string; quantity: number }[];
 }) => {
   let isSuccessful = false;
+  let permissions: string[] = [];
 
   const orderResponse = await axiosCall({
     method: "post",
@@ -29,9 +37,24 @@ export const handleAPIOrderCreate = async ({
   if (orderResponse.status === 200) {
     const orderId = orderResponse.data.id;
     isSuccessful = true;
+
+    let products: OrderResponseProduct[] = orderResponse.data.cart.products;
+    let virtualProducts = products.filter(
+      (product) => product.type == "virtual"
+    );
+
+    if (virtualProducts.length > 0) {
+      for (let index = 0; index < virtualProducts.length; index++) {
+        const elementToAdd: OrderResponseProduct = virtualProducts[index];
+        let title = elementToAdd.title;
+        permissions.push(title);
+      }
+    }
+
     return {
       isSuccessful,
       orderId,
+      permissions,
     };
   } else {
     toast.error(
@@ -47,8 +70,10 @@ export const handleAPIOrderCreate = async ({
         theme: "light",
       }
     );
+
     return {
       isSuccessful,
+      permissions,
     };
   }
 };
@@ -56,9 +81,13 @@ export const handleAPIOrderCreate = async ({
 export const paypalCreateOrder = async ({
   isSuccessful,
   orderId,
+  userData,
+  permissions,
 }: {
   isSuccessful: boolean;
   orderId: string;
+  userData: any;
+  permissions: string[];
 }) => {
   if (isSuccessful) {
     const response = await fetch(`${BASE_URL}${ORDERS_URL}/${PAYPAL_CREATE}`, {
@@ -68,6 +97,7 @@ export const paypalCreateOrder = async ({
       },
       body: JSON.stringify({
         orderId: orderId,
+        permissions: permissions,
       }),
     });
 
