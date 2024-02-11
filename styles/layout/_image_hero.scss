@@ -47,7 +47,7 @@
     &.session {
       background-image: url("https://images.unsplash.com/photo-1524055988636-436cfa46e59e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nzl8fGxvZ2lufGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60");
       background-size: cover;
-      background-position: bottom; 
+      background-position: bottom;
 
       .hero__image__heading {
         color: rgb(21, 41, 3);
@@ -56,24 +56,35 @@
   }
 
   &__info {
-    padding: 1rem 1rem;
+    padding: 1rem 0rem;
     text-align: center;
     font-size: $text-font-mobile;
     color: #8597a3;
+
     @media (min-width: 768px) {
       font-size: $text-font-desktop;
     }
-    a {
-      margin-top: 0.5rem;
-      text-decoration: none;
-      font-size: $text-font-mobile;
-      @media (min-width: 768px) {
-        font-size: $text-font-desktop;
+
+    p {
+      a {
+        margin-top: 1rem;
+        text-decoration: none;
+        font-size: $text-font-mobile;
+        @media (min-width: 768px) {
+          font-size: $text-font-desktop;
+        }
+        color: $black !important;
+        &::before {
+          background-color: $black !important;
+        }
       }
-      color: $black !important;
-      &::before {
-        background-color: $black !important;
-      }
+    }
+
+    &__flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-align: left;
     }
   }
 }

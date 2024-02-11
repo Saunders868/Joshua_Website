@@ -13,8 +13,10 @@ import Loading from "@/components/Loading";
 
 const UserName = ({
   setActive,
+  setUsername,
 }: {
   setActive: React.Dispatch<SetStateAction<string>>;
+  setUsername: React.Dispatch<SetStateAction<string>>;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
@@ -28,6 +30,7 @@ const UserName = ({
     onSubmit: async (values) => {
       setLoading(true);
       setActive("otp");
+      setUsername(values.username);
       /* const response = await axiosCall({
         method: "post",
         url: `${USERS_URL}/generateOTP`,
