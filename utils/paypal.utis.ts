@@ -1,13 +1,8 @@
 import { BASE_URL, ORDERS_URL, PAYPAL_CREATE } from "@/constants";
 import { axiosCall } from "./Axios";
 import { toast } from "react-toastify";
-import { ProductT } from "@/types";
+import { OrderResponseProduct, ProductT } from "@/types";
 import React, { Dispatch, SetStateAction } from "react";
-
-type OrderResponseProduct = Omit<
-  ProductT,
-  "createdAt" | "updatedAt" | "user" | "__v" | "id"
-> & { product_id: string; quantitiy: number };
 
 export const handleAPIOrderCreate = async ({
   userData,

@@ -36,10 +36,17 @@ export interface ProductT {
   image?: string;
   createdAt?: string;
   updatedAt?: string;
-  // user: string;
   __v?: number;
   _id?: string;
-  // _id: string;
+}
+
+export type OrderResponseProduct = Omit<
+  ProductT,
+  "createdAt" | "updatedAt" | "user" | "__v" | "id"
+> & { product_id: string; quantitiy: number };
+
+export interface cartT {
+  products: OrderResponseProduct[];
 }
 
 export interface UserSessionT {

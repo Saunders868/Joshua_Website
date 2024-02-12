@@ -43,7 +43,7 @@ const Page = () => {
             <span className="status process">pending</span>
           )}
         </p>
-        <Cart id={response?.data.cart} />
+        <Cart cart={response?.data.cart} />
       </div>
     </section>
   );
