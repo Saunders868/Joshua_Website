@@ -36,9 +36,8 @@ const EmailForm = ({
       if (response?.status === 201) {
         setActive("otp");
         setEmail(values.email);
-        console.log(response.data);
 
-        /* const otpSent = await axiosCall({
+        const otpSent = await axiosCall({
           method: "post",
           url: MAIL_URL,
           payload: {
@@ -77,7 +76,7 @@ const EmailForm = ({
               theme: "dark",
             }
           );
-        } */
+        }
       } else {
         toast.error("An error occured. Please try again later.", {
           position: "bottom-right",
