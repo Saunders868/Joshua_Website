@@ -12,10 +12,10 @@ import { useRouter } from "next/navigation";
 import Loading from "@/components/Loading";
 
 const VerifyOTP = ({
-  username,
+  email,
   setActive,
 }: {
-  username: string;
+  email: string;
   setActive: React.Dispatch<SetStateAction<string>>;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -29,37 +29,19 @@ const VerifyOTP = ({
     validationSchema: OTPValidation,
     onSubmit: async (values) => {
       setLoading(true);
-      setActive("password");
-      /*  const response = await axiosCall({
-        method: "post",
+
+      const response = await axiosCall({
+        method: "get",
         url: `${USERS_URL}/verifyOTP`,
         params: {
-          username: username,
-          OTP: values.OTP,
+          email: email,
+          code: values.OTP,
         },
         payload: { ...values },
       });
 
-      if (response?.status === 200) {
-        // update state
-        dispatch(
-          login({
-            token: response.data.accessToken,
-            refreshToken: response.data.refreshToken,
-          })
-        );
-        push("/");
-      } else if (response?.status === 401) {
-        toast.error(response.data, {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+      if (response?.status === 201) {
+        setActive("password");
       } else {
         toast.error("An error occured. Please try again later.", {
           position: "bottom-right",
@@ -71,7 +53,7 @@ const VerifyOTP = ({
           progress: undefined,
           theme: "dark",
         });
-      } */
+      }
       setLoading(false);
     },
   });

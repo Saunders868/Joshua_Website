@@ -9,7 +9,7 @@ import { useState } from "react";
 const Page = () => {
   const { push } = useRouter();
   const userData = useAppSelector((state) => state.user.user);
-  const [active, setActive] = useState<string>("username");
+  const [active, setActive] = useState<string>("email");
   if (userData.email !== "") {
     push("/");
   }
@@ -25,7 +25,7 @@ const Page = () => {
           </div>
           <ForgotPassword active={active} setActive={setActive} />
           <div className="hero__info">
-            {active === "username" ? (
+            {active === "email" ? (
               <p>
                 Go Back <LinkItem path="/sign-in" linkname="sign-in" />
               </p>
@@ -39,7 +39,7 @@ const Page = () => {
                   <div className="link-container">
                     <a
                       onClick={() => {
-                        setActive("username");
+                        setActive("email");
                       }}
                     >
                       Re-send OTP
