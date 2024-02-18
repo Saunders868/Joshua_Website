@@ -1,7 +1,6 @@
 "use client";
 
 import { PRODUCTS_URL } from "@/constants";
-import { initialProductValues } from "@/data";
 import { useAppSelector } from "@/redux/hooks";
 import { axiosCall } from "@/utils/Axios";
 import { CreateProductValidation } from "@/validations";

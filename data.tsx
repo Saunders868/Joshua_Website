@@ -22,12 +22,12 @@ export const linksData: LinkT[] = [
   },
   {
     path: "/profile/dashboard",
-    linkname: <Users color="white" />
+    linkname: <Users color="white" />,
   },
   {
     path: "/cart",
-    linkname: <Carts color="white" />
-  }
+    linkname: <Carts color="white" />,
+  },
 ];
 
 export const linksDataMobile: LinkT[] = [
@@ -45,18 +45,19 @@ export const linksDataMobile: LinkT[] = [
   },
   {
     path: "/profile/dashboard",
-    linkname: <Users />
+    linkname: <Users />,
   },
   {
     path: "/cart",
-    linkname: <Carts />
-  }
+    linkname: <Carts />,
+  },
 ];
 
 export const initialUserValues: UserT = {
   username: "",
   password: "",
   passwordConfirmation: "",
+  productPermissions: [],
   email: "",
   firstName: "",
   lastName: "",
@@ -64,7 +65,11 @@ export const initialUserValues: UserT = {
 
 export const initialSessionValues: Omit<
   UserT,
-  "passwordConfirmation" | "username" | "firstName" | "lastName"
+  | "passwordConfirmation"
+  | "username"
+  | "firstName"
+  | "lastName"
+  | "productPermissions"
 > = {
   email: "",
   password: "",
@@ -73,8 +78,8 @@ export const initialSessionValues: Omit<
 export const initialProductValues: ProductT = {
   title: "",
   desc: "",
-  price: 0
-}
+  price: 0,
+};
 
 export const dashboardLinks: AdminDasboardLink[] = [
   {
@@ -92,11 +97,11 @@ export const dashboardLinks: AdminDasboardLink[] = [
     linkname: "Orders",
     icon: <Orders />,
   },
-  {
-    path: "/admin/carts",
-    linkname: "Carts",
-    icon: <Carts />,
-  },
+  // {
+  //   path: "/admin/carts",
+  //   linkname: "Carts",
+  //   icon: <Carts />,
+  // },
   {
     path: "/admin/users",
     linkname: "Users",
@@ -130,16 +135,19 @@ export const userDasboardLinks: AdminDasboardLink[] = [
     linkname: "Downloads",
     icon: <Downloads />,
   },
-]
+];
 
 export const foodSliderData = [
   {
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YWJzdHJhY3R8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60"
+    image:
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YWJzdHJhY3R8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
   },
   {
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YWJzdHJhY3R8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60"
+    image:
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YWJzdHJhY3R8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
   },
   {
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YWJzdHJhY3R8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60"
+    image:
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YWJzdHJhY3R8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
   },
-]
+];

@@ -65,7 +65,7 @@ const Page = () => {
           <div className="single__admin__page__dashboard__card">
             <div className="chart">
               <Chart
-                chartId="65c62f0d-87e0-449e-8a1a-25e696b13627"
+                chartId="65c761a4-b4b7-4f6e-8296-4d00a66c8f34"
                 width={500}
                 height={500}
                 filter={filter}

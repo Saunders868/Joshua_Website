@@ -12,7 +12,7 @@ import moment from "moment";
 import Link from "next/link";
 
 const Page = () => {
-  const userData = useAppSelector((state) => state.user.user);  
+  const userData = useAppSelector((state) => state.user.user);
   const { loading, response, error } = useAxios({
     url: ORDERS_URL,
     token: {
@@ -33,14 +33,17 @@ const Page = () => {
       renderCell: (params) => {
         return (
           <div className="black_link">
-            <Link href={`${FRONTEND_URL}/admin/users/${params.value._id}`} key={params.value._id}>
+            <Link
+              href={`${FRONTEND_URL}/admin/users/${params.value._id}`}
+              key={params.value._id}
+            >
               {params.value.name}
             </Link>
           </div>
         );
       },
       minWidth: 150,
-      flex: 1
+      flex: 1,
     },
     {
       field: "createdAt",
@@ -49,11 +52,7 @@ const Page = () => {
       minWidth: 150,
       flex: 1,
       renderCell: (params) => {
-        return (
-            <p>
-              {moment(params.value).format("MMM Do YY")}
-            </p>
-        );
+        return <p>{moment(params.value).format("MMM Do YY")}</p>;
       },
     },
     {
@@ -66,34 +65,14 @@ const Page = () => {
         return params.value === true ? (
           <div>
             <p>
-              <span className="status completed">
-                completed
-              </span>
+              <span className="status completed">completed</span>
             </p>
           </div>
         ) : (
           <div>
             <p>
-              <span className="status process">
-                pending
-              </span>
+              <span className="status process">pending</span>
             </p>
-          </div>
-        );
-      },
-    },
-    {
-      field: "cart",
-      headerName: "View Cart",
-      type: "string",
-      minWidth: 150,
-      flex: 1,
-      renderCell: (params) => {
-        return (
-          <div className="black_link">
-            <Link href={`${FRONTEND_URL}/admin/carts/${params.value}`} key={params.value}>
-              view
-            </Link>
           </div>
         );
       },
@@ -107,7 +86,10 @@ const Page = () => {
       renderCell: (params) => {
         return (
           <div className="black_link">
-            <Link href={`${FRONTEND_URL}/admin/orders/${params.value}`} key={params.value}>
+            <Link
+              href={`${FRONTEND_URL}/admin/orders/${params.value}`}
+              key={params.value}
+            >
               view
             </Link>
           </div>
@@ -115,7 +97,7 @@ const Page = () => {
       },
     },
   ];
-  
+
   return (
     <section>
       <DashboardPageHeader title="Orders" />
