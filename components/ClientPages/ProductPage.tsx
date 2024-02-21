@@ -111,32 +111,26 @@ const ProductPage = ({ product }: { product: ProductT }) => {
               <Counter count={count} setCount={setCount} />
             </div>
           ) : null}
-          {alreadyPurchased ? (
-            <div>product is already purchased</div>
+          {virtualProductAlreadyInCart ? (
+            <div title="item already in cart" className="button">
+              <Button disabled link="/cart" text="Add to cart" />
+            </div>
           ) : (
-            <>
-              {virtualProductAlreadyInCart ? (
-                <div title="item already in cart" className="button">
-                  <Button disabled link="/cart" text="Add to cart" />
-                </div>
-              ) : (
-                <div
-                  onClick={() =>
-                    handleProductAdd({
-                      product_id: product.id!,
-                      quantity: count,
-                      title: product.title!,
-                      image: product.image!,
-                      desc: product.desc!,
-                      price: product.price!,
-                    })
-                  }
-                  className="button"
-                >
-                  <Button link="/cart" text="Add to cart" />
-                </div>
-              )}
-            </>
+            <div
+              onClick={() =>
+                handleProductAdd({
+                  product_id: product.id!,
+                  quantity: count,
+                  title: product.title!,
+                  image: product.image!,
+                  desc: product.desc!,
+                  price: product.price!,
+                })
+              }
+              className="button"
+            >
+              <Button link="/cart" text="Add to cart" />
+            </div>
           )}
         </div>
       </div>
