@@ -13,10 +13,11 @@ const Page = () => {
   const { id } = useParams();
   const user = useAppSelector((state) => state.user.user);
   const { response, error, loading } = useAxios({
-    url: `${CARTS_URL}/${id}`, token: {
+    url: `${CARTS_URL}/${id}`,
+    token: {
       token: user.token,
-      refreshToken: user.refreshToken
-    }
+      refreshToken: user.refreshToken,
+    },
   });
 
   if (error) return <Error />;
@@ -27,10 +28,10 @@ const Page = () => {
       <DashboardPageHeader title="View Cart" />
       <div className="admin__content single__admin__page">
         <h3>Customer: {response?.data.userId.name}</h3>
-        <Cart id={response?.data.id} />
+        {/* <Cart id={response?.data.id} /> */}
       </div>
     </section>
-    );
+  );
 };
 
 export default Page;
