@@ -10,7 +10,7 @@ export async function generateStaticParams() {
     payload: null,
   });
 
-  const products = response.data;
+  const products = await response.data;
 
   return products.map((product: ProductT) => ({
     id: product.id,
@@ -36,7 +36,7 @@ async function getData(id: string) {
 export default async function Page({ params }: { params: { id: string } }) {
   const product: ProductT = await getData(params.id);
 
-  if (product as unknown as string == 'Not Found') {
+  if ((product as unknown as string) == "Not Found") {
     return "Product not found";
   }
 
