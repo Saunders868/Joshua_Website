@@ -14,8 +14,20 @@ const Hamburger = ({
   isClicked: boolean;
 }) => {
   const userData = useAppSelector((state) => state.user.user);
+
+  const toggleMenu = () => {
+    console.log("is clicked", isClicked);
+
+    if (!isClicked) {
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    }
+  };
   return (
-    <div className="mobile">
+    <div onClick={toggleMenu} className="mobile">
       <div
         onClick={() => setIsClicked(!isClicked)}
         className={`hamburger ${isClicked ? "active" : ""}`}

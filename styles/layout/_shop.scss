@@ -1,13 +1,14 @@
 .shop {
   padding: 2rem 1.5rem;
+  width: 85vw;
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-gap: 10vw;
 
   article {
-    width: 300px;
+    width: 100%;
     height: 400px;
     place-self: center;
   }

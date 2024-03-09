@@ -24,16 +24,16 @@
     z-index: 10;
     top: 0;
     right: 0;
-    width: 50vw;
+    width: 0vw;
+    overflow: hidden;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    transform: translateX(800px);
     transition: 1.15s ease-out all;
 
     &.active {
-      transform: translateX(0px);
+      width: 75vw;
     }
 
     ul {
