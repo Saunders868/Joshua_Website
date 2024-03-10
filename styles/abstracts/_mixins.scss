@@ -1,3 +1,15 @@
+@mixin title {
+  font-size: $title-font-mobile;
+  font-style: normal;
+  font-weight: 900;
+  line-height: normal;
+  letter-spacing: 0.0125rem;
+
+  @media (min-width: 768px) {
+    font-size: $title-font-desktop;
+  }
+}
+
 @mixin section-title {
   font-size: $section-title-font-mobile;
   font-weight: $bold-font;
@@ -19,6 +31,15 @@
 @mixin text {
   font-size: $text-font-mobile;
   font-weight: $light-font;
+
+  @media (min-width: 768px) {
+    font-size: $text-font-desktop;
+  }
+}
+
+@mixin mini-text {
+  font-size: $text-font-mobile;
+  font-weight: $medium-font;
 
   @media (min-width: 768px) {
     font-size: $text-font-desktop;

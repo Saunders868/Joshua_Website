@@ -6,10 +6,10 @@ import { useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
 
 const Page = () => {
-  const { push } = useRouter();
+  const router = useRouter();
   const userData = useAppSelector((state) => state.user.user);
   if (userData.email !== "") {
-    push("/");
+    router.back();
   }
   return (
     <main>

@@ -76,20 +76,15 @@
     }
 
     &__title {
+      @include title;
       margin: 1.25rem auto 0;
       color: $white;
       text-align: center;
-      font-size: $title-font-mobile;
-      font-style: normal;
-      font-weight: 700;
-      line-height: normal;
-      letter-spacing: 0.0125rem;
       width: 17.5rem;
 
       @media (min-width: 768px) {
         margin: 2rem 1.5rem 0;
         text-align: left;
-        font-size: $title-font-desktop;
         width: 39.3125rem;
       }
     }
