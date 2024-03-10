@@ -3,6 +3,12 @@ import DashboardLinkItem from "@/components/DashboardLinkItem";
 import DashboardNavigationMobile from "@/components/DashboardNavigationMobile";
 import { userDasboardLinks } from "@/data";
 
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Joshua Greene | Profile",
+};
+
 export default function ProfileLayout({
   children,
 }: {
@@ -10,9 +16,7 @@ export default function ProfileLayout({
 }) {
   return (
     <main className="dashboard">
-      <section className="dashboard__content">
-        {children}
-      </section>
+      <section className="dashboard__content">{children}</section>
       {/* mobile navigation for admin */}
       <DashboardNavigationMobile dashboardLinks={userDasboardLinks} />
       <aside className="dashboard__navigation__desktop">

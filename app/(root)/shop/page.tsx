@@ -10,7 +10,7 @@ import { useAxios } from "@/utils/useAxios";
 
 const Page = () => {
   const userData = useAppSelector((state) => state.user.user);
-  
+
   const { loading, response, error } = useAxios({
     url: PRODUCTS_URL,
     token: {
@@ -31,7 +31,7 @@ const Page = () => {
         <Card key={product._id} product={product} />
       ))}
     </main>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;

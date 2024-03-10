@@ -10,7 +10,7 @@ const hankenGrotesk = Hanken_Grotesk({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Joshua Greene",
-  description: "Trinidadian Food at Its Best: Joshua Green's Expert Creations",
+  description: "Trinidadian Food at Its Best: Joshua Greene's Expert Creations",
 };
 
 export default function RootLayout({

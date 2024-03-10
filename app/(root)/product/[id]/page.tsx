@@ -1,34 +1,29 @@
 import ProductPage from "@/components/ClientPages/ProductPage";
-import { PRODUCTS_URL } from "@/constants";
+import { BASE_URL, PRODUCTS_URL } from "@/constants";
 import { ProductT } from "@/types";
 import { axiosCall } from "@/utils/Axios";
-/* import type { Metadata, ResolvingMetadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 
 type Props = {
   params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
 };
 
-export async function generateMetadata(
-  { params, searchParams }: Props,
-  parent?: ResolvingMetadata
-): Promise<Metadata> {
-  // read route params
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const id = params.id;
 
-  // fetch data
-  const product = await fetch(`https://.../${id}`).then((res) => res.json());
-
-  // optionally access and extend (rather than replace) parent metadata
-  const previousImages = (await parent).openGraph?.images || [];
+  const product = await axiosCall({
+    method: "get",
+    url: `${PRODUCTS_URL}/${id}`,
+    payload: null,
+  });
 
   return {
-    title: product.title,
+    title: `Joshua Greene | ${product.data.title}`,
     openGraph: {
-      images: ["/some-specific-page-image.jpg", ...previousImages],
+      images: [product.data.image],
     },
   };
-} */
+}
 
 export async function generateStaticParams() {
   const response = await axiosCall({
