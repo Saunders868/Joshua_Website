@@ -1,28 +1,57 @@
 import ProductPage from "@/components/ClientPages/ProductPage";
-import { BASE_URL, PRODUCTS_URL } from "@/constants";
+import { FRONTEND_URL, PRODUCTS_URL } from "@/constants";
 import { ProductT } from "@/types";
 import { axiosCall } from "@/utils/Axios";
-import type { Metadata, ResolvingMetadata } from "next";
+import type { Metadata } from "next";
 
 type Props = {
   params: { id: string };
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const id = params.id;
+  try {
+    const id = params.id;
 
-  const product = await axiosCall({
-    method: "get",
-    url: `${PRODUCTS_URL}/${id}`,
-    payload: null,
-  });
+    const product = await axiosCall({
+      method: "get",
+      url: `${PRODUCTS_URL}/${id}`,
+      payload: null,
+    });
 
-  return {
-    title: `Joshua Greene | ${product.data.title}`,
-    openGraph: {
-      images: [product.data.image],
-    },
-  };
+    if (!product) {
+      return {
+        title: "Not Found",
+        description: "The page you are looking for does not exist.",
+      };
+    }
+
+    return {
+      title: product.data.title,
+      description: `${product.data.desc.substring(0, 155)}...`,
+      alternates: {
+        canonical: `/product/${id}`,
+      },
+      twitter: {
+        card: "summary_large_image",
+        site: `${FRONTEND_URL}/product/${id}`,
+        title: product.data.title,
+        description: `${product.data.desc.substring(0, 155)}...`,
+      },
+      openGraph: {
+        title: product.data.title,
+        description: `${product.data.desc.substring(0, 155)}...`,
+        type: "website",
+        url: `${FRONTEND_URL}/product/${id}`,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+
+    return {
+      title: "Not Found",
+      description: "The page you are looking for does not exist.",
+    };
+  }
 }
 
 export async function generateStaticParams() {
@@ -33,6 +62,8 @@ export async function generateStaticParams() {
   });
 
   const products = await response.data;
+
+  if (!products) return [];
 
   return products.map((product: ProductT) => ({
     id: product.id,
@@ -47,7 +78,7 @@ async function getData(id: string) {
   });
 
   // if (response.status != 200) {
-  //   throw new Error('Failed to find product')
+  //   return "Not Found";
   // }
 
   const product = response.data;
