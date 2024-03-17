@@ -1,6 +1,7 @@
 "use client";
 
 import DashboardPageHeader from "@/components/DashboardPageHeader";
+import DownloadItem from "@/components/DownloadItem";
 import Error from "@/components/Error";
 import Loading from "@/components/Loading";
 import { USERS_URL } from "@/constants";
@@ -23,18 +24,18 @@ const Page = () => {
 
   if (error) return <Error />;
 
+  console.log(response?.data);
+
   return (
     <section>
       <DashboardPageHeader title="My Downloads" />
       <div className="admin__content single__admin__page">
         {response?.data.productPermissions.length > 0 ? (
-          <div>
+          <ol className="download__items">
             {response?.data.productPermissions.map((element: string) => (
-              <li key={element}>
-                <p>{element}</p>
-              </li>
+              <DownloadItem item={element} key={element} />
             ))}
-          </div>
+          </ol>
         ) : (
           <p>You do not have any downloads...</p>
         )}

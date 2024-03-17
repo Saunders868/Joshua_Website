@@ -211,4 +211,17 @@
       align-items: center;
     }
   }
+
+  &__faq {
+    margin-top: 5rem;
+    &__title {
+      h3 {
+        @include title;
+        color: $black;
+        text-align: center;
+
+        margin: 1rem 0;
+      }
+    }
+  }
 }

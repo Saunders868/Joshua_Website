@@ -151,3 +151,30 @@ export const foodSliderData = [
       "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YWJzdHJhY3R8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
   },
 ];
+
+export const faqItems = [
+  {
+    question: "BRANDING",
+    hashtags: ["Figma", "Sketch", "Adobe", "Invision", "Protopie"],
+    answer:
+      "We believe in the greater good, we strive to do something for people, we aim to make their lives easier and more enjoyable, we love businesses that keep this",
+  },
+  {
+    question: "UX/UI DESIGN",
+    hashtags: ["Figma", "Sketch", "Adobe", "Invision", "Protopie"],
+    answer:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.",
+  },
+  {
+    question: "FRONTEND DEVELOPMENT",
+    hashtags: ["Figma", "Sketch", "Adobe", "Invision", "Protopie"],
+    answer:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.",
+  },
+  {
+    question: "BACKEND DEVELOPMENT",
+    hashtags: ["Figma", "Sketch", "Adobe", "Invision", "Protopie"],
+    answer:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.",
+  },
+];

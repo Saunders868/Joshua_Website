@@ -2,9 +2,13 @@ import Button from "@/components/Button";
 import Image from "next/image";
 import React from "react";
 import type { Metadata } from "next";
+import RightArrow from "@/icons/RightArrow";
+import DownArrow from "@/icons/DownArrow";
+import { faqItems } from "@/data";
+import AccordionItem from "@/components/AccordionItem";
 
 export const metadata: Metadata = {
-  title: "Joshua Greene | About Me",
+  title: "About Me",
 };
 
 const Page = () => {
@@ -29,7 +33,7 @@ const Page = () => {
             numerous accolades and recognition in the culinary world.
           </p>
           <div className="button__holder">
-            <Button link="" text="Purchase Cook Book" />
+            <Button link="shop" text="Purchase Cook Book" />
           </div>
         </div>
       </section>
@@ -118,7 +122,22 @@ const Page = () => {
         </div>
       </section>
 
-      <section>FAQ</section>
+      <section className="about__page__faq">
+        <div className="about__page__faq__title">
+          <h3>FAQ&apos;s</h3>
+        </div>
+        <div className="accordion">
+          {faqItems.map((item, index) => (
+            <AccordionItem
+              key={item.question}
+              question={item.question}
+              hashtags={item.hashtags}
+              answer={item.answer}
+              id={index}
+            />
+          ))}
+        </div>
+      </section>
     </main>
   );
 };
