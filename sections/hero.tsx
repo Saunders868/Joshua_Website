@@ -1,3 +1,4 @@
+import Button from "@/components/Button";
 import Image from "next/image";
 
 const Hero = () => {
@@ -27,6 +28,10 @@ const Hero = () => {
             Island Cooking to a Whole New Level - Discover the Art of Caribbean
             Flavor with Every Bite!
           </h2>
+
+          <div className="button__holder">
+            <Button light link="shop" text="Purchase Cook Book" />
+          </div>
         </div>
       </div>
 

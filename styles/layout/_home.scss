@@ -44,7 +44,7 @@
   &__content {
     padding-top: 4rem;
     position: relative;
-    z-index: 3;
+    z-index: 5;
     max-width: 1200px;
 
     @media (min-width: 768px) {
@@ -105,6 +105,20 @@
         text-align: left;
         font-size: $subtitle-font-desktop;
         width: 36.6875rem;
+      }
+    }
+
+    .button__holder {
+      text-align: center;
+      margin: 2rem 0;
+
+      a {
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      @media (min-width: 768px) {
+        text-align: left;
       }
     }
   }
@@ -216,6 +230,7 @@
   }
 
   .slider {
+    margin: 0 auto;
     display: block;
     max-width: 500px;
   }
