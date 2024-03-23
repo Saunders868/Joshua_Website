@@ -1,72 +1,72 @@
 .confirmation {
-    position: fixed;
-    z-index: 10;
-    background-color: rgba($color: $black, $alpha: .5);
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    opacity: 0;
+  position: fixed;
+  z-index: 100;
+  background-color: rgba($color: $black, $alpha: 0.5);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
 
-    &.active {
-        opacity: 1;
+  &.active {
+    opacity: 1;
+  }
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .lottie__animation {
+    position: absolute;
+  }
+
+  div {
+    text-align: center;
+    margin: 0 auto;
+
+    .circle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: $green;
+      border-radius: 100%;
+      height: 124px;
+      width: 124px;
+      padding: 2rem;
+      animation: fadeup 1s ease-in-out;
+
+      svg {
+        animation: fadedown 1s ease-in-out;
+      }
     }
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    .lottie__animation {
-        position: absolute;
+    p {
+      color: $white;
+      @include text;
+      margin-top: 3rem;
+      animation: fadeup 1s ease-in-out;
     }
+  }
 
-    div {
-        text-align: center;
-        margin: 0 auto;
-
-        .circle {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: $green;
-            border-radius: 100%;
-            height: 124px;
-            width: 124px;
-            padding: 2rem;
-            animation: fadeup 1s ease-in-out;
-    
-            svg {
-                animation: fadedown 1s ease-in-out;
-            }
-        }
-    
-        p {
-            color: $white;
-            @include text;
-            margin-top: 3rem;
-            animation: fadeup 1s ease-in-out;
-        }
+  @keyframes fadeup {
+    0% {
+      transform: translateY(400px);
+      opacity: 0;
     }
-
-    @keyframes fadeup {
-        0%{
-            transform: translateY(400px);
-            opacity: 0;
-        }
-        100% {
-            transform: translateY(0px);
-            opacity: 1;
-        }
+    100% {
+      transform: translateY(0px);
+      opacity: 1;
     }
+  }
 
-    @keyframes fadedown {
-        0%{
-            transform: translateY(-100px);
-            opacity: 0;
-        }
-        100% {
-            transform: translateY(0px);
-            opacity: 1;
-        }
+  @keyframes fadedown {
+    0% {
+      transform: translateY(-100px);
+      opacity: 0;
     }
+    100% {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+  }
 }

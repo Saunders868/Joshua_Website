@@ -33,7 +33,9 @@ const Page = () => {
           </div>
         </div>
       </div>
-      {showConfirmation && <Confirmation text="User Created Successfully!" location="/sign-in" />}
+      {showConfirmation && (
+        <Confirmation text="User Created Successfully!" location="/sign-in" />
+      )}
     </main>
   );
 };

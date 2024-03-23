@@ -3,6 +3,7 @@ import { FRONTEND_URL, PRODUCTS_URL } from "@/constants";
 import { ProductT } from "@/types";
 import { axiosCall } from "@/utils/Axios";
 import type { Metadata } from "next";
+import Link from "next/link";
 
 type Props = {
   params: { id: string };
@@ -36,12 +37,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         site: `${FRONTEND_URL}/product/${id}`,
         title: product.data.title,
         description: `${product.data.desc.substring(0, 155)}...`,
+        images: [`${product.data.image}`],
       },
       openGraph: {
         title: product.data.title,
         description: `${product.data.desc.substring(0, 155)}...`,
         type: "website",
         url: `${FRONTEND_URL}/product/${id}`,
+        images: [`${product.data.image}`],
       },
     };
   } catch (error) {
@@ -54,21 +57,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export async function generateStaticParams() {
-  const response = await axiosCall({
-    method: "get",
-    url: PRODUCTS_URL,
-    payload: null,
-  });
-
-  const products = await response.data;
-
-  if (!products) return [];
-
-  return products.map((product: ProductT) => ({
-    id: product.id,
-  }));
-}
+export const revalidate = 3600;
 
 async function getData(id: string) {
   const response = await axiosCall({
@@ -77,9 +66,9 @@ async function getData(id: string) {
     payload: null,
   });
 
-  // if (response.status != 200) {
-  //   return "Not Found";
-  // }
+  if (response.status != 200) {
+    return "Not Found";
+  }
 
   const product = response.data;
 
@@ -90,7 +79,24 @@ export default async function Page({ params }: { params: { id: string } }) {
   const product: ProductT = await getData(params.id);
 
   if ((product as unknown as string) == "Not Found") {
-    return "Product not found";
+    return (
+      <div className="no-data">
+        <div>
+          <p>Product not found...</p>
+        </div>
+
+        <div>
+          <Link
+            style={{
+              color: "black",
+            }}
+            href={"/shop"}
+          >
+            Return to Shop
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   return (

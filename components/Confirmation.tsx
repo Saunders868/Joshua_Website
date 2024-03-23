@@ -5,7 +5,13 @@ import Lottie from "lottie-react";
 import animation from "../utils/lottie.json";
 import { useRouter } from "next/navigation";
 
-const Confirmation = ({ text, location }: { text: string, location: string }) => {
+const Confirmation = ({
+  text,
+  location,
+}: {
+  text: string;
+  location: string;
+}) => {
   const [isVisible, setIsVisible] = useState(true);
   const { push } = useRouter();
 
@@ -21,6 +27,7 @@ const Confirmation = ({ text, location }: { text: string, location: string }) =>
       clearTimeout(timer); // Clear the timer when the component unmounts
     };
   }, []);
+
   return (
     <div className={`confirmation ${isVisible ? "active" : ""}`}>
       <div className="lottie__animation">

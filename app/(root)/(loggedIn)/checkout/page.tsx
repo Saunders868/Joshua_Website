@@ -19,6 +19,7 @@ import ClientCart from "@/components/ClientCart";
 import { handleAPIOrderCreate, paypalCreateOrder } from "@/utils/paypal.utis";
 import { axiosCall } from "@/utils/Axios";
 import { update } from "@/redux/slices/user.slice";
+import Confirmation from "@/components/Confirmation";
 
 const initialOptions = {
   clientId: PAYPAL_CLIENT_ID,
@@ -36,6 +37,7 @@ const Page = () => {
   const [serializedData, setSerializedData] = useState<
     { product_id: string; quantity: number }[]
   >([]);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -49,6 +51,8 @@ const Page = () => {
 
     setSerializedData(serializedData);
   }, [cartData]);
+
+  console.log(userData);
 
   let permissions: string[] = [];
 
@@ -140,7 +144,10 @@ const Page = () => {
                     method: "patch",
                     url: `${USERS_URL}/${userData.id}`,
                     payload: {
-                      productPermissions: permissions,
+                      productPermissions: [
+                        ...userData.productPermissions,
+                        ...permissions,
+                      ],
                     },
                     token: {
                       token: userData.token,
@@ -179,27 +186,8 @@ const Page = () => {
                     const transaction =
                       orderData.purchase_units[0].payments.captures[0];
 
-                    toast.success(
-                      `Transaction ${transaction.status}: Thank you!`,
-                      {
-                        position: "bottom-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                      }
-                    );
-
-                    /* console.log(
-                      "Capture result",
-                      orderData,
-                      JSON.stringify(orderData, null, 2)
-                    ); */
+                    setShowConfirmation(true);
                     dispatch(clearCart());
-                    push("/shop");
                   }
                 } catch (error) {
                   console.error(error);
@@ -222,6 +210,10 @@ const Page = () => {
           </PayPalScriptProvider>
         </div>
       </section>
+
+      {showConfirmation && (
+        <Confirmation text="Order Completed Successfully!" location="/shop" />
+      )}
     </main>
   );
 };
