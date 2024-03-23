@@ -1,8 +1,7 @@
 "use client";
 
 import { USERS_URL } from "@/constants";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { login } from "@/redux/slices/user.slice";
+import { useAppDispatch } from "@/redux/hooks";
 import { axiosCall } from "@/utils/Axios";
 import { OTPValidation } from "@/validations";
 import { useFormik } from "formik";

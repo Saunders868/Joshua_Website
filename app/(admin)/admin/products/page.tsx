@@ -3,7 +3,6 @@
 import DashboardPageHeader from "@/components/DashboardPageHeader";
 import NoData from "@/components/NoData";
 import { PRODUCTS_URL } from "@/constants";
-import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
 import Link from "next/link";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
@@ -13,14 +12,8 @@ import Loading from "@/components/Loading";
 import Error from "@/components/Error";
 
 const Page = () => {
-  const userData = useAppSelector((state) => state.user.user);
-  
   const { loading, response, error } = useAxios({
     url: PRODUCTS_URL,
-    token: {
-      token: userData.token,
-      refreshToken: userData.refreshToken,
-    },
   });
 
   const productsData: ProductT[] = response?.data;
@@ -62,16 +55,13 @@ const Page = () => {
       renderCell: (params) => {
         return (
           <div>
-            <Link href={`products/${params.value}`}>
-              Edit
-            </Link>
+            <Link href={`products/${params.value}`}>Edit</Link>
           </div>
         );
       },
     },
-
   ];
-  
+
   return (
     <section>
       <DashboardPageHeader title="Products" />

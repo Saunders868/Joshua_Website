@@ -2,7 +2,7 @@
 
 import { BASE_URL } from "@/constants";
 import { SessionT } from "@/types";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 
 const instance = axios.create({
@@ -10,7 +10,7 @@ const instance = axios.create({
   timeout: 5000,
 });
 
-export function useAxios({ url, token }: { url: string; token: SessionT }) {
+export function useAxios({ url }: { url: string }) {
   const [response, setResponse] = useState<AxiosResponse>();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -20,10 +20,7 @@ export function useAxios({ url, token }: { url: string; token: SessionT }) {
       const result = await instance({
         url: url,
         method: "GET",
-        headers: {
-          authorization: token ? `Bearer ${token.token}` : "",
-          "x-refresh": token ? `${token.refreshToken}` : "",
-        },
+        withCredentials: true,
       });
       setResponse(result);
     } catch (err: any) {

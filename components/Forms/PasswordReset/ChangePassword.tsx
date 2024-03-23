@@ -1,8 +1,6 @@
 "use client";
 
 import { USERS_URL } from "@/constants";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { login } from "@/redux/slices/user.slice";
 import { axiosCall } from "@/utils/Axios";
 import { ChangePasswordValidation } from "@/validations";
 import { useFormik } from "formik";
@@ -13,7 +11,6 @@ import Loading from "@/components/Loading";
 
 const ChangePassword = ({ email }: { email: string }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const dispatch = useAppDispatch();
   const { push } = useRouter();
 
   const formik = useFormik({

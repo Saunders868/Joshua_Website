@@ -1,13 +1,10 @@
 "use client";
 
-import { useAppSelector } from "@/redux/hooks";
 import { OrderResponseProduct, cartT } from "@/types";
-import { useAxios } from "@/utils/useAxios";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 
 const Cart = ({ cart }: { cart: cartT }) => {
-  //   const user = useAppSelector((state) => state.user.user);
   const [cartTotal, setCartTotal] = useState(0);
 
   useEffect(() => {

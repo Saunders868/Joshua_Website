@@ -4,16 +4,20 @@ import { ORDERS_URL } from "@/constants";
 import { axiosCall } from "@/utils/Axios";
 import { UpdateOrderValidation } from "@/validations";
 import { convertStringToBoolean } from "@/utils/utils";
-import { useAppSelector } from "@/redux/hooks";
 import Loading from "../Loading";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
-const UpdateOrder = ({ isCompleted, orderId }: { isCompleted: string, orderId: string }) => {
+const UpdateOrder = ({
+  isCompleted,
+  orderId,
+}: {
+  isCompleted: string;
+  orderId: string;
+}) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const userData = useAppSelector((state) => state.user.user);
   const { push } = useRouter();
   const formik = useFormik({
     initialValues: {
@@ -30,7 +34,6 @@ const UpdateOrder = ({ isCompleted, orderId }: { isCompleted: string, orderId: s
         payload: {
           isCompleted: isCompletedAsBoolean,
         },
-        token: { token: userData.token, refreshToken: userData.refreshToken },
       });
 
       console.log(response);
@@ -48,16 +51,19 @@ const UpdateOrder = ({ isCompleted, orderId }: { isCompleted: string, orderId: s
         });
         push("/admin/orders");
       } else if (response?.status === 409) {
-        toast.error("Unable to update order at this time. Please try again later.", {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        toast.error(
+          "Unable to update order at this time. Please try again later.",
+          {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          }
+        );
       } else {
         toast.error("An error occured.", {
           position: "bottom-right",

@@ -149,10 +149,6 @@ const Page = () => {
                         ...permissions,
                       ],
                     },
-                    token: {
-                      token: userData.token,
-                      refreshToken: userData.refreshToken,
-                    },
                   });
 
                   if (permissions) {

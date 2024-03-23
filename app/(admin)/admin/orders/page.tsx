@@ -5,20 +5,14 @@ import Error from "@/components/Error";
 import Loading from "@/components/Loading";
 import NoData from "@/components/NoData";
 import { FRONTEND_URL, ORDERS_URL } from "@/constants";
-import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import moment from "moment";
 import Link from "next/link";
 
 const Page = () => {
-  const userData = useAppSelector((state) => state.user.user);
   const { loading, response, error } = useAxios({
     url: ORDERS_URL,
-    token: {
-      token: userData.token,
-      refreshToken: userData.refreshToken,
-    },
   });
 
   const ordersData: [] = response?.data;

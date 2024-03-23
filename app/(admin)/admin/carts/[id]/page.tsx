@@ -5,19 +5,13 @@ import DashboardPageHeader from "@/components/DashboardPageHeader";
 import Error from "@/components/Error";
 import Loading from "@/components/Loading";
 import { CARTS_URL } from "@/constants";
-import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
 import { useParams } from "next/navigation";
 
 const Page = () => {
   const { id } = useParams();
-  const user = useAppSelector((state) => state.user.user);
   const { response, error, loading } = useAxios({
     url: `${CARTS_URL}/${id}`,
-    token: {
-      token: user.token,
-      refreshToken: user.refreshToken,
-    },
   });
 
   if (error) return <Error />;

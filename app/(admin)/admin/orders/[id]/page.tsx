@@ -6,20 +6,14 @@ import Error from "@/components/Error";
 import UpdateOrder from "@/components/Forms/UpdateOrder";
 import Loading from "@/components/Loading";
 import { ORDERS_URL } from "@/constants";
-import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
 import { useParams } from "next/navigation";
 import moment from "moment";
 
 const Page = () => {
   const { id } = useParams();
-  const user = useAppSelector((state) => state.user.user);
   const { response, error, loading } = useAxios({
     url: `${ORDERS_URL}/${id}`,
-    token: {
-      token: user.token,
-      refreshToken: user.refreshToken,
-    },
   });
 
   if (error) return <Error />;

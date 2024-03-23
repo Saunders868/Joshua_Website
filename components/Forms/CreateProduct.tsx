@@ -1,7 +1,6 @@
 "use client";
 
 import { PRODUCTS_URL } from "@/constants";
-import { useAppSelector } from "@/redux/hooks";
 import { axiosCall } from "@/utils/Axios";
 import { CreateProductValidation } from "@/validations";
 import { useFormik } from "formik";
@@ -30,7 +29,6 @@ const CreateProduct = ({
   const [resource, setResource] = useState<{
     info?: CloudinaryInfoT;
   }>({});
-  const userData = useAppSelector((state) => state.user.user);
   const { push } = useRouter();
   const formik = useFormik({
     initialValues: {
@@ -51,7 +49,6 @@ const CreateProduct = ({
             resource?.info?.secure_url ||
             "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjd8fHByb2R1Y3R8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
         },
-        token: { token: userData.token, refreshToken: userData.refreshToken },
       });
 
       if (response?.status === 200) {

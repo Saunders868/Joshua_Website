@@ -1,8 +1,7 @@
 import { BASE_URL, ORDERS_URL, PAYPAL_CREATE } from "@/constants";
 import { axiosCall } from "./Axios";
 import { toast } from "react-toastify";
-import { OrderResponseProduct, ProductT } from "@/types";
-import React, { Dispatch, SetStateAction } from "react";
+import { OrderResponseProduct } from "@/types";
 
 export const handleAPIOrderCreate = async ({
   userData,
@@ -22,10 +21,6 @@ export const handleAPIOrderCreate = async ({
       cart: {
         products: serializedData,
       },
-    },
-    token: {
-      token: userData.token,
-      refreshToken: userData.refreshToken,
     },
   });
 

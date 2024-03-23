@@ -4,9 +4,7 @@ import DashboardPageHeader from "@/components/DashboardPageHeader";
 import Error from "@/components/Error";
 import Loading from "@/components/Loading";
 import { PRODUCTS_URL, USERS_URL } from "@/constants";
-import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
-import Link from "next/link";
 import DashboardGrid from "@/components/DashboardGrid";
 import Chart from "@/components/Chart";
 import { useState } from "react";
@@ -14,7 +12,6 @@ import Users from "@/icons/Users";
 import Products from "@/icons/Products";
 
 const Page = () => {
-  const userData = useAppSelector((state) => state.user.user);
   const [filter, setFilter] = useState({});
 
   const {
@@ -23,10 +20,6 @@ const Page = () => {
     error: userError,
   } = useAxios({
     url: USERS_URL,
-    token: {
-      token: userData.token,
-      refreshToken: userData.refreshToken,
-    },
   });
 
   const {
@@ -35,10 +28,6 @@ const Page = () => {
     error: productError,
   } = useAxios({
     url: PRODUCTS_URL,
-    token: {
-      token: userData.token,
-      refreshToken: userData.refreshToken,
-    },
   });
 
   if (userLoading || productLoading) return <Loading />;

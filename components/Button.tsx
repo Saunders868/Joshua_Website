@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { axiosCall } from "@/utils/Axios";
 import { SESSIONS_URL } from "@/constants";
 import { logout } from "@/redux/slices/user.slice";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 
 const Button = ({
   link,
@@ -22,7 +22,6 @@ const Button = ({
   disabled?: boolean;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const userData = useAppSelector((state) => state.user.user);
   const dispatch = useAppDispatch();
   const { push } = useRouter();
 
@@ -32,10 +31,6 @@ const Button = ({
       method: "delete",
       url: SESSIONS_URL,
       payload: null,
-      token: {
-        token: userData.token,
-        refreshToken: userData.refreshToken,
-      },
     });
 
     dispatch(logout());

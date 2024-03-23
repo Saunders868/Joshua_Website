@@ -4,19 +4,13 @@ import DashboardPageHeader from "@/components/DashboardPageHeader";
 import UpdateUser from "@/components/Forms/UpdateUser";
 import Loading from "@/components/Loading";
 import { USERS_URL } from "@/constants";
-import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
 import { useParams } from "next/navigation";
 
 const Page = () => {
   const { id } = useParams();
-  const user = useAppSelector((state) => state.user.user);
   const { response, error, loading } = useAxios({
     url: `${USERS_URL}/${id}`,
-    token: {
-      token: user.token,
-      refreshToken: user.refreshToken,
-    },
   });
 
   if (loading) return <Loading />;

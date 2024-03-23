@@ -4,19 +4,13 @@ import DashboardPageHeader from "@/components/DashboardPageHeader";
 import Loading from "@/components/Loading";
 import NoData from "@/components/NoData";
 import { USERS_URL } from "@/constants";
-import { useAppSelector } from "@/redux/hooks";
 import { useAxios } from "@/utils/useAxios";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Link from "next/link";
 
 const Page = () => {
-  const userData = useAppSelector((state) => state.user.user);
   const { loading, response, error } = useAxios({
     url: USERS_URL,
-    token: {
-      token: userData.token,
-      refreshToken: userData.refreshToken,
-    },
   });
 
   const usersData: [] = response?.data;
@@ -60,17 +54,13 @@ const Page = () => {
         return params.value === "admin" ? (
           <div>
             <p>
-              <span className="status completed">
-                Admin
-              </span>
+              <span className="status completed">Admin</span>
             </p>
           </div>
         ) : (
           <div>
             <p>
-              <span className="status process">
-                User
-              </span>
+              <span className="status process">User</span>
             </p>
           </div>
         );
@@ -89,9 +79,9 @@ const Page = () => {
           </div>
         );
       },
-    }
+    },
   ];
-  
+
   return (
     <section>
       <DashboardPageHeader title="Users" />
