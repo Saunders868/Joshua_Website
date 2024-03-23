@@ -44,7 +44,7 @@ export const linksDataMobile: LinkT[] = [
     linkname: "shop",
   },
   {
-    path: "/profile/dashboard",
+    path: "/profile/user",
     linkname: <Users />,
   },
   {
@@ -115,11 +115,11 @@ export const dashboardLinks: AdminDasboardLink[] = [
 ];
 
 export const userDasboardLinks: AdminDasboardLink[] = [
-  {
-    path: "/profile/dashboard",
-    linkname: "Dashboard",
-    icon: <Home />,
-  },
+  // {
+  //   path: "/profile/dashboard",
+  //   linkname: "Dashboard",
+  //   icon: <Home />,
+  // },
   {
     path: "/profile/user",
     linkname: "User",

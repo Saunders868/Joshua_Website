@@ -16,7 +16,6 @@ const Page = () => {
   });
 
   const ordersData: [] = response?.data;
-  // console.log(ordersData);
 
   const columns: GridColDef[] = [
     {

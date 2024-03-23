@@ -18,6 +18,8 @@ const Page = () => {
     push("/checkout");
   };
 
+  if (loading) return <Loading />;
+
   if (cartData.length === 0) {
     return (
       <main className="page cart__page">
@@ -28,8 +30,6 @@ const Page = () => {
       </main>
     );
   }
-
-  if (loading) return <Loading />;
 
   return (
     <main className="page cart__page">

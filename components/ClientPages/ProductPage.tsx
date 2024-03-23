@@ -113,7 +113,7 @@ const ProductPage = ({ product }: { product: ProductT }) => {
           ) : null}
           {virtualProductAlreadyInCart ? (
             <div title="item already in cart" className="button">
-              <Button disabled link="/cart" text="Add to cart" />
+              <Button link="/cart" text="Add to cart" />
             </div>
           ) : (
             <div
