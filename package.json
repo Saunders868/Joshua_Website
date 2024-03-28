@@ -11,6 +11,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@gsap/react": "^2.1.0",
     "@mongodb-js/charts-embed-dom": "^3.2.1",
     "@mui/material": "^5.14.10",
     "@mui/x-data-grid": "^6.14.0",
@@ -26,6 +27,7 @@
     "eslint-config-next": "13.4.19",
     "formik": "^2.4.4",
     "framer-motion": "^10.16.4",
+    "gsap": "^3.12.5",
     "jwt-decode": "^3.1.2",
     "lottie-react": "^2.4.0",
     "moment": "^2.29.4",

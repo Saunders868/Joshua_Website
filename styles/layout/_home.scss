@@ -87,6 +87,8 @@
         text-align: left;
         width: 39.3125rem;
       }
+
+      overflow: hidden;
     }
 
     &__text {
@@ -99,6 +101,14 @@
       font-weight: 400;
       line-height: normal;
       width: 17.5rem;
+
+      h2 {
+        overflow: hidden;
+
+        span {
+          display: inline-block;
+        }
+      }
 
       @media (min-width: 768px) {
         margin: 1rem 1.5rem 0;
@@ -152,6 +162,11 @@
   &__content {
     h2 {
       @include section-title;
+      overflow: hidden;
+
+      span {
+        display: inline-block;
+      }
     }
 
     p {

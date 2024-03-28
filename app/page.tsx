@@ -1,16 +1,50 @@
+"use client";
+
 import Slider from "@/components/Slider";
 import Hero from "@/sections/hero";
 import Image from "next/image";
+import gsap from "gsap";
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/all";
+import { animateWithGsapScrollTrigger } from "@/utils/animate";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
+  const infoSectionContainer = useRef(null);
+
+  useGSAP(
+    () => {
+      animateWithGsapScrollTrigger(
+        ".info__section__content h2 span",
+        {
+          y: 200,
+        },
+        { scrub: true }
+      );
+
+      animateWithGsapScrollTrigger(
+        ".info__section__images__small div",
+        {
+          width: 0,
+          ease: "power2.inOut",
+        },
+        { scrub: true }
+      );
+    },
+    { scope: infoSectionContainer }
+  );
   return (
     <main>
       <section className="home__section">
         <Hero />
       </section>
-      <section className="info__section">
+      <section ref={infoSectionContainer} className="info__section">
         <div className="info__section__content">
-          <h2>The Best Restaurant Food in Town</h2>
+          <h2>
+            <span>The Best Restaurant Food in Town</span>
+          </h2>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
