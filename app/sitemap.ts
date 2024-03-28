@@ -12,6 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: "https://joshua-website-api.onrender.com/api/products",
     method: "get",
     withCredentials: true,
+    timeout: 10000,
   });
 
   const products: ProductT[] = await response?.data;
