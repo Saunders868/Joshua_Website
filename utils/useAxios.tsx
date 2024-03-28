@@ -1,12 +1,12 @@
 "use client";
 
-import { BASE_URL } from "@/constants";
-import { SessionT } from "@/types";
+import { FRONTEND_URL } from "@/constants";
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
 
 const instance = axios.create({
-  baseURL: BASE_URL,
+  withCredentials: true,
+  baseURL: FRONTEND_URL,
   timeout: 5000,
 });
 
