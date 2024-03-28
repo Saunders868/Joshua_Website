@@ -1,13 +1,17 @@
-import { FRONTEND_URL, PRODUCTS_URL } from "@/constants";
+import { FRONTEND_URL } from "@/constants";
 import { ProductT } from "@/types";
-import { axiosCall } from "@/utils/Axios";
+import axios, { AxiosResponse } from "axios";
 import { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const response = await axiosCall({
+  const instance = axios.create({
+    withCredentials: true,
+    timeout: 5000,
+  });
+  const response: AxiosResponse = await instance.request({
+    url: "https://joshua-website-api.onrender.com/api/products",
     method: "get",
-    url: PRODUCTS_URL,
-    payload: null,
+    withCredentials: true,
   });
 
   const products: ProductT[] = await response?.data;
