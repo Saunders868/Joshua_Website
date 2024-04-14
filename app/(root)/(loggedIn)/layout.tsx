@@ -22,11 +22,11 @@ export default function UserDashboardLayout({
 
   return (
     <>
-      {isCheckingAuth ? (
+      {/* {isCheckingAuth ? (
         <div>Checking Authentication...</div>
-      ) : (
-        <main>{children}</main>
-      )}
+      ) : ( */}
+      <main>{children}</main>
+      {/* )} */}
     </>
   );
 }
