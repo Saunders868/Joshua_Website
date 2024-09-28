@@ -232,6 +232,11 @@
   &__content {
     h2 {
       @include section-title;
+      overflow: hidden;
+
+      span {
+        display: inline-block;
+      }
     }
 
     p {

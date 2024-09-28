@@ -20,11 +20,9 @@ const Card = ({ product }: { product: ProductT }) => {
             alt="product"
           />
         </div>
-        <div className="card__container__overlay">
-          <div className="item"></div>
+        <div className="card__container__information">
           <div className="item head">
             <p>{product.title}</p>
-            <hr />
           </div>
           <div className="item price">
             <p className="new">${product.price}</p>

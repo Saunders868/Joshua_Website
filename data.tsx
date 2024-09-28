@@ -21,7 +21,7 @@ export const linksData: LinkT[] = [
     linkname: "shop",
   },
   {
-    path: "/profile/dashboard",
+    path: "/profile/user",
     linkname: <Users color="white" />,
   },
   {

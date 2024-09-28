@@ -13,27 +13,24 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   const infoSectionContainer = useRef(null);
+  const productSectionContainer = useRef(null);
 
   useGSAP(
     () => {
-      animateWithGsapScrollTrigger(
-        ".info__section__content h2 span",
-        {
-          y: 200,
-        },
-        { scrub: true }
-      );
-
-      animateWithGsapScrollTrigger(
-        ".info__section__images__small div",
-        {
-          width: 0,
-          ease: "power2.inOut",
-        },
-        { scrub: true }
-      );
+      animateWithGsapScrollTrigger(".info__section__content h2 span", {
+        y: 200,
+      });
     },
     { scope: infoSectionContainer }
+  );
+
+  useGSAP(
+    () => {
+      animateWithGsapScrollTrigger(".products__section__content h2 span", {
+        y: 200,
+      });
+    },
+    { scope: productSectionContainer }
   );
   return (
     <main>
@@ -81,9 +78,11 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="products__section">
+      <div ref={productSectionContainer} className="products__section">
         <div className="products__section__content">
-          <h2>The Perfect Place to Enjoy a Delicious Meal</h2>
+          <h2>
+            <span>The Perfect Place to Enjoy a Delicious Meal</span>
+          </h2>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim

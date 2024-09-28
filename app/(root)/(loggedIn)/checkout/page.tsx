@@ -151,6 +151,20 @@ const Page = () => {
                     },
                   });
 
+                  console.log(
+                    "response",
+                    response,
+                    "updated user response: ",
+                    userUpdateResponse
+                  );
+
+                  if (
+                    userUpdateResponse.status != 200 ||
+                    response.status != 201
+                  ) {
+                    throw new Error("Error updating user permissions.");
+                  }
+
                   if (permissions) {
                     dispatch(update(permissions));
                   }

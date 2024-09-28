@@ -1,7 +1,9 @@
 import Link from "next/link";
 
 const DownloadItem = ({ item }: { item: string }) => {
-  const itemLink = item.replace(/\s+/g, "-").toLowerCase();
+  const itemLink = `/profile/downloads/${item
+    .replace(/\s+/g, "-")
+    .toLowerCase()}`;
   return (
     <>
       <li className="download__item">
