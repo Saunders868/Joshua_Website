@@ -12,8 +12,12 @@ import Loading from "../Loading";
 
 const CreateUser = ({
   setShowConfirmation,
+  buttonText,
+  redirectUrl,
 }: {
   setShowConfirmation: React.Dispatch<SetStateAction<boolean>>;
+  buttonText?: string;
+  redirectUrl?: string;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const { push } = useRouter();
@@ -29,16 +33,19 @@ const CreateUser = ({
       });
 
       if (response?.status === 200) {
-        // await axiosCall({
-        //   method: "post",
-        //   url: MAIL_URL,
-        //   payload: {
-        //     username: values.username,
-        //     userEmail: values.email,
-        //     text: "Welcome from Joshua Greene! We're thrilled to have you join our community of valued customers!",
-        //     subject: "Signup Successfull",
-        //   },
-        // });
+        await axiosCall({
+          method: "post",
+          url: MAIL_URL,
+          payload: {
+            username: values.firstName,
+            userEmail: values.email,
+            text: "Welcome from Joshua Greene! We're thrilled to have you join our community of valued customers!",
+            subject: "Signup Successful",
+          },
+        });
+        if (redirectUrl) {
+          push(redirectUrl);
+        }
         setShowConfirmation(true);
       } else if (response?.status === 409) {
         toast.error(response.data.error, {
@@ -120,22 +127,6 @@ const CreateUser = ({
       </div>
 
       <div className="form__input">
-        <label className="form__input__label" htmlFor="username">
-          Username:
-        </label>
-        <input
-          className="form__input__field"
-          id="username"
-          type="text"
-          {...formik.getFieldProps("username")}
-        />
-
-        {formik.touched.username && formik.errors.username ? (
-          <div className="error">{formik.errors.username}</div>
-        ) : null}
-      </div>
-
-      <div className="form__input">
         <label className="form__input__label" htmlFor="password">
           Password:
         </label>
@@ -151,25 +142,9 @@ const CreateUser = ({
         ) : null}
       </div>
 
-      <div className="form__input">
-        <label className="form__input__label" htmlFor="passwordConfirmation">
-          Confirm Password:
-        </label>
-        <input
-          className="form__input__field"
-          id="passwordConfirmation"
-          type="text"
-          {...formik.getFieldProps("passwordConfirmation")}
-        />
-
-        {formik.touched.passwordConfirmation &&
-        formik.errors.passwordConfirmation ? (
-          <div className="error">{formik.errors.passwordConfirmation}</div>
-        ) : null}
-      </div>
       <div className="action">
         <button className="action-button" type="submit">
-          Get started
+          {buttonText ? buttonText : "Get started"}
         </button>
       </div>
     </form>

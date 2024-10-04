@@ -6,9 +6,7 @@ export interface LinkT {
 }
 
 export interface UserT {
-  username: string;
   password: string;
-  passwordConfirmation: string;
   email: string;
   firstName: string;
   lastName: string;

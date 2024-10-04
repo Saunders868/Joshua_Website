@@ -10,12 +10,11 @@ import ClientCart from "@/components/ClientCart";
 const Page = () => {
   const cartData = useAppSelector((state) => state.cart.products);
   const { push } = useRouter();
-  const [count, setCount] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [loading, setLoading] = useState(false);
 
   const handleCreateCart = async () => {
-    push("/checkout");
+    push("/order-create");
   };
 
   if (loading) return <Loading />;

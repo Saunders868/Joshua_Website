@@ -52,9 +52,9 @@ const Page = () => {
     setSerializedData(serializedData);
   }, [cartData]);
 
-  console.log(userData);
-
   let permissions: string[] = [];
+
+  console.log(userData);
 
   if (loading) return <Loading />;
 
@@ -140,29 +140,25 @@ const Page = () => {
                     }
                   );
 
-                  const userUpdateResponse = await axiosCall({
-                    method: "patch",
-                    url: `${USERS_URL}/${userData.id}`,
-                    payload: {
-                      productPermissions: [
-                        ...userData.productPermissions,
-                        ...permissions,
-                      ],
-                    },
-                  });
+                  if (response.status != 201) {
+                    throw new Error("Error creating paypal order.");
+                  }
 
-                  console.log(
-                    "response",
-                    response,
-                    "updated user response: ",
-                    userUpdateResponse
-                  );
+                  if (userData.email != "") {
+                    const userUpdateResponse = await axiosCall({
+                      method: "patch",
+                      url: `${USERS_URL}/${userData.id}`,
+                      payload: {
+                        productPermissions: [
+                          ...userData.productPermissions,
+                          ...permissions,
+                        ],
+                      },
+                    });
 
-                  if (
-                    userUpdateResponse.status != 200 ||
-                    response.status != 201
-                  ) {
-                    throw new Error("Error updating user permissions.");
+                    if (userUpdateResponse.status != 200) {
+                      throw new Error("Error updating user permissions.");
+                    }
                   }
 
                   if (permissions) {

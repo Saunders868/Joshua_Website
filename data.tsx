@@ -54,9 +54,7 @@ export const linksDataMobile: LinkT[] = [
 ];
 
 export const initialUserValues: UserT = {
-  username: "",
   password: "",
-  passwordConfirmation: "",
   productPermissions: [],
   email: "",
   firstName: "",
@@ -65,11 +63,7 @@ export const initialUserValues: UserT = {
 
 export const initialSessionValues: Omit<
   UserT,
-  | "passwordConfirmation"
-  | "username"
-  | "firstName"
-  | "lastName"
-  | "productPermissions"
+  "firstName" | "lastName" | "productPermissions"
 > = {
   email: "",
   password: "",

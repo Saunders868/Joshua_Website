@@ -13,8 +13,6 @@ export function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/cart",
-    "/checkout",
     "/profile",
     "/profile/downloads",
     "/profile/orders",

@@ -5,22 +5,17 @@ import Link from "next/link";
 import { FRONTEND_URL } from "@/constants";
 import Button from "@/components/Button";
 import Counter from "@/components/Counter";
-import { ProductT, UserT } from "@/types";
-import { useEffect, useState } from "react";
+import { ProductT } from "@/types";
+import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addProduct } from "@/redux/slices/cart.slice";
 import Loading from "../Loading";
-import { useRouter } from "next/navigation";
 
 const ProductPage = ({ product }: { product: ProductT }) => {
-  const { push } = useRouter();
   const [count, setCount] = useState(1);
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart);
-  const { user }: { user: Omit<UserT, "password" | "passwordConfirmation"> } =
-    useAppSelector((state) => state.user);
-  let alreadyPurchased = false;
 
   const cartItemsLength = cart.products.filter(
     (prod) => product.id == prod.product_id
@@ -49,20 +44,6 @@ const ProductPage = ({ product }: { product: ProductT }) => {
     );
     setLoading(false);
   };
-
-  useEffect(() => {
-    if (user.productPermissions.length > 0) {
-      for (let i = 0; i < user.productPermissions.length; i++) {
-        let currentTitle = user.productPermissions[i];
-
-        if (currentTitle === product.title) {
-          push("/profile/downloads");
-        }
-      }
-    } else {
-      return;
-    }
-  }, [user, product.title, push]);
 
   if (loading) return <Loading />;
 

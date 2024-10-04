@@ -4,11 +4,9 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import jwt_decode from "jwt-decode";
 
 const initialState: {
-  user: Omit<UserT, "password" | "passwordConfirmation"> &
-    SessionT & { id: string; auth: string };
+  user: Omit<UserT, "password"> & SessionT & { id: string; auth: string };
 } = {
   user: {
-    username: "",
     email: "",
     firstName: "",
     lastName: "",
@@ -41,8 +39,7 @@ export const userSlice = createSlice({
   reducers: {
     login: (
       state: {
-        user: Omit<UserT, "password" | "passwordConfirmation"> &
-          SessionT & { id: string; auth: string };
+        user: Omit<UserT, "password"> & SessionT & { id: string; auth: string };
       },
       action: PayloadAction<SessionT>
     ) => {
@@ -54,7 +51,6 @@ export const userSlice = createSlice({
 
       state.user.token = token;
       state.user.refreshToken = action.payload.refreshToken;
-      state.user.username = user.username;
       state.user.email = user.email;
       state.user.firstName = nameParts[0];
       state.user.lastName = nameParts[1];
@@ -66,7 +62,6 @@ export const userSlice = createSlice({
       state.user.productPermissions = action.payload;
     },
     logout: (state) => {
-      state.user.username = "";
       state.user.firstName = "";
       state.user.lastName = "";
       state.user.email = "";
