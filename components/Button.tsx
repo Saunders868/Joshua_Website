@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { axiosCall } from "@/utils/Axios";
 import { SESSIONS_URL } from "@/constants";
-import { logout } from "@/redux/slices/user.slice";
+import { signOut } from "next-auth/react";
 import { useAppDispatch } from "@/redux/hooks";
 
 const Button = ({
@@ -22,7 +22,6 @@ const Button = ({
   disabled?: boolean;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const dispatch = useAppDispatch();
   const { push } = useRouter();
 
   const logOutServer = async () => {
@@ -32,8 +31,7 @@ const Button = ({
       url: SESSIONS_URL,
       payload: null,
     });
-
-    dispatch(logout());
+    signOut({ redirect: false });
     setLoading(false);
 
     push("/");

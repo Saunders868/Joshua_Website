@@ -6,6 +6,7 @@ import { Providers } from "@/redux/provider";
 import ToastProvider from "@/components/toast.provider";
 import Footer from "@/components/Footer";
 import { FRONTEND_URL } from "@/constants";
+import { AuthContext } from "@/components/AuthProvider/AuthContext";
 
 const hankenGrotesk = Hanken_Grotesk({ subsets: ["latin"] });
 
@@ -29,15 +30,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={hankenGrotesk.className}>
-        <Providers>
-          <ToastProvider>
-            <div className="flex">
-              <Header />
-              {children}
-              <Footer />
-            </div>
-          </ToastProvider>
-        </Providers>
+        <AuthContext>
+          <Providers>
+            <ToastProvider>
+              <div className="flex">
+                <Header />
+                {children}
+                <Footer />
+              </div>
+            </ToastProvider>
+          </Providers>
+        </AuthContext>
       </body>
     </html>
   );

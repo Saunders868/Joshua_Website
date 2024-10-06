@@ -9,67 +9,60 @@ import { useRouter } from "next/navigation";
 import React, { useState, SetStateAction } from "react";
 import { toast } from "react-toastify";
 import Loading from "../Loading";
+import {
+  createSession,
+  createUser,
+  generateValidPassword,
+} from "@/utils/utils";
 
 const CreateUser = ({
   setShowConfirmation,
   buttonText,
   redirectUrl,
+  password,
 }: {
   setShowConfirmation: React.Dispatch<SetStateAction<boolean>>;
   buttonText?: string;
   redirectUrl?: string;
+  password?: boolean;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const { push } = useRouter();
+  let generatedPassword = generateValidPassword();
+
   const formik = useFormik({
-    initialValues: initialUserValues,
+    initialValues: password
+      ? { ...initialUserValues, password: generatedPassword }
+      : initialUserValues,
     validationSchema: CreateUserValidation,
     onSubmit: async (values) => {
       setLoading(true);
-      const response = await axiosCall({
-        method: "post",
-        url: USERS_URL,
-        payload: { ...values },
-      });
+      console.log("here");
 
-      if (response?.status === 200) {
-        await axiosCall({
-          method: "post",
-          url: MAIL_URL,
-          payload: {
-            username: values.firstName,
-            userEmail: values.email,
-            text: "Welcome from Joshua Greene! We're thrilled to have you join our community of valued customers!",
-            subject: "Signup Successful",
-          },
+      if (password == true) {
+        await createUser({
+          values: { ...values },
+          mailString: `Welcome from Joshua Greene! We're thrilled to have you join our community of valued customers! You can sign in to your account using the following credentials. Email: ${values.email}, Password: ${generatedPassword}`,
+          push,
+          setShowConfirmation,
         });
-        if (redirectUrl) {
-          push(redirectUrl);
-        }
-        setShowConfirmation(true);
-      } else if (response?.status === 409) {
-        toast.error(response.data.error, {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+
+        await createSession({
+          values: { email: values.email, password: values.password },
+          push,
+          url: "/checkout",
         });
       } else {
-        toast.error("An error occured.", {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+        await createUser({
+          values: { ...values },
+          mailString:
+            "Welcome from Joshua Greene! We're thrilled to have you join our community of valued customers!",
+          redirectUrl: "/sign-in",
+          push,
+          setShowConfirmation,
         });
       }
+
       setLoading(false);
     },
   });
@@ -78,36 +71,35 @@ const CreateUser = ({
 
   return (
     <form className="form" onSubmit={formik.handleSubmit}>
-      <div className="form__input">
-        <label className="form__input__label" htmlFor="firstName">
-          First Name:
-        </label>
-        <input
-          className="form__input__field"
-          id="firstName"
-          type="text"
-          {...formik.getFieldProps("firstName")}
-        />
-
-        {formik.touched.firstName && formik.errors.firstName ? (
-          <div className="error">{formik.errors.firstName}</div>
-        ) : null}
-      </div>
-
-      <div className="form__input">
-        <label className="form__input__label" htmlFor="lastName">
-          Surname:
-        </label>
-        <input
-          className="form__input__field"
-          id="lastName"
-          type="text"
-          {...formik.getFieldProps("lastName")}
-        />
-
-        {formik.touched.lastName && formik.errors.lastName ? (
-          <div className="error">{formik.errors.lastName}</div>
-        ) : null}
+      <div className="grid">
+        <div className="form__input">
+          <label className="form__input__label" htmlFor="firstName">
+            First Name:
+          </label>
+          <input
+            className="form__input__field"
+            id="firstName"
+            type="text"
+            {...formik.getFieldProps("firstName")}
+          />
+          {formik.touched.firstName && formik.errors.firstName ? (
+            <div className="error">{formik.errors.firstName}</div>
+          ) : null}
+        </div>
+        <div className="form__input">
+          <label className="form__input__label" htmlFor="lastName">
+            Surname:
+          </label>
+          <input
+            className="form__input__field"
+            id="lastName"
+            type="text"
+            {...formik.getFieldProps("lastName")}
+          />
+          {formik.touched.lastName && formik.errors.lastName ? (
+            <div className="error">{formik.errors.lastName}</div>
+          ) : null}
+        </div>
       </div>
 
       <div className="form__input">
@@ -126,21 +118,41 @@ const CreateUser = ({
         ) : null}
       </div>
 
-      <div className="form__input">
-        <label className="form__input__label" htmlFor="password">
-          Password:
-        </label>
-        <input
-          className="form__input__field"
-          id="password"
-          type="text"
-          {...formik.getFieldProps("password")}
-        />
+      {password == false ? (
+        <div className="form__input">
+          <label className="form__input__label" htmlFor="password">
+            Password:
+          </label>
+          <input
+            className="form__input__field"
+            id="password"
+            type="text"
+            {...formik.getFieldProps("password")}
+          />
 
-        {formik.touched.password && formik.errors.password ? (
-          <div className="error">{formik.errors.password}</div>
-        ) : null}
-      </div>
+          {formik.touched.password && formik.errors.password ? (
+            <div className="error">{formik.errors.password}</div>
+          ) : null}
+        </div>
+      ) : (
+        <div className="form__input hidden">
+          <label className="form__input__label" htmlFor="password">
+            Password:
+          </label>
+          <input
+            className="form__input__field"
+            id="password"
+            type="text"
+            {...formik.getFieldProps("password")}
+            value={generatedPassword}
+            disabled={true}
+          />
+
+          {formik.touched.password && formik.errors.password ? (
+            <div className="error">{formik.errors.password}</div>
+          ) : null}
+        </div>
+      )}
 
       <div className="action">
         <button className="action-button" type="submit">

@@ -1,13 +1,9 @@
+"use client";
+
 import Button from "@/components/Button";
 import DashboardLinkItem from "@/components/DashboardLinkItem";
 import DashboardNavigationMobile from "@/components/DashboardNavigationMobile";
 import { userDasboardLinks } from "@/data";
-
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Joshua Greene | Profile",
-};
 
 export default function ProfileLayout({
   children,

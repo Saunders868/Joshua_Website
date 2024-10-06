@@ -5,15 +5,15 @@ import DownloadItem from "@/components/DownloadItem";
 import Error from "@/components/Error";
 import Loading from "@/components/Loading";
 import { USERS_URL } from "@/constants";
-import { useAppSelector } from "@/redux/hooks";
+import { useSession } from "next-auth/react";
 import { useAxios } from "@/utils/useAxios";
 import React from "react";
 
 const Page = () => {
-  const user = useAppSelector((state) => state.user.user);
+  const session = useSession();
 
   const { response, error, loading } = useAxios({
-    url: `${USERS_URL}/${user.id}`,
+    url: `${USERS_URL}/${session.data.user.id}`,
   });
 
   if (loading) return <Loading />;

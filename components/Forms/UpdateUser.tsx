@@ -11,7 +11,6 @@ import Loading from "../Loading";
 
 const UpdateUser = ({
   id,
-  username,
   email,
   firstName,
   lastName,
@@ -19,7 +18,6 @@ const UpdateUser = ({
   profile,
 }: {
   id: string;
-  username: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -30,7 +28,6 @@ const UpdateUser = ({
   const { push } = useRouter();
   const formik = useFormik({
     initialValues: {
-      username: username,
       email: email,
       firstName: firstName,
       lastName: lastName,
@@ -139,23 +136,6 @@ const UpdateUser = ({
             ) : null}
           </div>
 
-          <div className="form__input">
-            <label className="form__input__label" htmlFor="username">
-              Username:
-            </label>
-            <input
-              className="form__input__field"
-              id="username"
-              type="text"
-              {...formik.getFieldProps("username")}
-              readOnly
-            />
-
-            {formik.touched.username && formik.errors.username ? (
-              <div className="error">{formik.errors.username}</div>
-            ) : null}
-          </div>
-
           <input
             className="form__input__field"
             id="role"
@@ -213,23 +193,6 @@ const UpdateUser = ({
 
             {formik.touched.email && formik.errors.email ? (
               <div className="error">{formik.errors.email}</div>
-            ) : null}
-          </div>
-
-          <div className="form__input">
-            <label className="form__input__label" htmlFor="username">
-              Username:
-            </label>
-            <input
-              className="form__input__field"
-              id="username"
-              type="text"
-              readOnly
-              {...formik.getFieldProps("username")}
-            />
-
-            {formik.touched.username && formik.errors.username ? (
-              <div className="error">{formik.errors.username}</div>
             ) : null}
           </div>
 

@@ -3,6 +3,7 @@
 import { FRONTEND_URL } from "@/constants";
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 const instance = axios.create({
   withCredentials: true,
@@ -11,6 +12,7 @@ const instance = axios.create({
 });
 
 export function useAxios({ url }: { url: string }) {
+  const session = useSession();
   const [response, setResponse] = useState<AxiosResponse>();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -21,6 +23,16 @@ export function useAxios({ url }: { url: string }) {
         url: url,
         method: "GET",
         withCredentials: true,
+        headers: {
+          Authorization:
+            session.status == "authenticated"
+              ? session.data.user.accessToken
+              : "",
+          "x-refresh":
+            session.status == "authenticated"
+              ? session.data.user.refreshToken
+              : "",
+        },
       });
       setResponse(result);
     } catch (err: any) {

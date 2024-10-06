@@ -24,7 +24,10 @@ const Page = () => {
               <small>Let us create your account</small>
             </h2>
           </div>
-          <CreateUser setShowConfirmation={setShowConfirmation} />
+          <CreateUser
+            setShowConfirmation={setShowConfirmation}
+            password={false}
+          />
           <div className="hero__info">
             <p>
               Already have an account?{" "}

@@ -1,32 +1,22 @@
 "use client";
 
-import { useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 export default function UserDashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = useSession();
   const { push } = useRouter();
-  const user = useAppSelector((state) => state.user.user);
-  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {
-    if (user.email == "") {
+    if (session.status != "authenticated") {
       push("/sign-in");
     }
-    setIsCheckingAuth(false);
-  }, [user, push]);
+  }, [session, push]);
 
-  return (
-    <>
-      {/* {isCheckingAuth ? (
-        <div>Checking Authentication...</div>
-      ) : ( */}
-      <main>{children}</main>
-      {/* )} */}
-    </>
-  );
+  return <main>{children}</main>;
 }

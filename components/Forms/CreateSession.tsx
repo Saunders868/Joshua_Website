@@ -1,15 +1,14 @@
 "use client";
 
-import { SESSIONS_URL } from "@/constants";
 import { initialSessionValues } from "@/data";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { login } from "@/redux/slices/user.slice";
-import { axiosCall } from "@/utils/Axios";
 import { CreateSessionValidation } from "@/validations";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+import { createSession } from "@/utils/utils";
 
 const CreateSession = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -22,43 +21,13 @@ const CreateSession = () => {
     validationSchema: CreateSessionValidation,
     onSubmit: async (values) => {
       setLoading(true);
-      const response = await axiosCall({
-        method: "post",
-        url: SESSIONS_URL,
-        payload: { ...values },
+
+      createSession({
+        values: { email: values.email, password: values.password },
+        push,
+        url: "/",
       });
 
-      if (response?.status === 200) {
-        dispatch(
-          login({
-            token: response.data.accessToken,
-            refreshToken: response.data.refreshToken,
-          })
-        );
-        push("/");
-      } else if (response?.status === 401) {
-        toast.error(response.data, {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      } else {
-        toast.error("An error occured. Please try again later.", {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
-      }
       setLoading(false);
     },
   });

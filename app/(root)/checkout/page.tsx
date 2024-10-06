@@ -13,13 +13,13 @@ import { CartP, clearCart } from "@/redux/slices/cart.slice";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import ClientCart from "@/components/ClientCart";
 import { handleAPIOrderCreate, paypalCreateOrder } from "@/utils/paypal.utis";
 import { axiosCall } from "@/utils/Axios";
 import { update } from "@/redux/slices/user.slice";
 import Confirmation from "@/components/Confirmation";
+import { useSession } from "next-auth/react";
 
 const initialOptions = {
   clientId: PAYPAL_CLIENT_ID,
@@ -29,9 +29,8 @@ const initialOptions = {
 };
 
 const Page = () => {
-  const userData = useAppSelector((state) => state.user.user);
+  const session = useSession();
   const cartData = useAppSelector((state) => state.cart.products);
-  const { push } = useRouter();
   const [loading, setLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const [serializedData, setSerializedData] = useState<
@@ -53,8 +52,6 @@ const Page = () => {
   }, [cartData]);
 
   let permissions: string[] = [];
-
-  console.log(userData);
 
   if (loading) return <Loading />;
 
@@ -111,14 +108,12 @@ const Page = () => {
                     orderId,
                     permissions: orderPermissions,
                   } = await handleAPIOrderCreate({
-                    userData,
                     serializedData,
                   });
                   permissions = orderPermissions;
                   return await paypalCreateOrder({
                     isSuccessful,
                     orderId,
-                    userData,
                     permissions,
                   });
                 } catch (error) {
@@ -144,26 +139,24 @@ const Page = () => {
                     throw new Error("Error creating paypal order.");
                   }
 
-                  if (userData.email != "") {
-                    const userUpdateResponse = await axiosCall({
-                      method: "patch",
-                      url: `${USERS_URL}/${userData.id}`,
-                      payload: {
-                        productPermissions: [
-                          ...userData.productPermissions,
-                          ...permissions,
-                        ],
-                      },
-                    });
+                  const userUpdateResponse = await axiosCall({
+                    method: "patch",
+                    url: `${USERS_URL}/${session.data.user.id}`,
+                    payload: {
+                      productPermissions: [
+                        ...session.data.user.productPermissions,
+                        ...permissions,
+                      ],
+                    },
+                  });
 
-                    if (userUpdateResponse.status != 200) {
-                      throw new Error("Error updating user permissions.");
-                    }
+                  if (userUpdateResponse.status != 200) {
+                    throw new Error("Error updating user permissions.");
                   }
 
-                  if (permissions) {
-                    dispatch(update(permissions));
-                  }
+                  // need to update active user session, and send an email with the page with the order
+
+                  dispatch(update(permissions));
 
                   const orderData = await response.json();
 

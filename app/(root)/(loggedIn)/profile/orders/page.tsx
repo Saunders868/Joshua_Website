@@ -5,15 +5,15 @@ import Error from "@/components/Error";
 import Loading from "@/components/Loading";
 import NoData from "@/components/NoData";
 import { ORDERS_URL } from "@/constants";
-import { useAppSelector } from "@/redux/hooks";
+import { useSession } from "next-auth/react";
 import { useAxios } from "@/utils/useAxios";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Link from "next/link";
 
 const Page = () => {
-  const user = useAppSelector((state) => state.user.user);
+  const session = useSession();
   const { response, error, loading } = useAxios({
-    url: `${ORDERS_URL}/user/${user.id}`,
+    url: `${ORDERS_URL}/user/${session.data.user.id}`,
   });
 
   if (loading) return <Loading />;

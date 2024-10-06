@@ -4,10 +4,8 @@ import { toast } from "react-toastify";
 import { OrderResponseProduct } from "@/types";
 
 export const handleAPIOrderCreate = async ({
-  userData,
   serializedData,
 }: {
-  userData: any;
   serializedData: { product_id: string; quantity: number }[];
 }) => {
   let isSuccessful = false;
@@ -71,12 +69,10 @@ export const handleAPIOrderCreate = async ({
 export const paypalCreateOrder = async ({
   isSuccessful,
   orderId,
-  userData,
   permissions,
 }: {
   isSuccessful: boolean;
   orderId: string;
-  userData: any;
   permissions: string[];
 }) => {
   if (isSuccessful) {

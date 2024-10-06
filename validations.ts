@@ -25,9 +25,6 @@ export const UpdateUserValidation = Yup.object({
     .max(20, "Must be 20 characters or less")
     .required("Required"),
   email: Yup.string().email("Invalid email address").required("Required"),
-  username: Yup.string()
-    .min(10, "Must be at least 10 characters")
-    .required("Required"),
   role: Yup.string(),
 });
 
