@@ -17,8 +17,6 @@ const Page = () => {
 
   if (error) return "A network error occured. Please try again later...";
 
-  // console.log(response);
-
   const parts = response?.data.name.split(" ");
   const firstName = parts[0];
   const lastName = parts[1];
@@ -29,7 +27,6 @@ const Page = () => {
       <div className="admin__content single__admin__page">
         <UpdateUser
           id={response?.data._id}
-          username={response?.data.username}
           email={response?.data.email}
           firstName={firstName}
           lastName={lastName}

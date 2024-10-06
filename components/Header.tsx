@@ -4,12 +4,12 @@ import { useState } from "react";
 import Hamburger from "./Layout/Hamburger";
 import LinkItem from "./LinkItem";
 import { linksData } from "@/data";
-import Button from "./Button";
-import { useAppSelector } from "@/redux/hooks";
+import { useSession } from "next-auth/react";
 
 function Header() {
   const [isClicked, setIsClicked] = useState<boolean>(false);
-  const userData = useAppSelector((state) => state.user.user);
+  const session = useSession();
+
   return (
     <header>
       <nav>
@@ -39,7 +39,7 @@ function Header() {
                   <LinkItem path={link.path} linkname={link.linkname} />
                 </li>
               ))}
-              {userData.auth == "admin" ? (
+              {session?.data != null && session?.data.user.role == "admin" ? (
                 <>
                   <li>
                     <LinkItem path={"/admin/dashboard"} linkname={"admin"} />

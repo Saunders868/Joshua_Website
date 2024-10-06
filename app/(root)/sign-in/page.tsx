@@ -2,15 +2,17 @@
 
 import CreateSession from "@/components/Forms/CreateSession";
 import LinkItem from "@/components/LinkItem";
-import { useAppSelector } from "@/redux/hooks";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const Page = () => {
   const router = useRouter();
-  const userData = useAppSelector((state) => state.user.user);
-  if (userData.email !== "") {
+  const session = useSession();
+
+  if (session.status == "authenticated") {
     router.back();
   }
+
   return (
     <main>
       <div className="container">

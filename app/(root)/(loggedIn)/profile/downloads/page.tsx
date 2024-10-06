@@ -20,8 +20,6 @@ const Page = () => {
 
   if (error) return <Error />;
 
-  console.log(response?.data);
-
   return (
     <section>
       <DashboardPageHeader title="My Downloads" />
