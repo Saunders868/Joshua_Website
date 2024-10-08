@@ -5,6 +5,7 @@ export function middleware(req: NextRequest, res: NextResponse) {
   const accessToken = req.cookies.get("accessToken")?.value;
   const refreshToken = req.cookies.get("refreshToken")?.value;
 
+  // rework this logic or remove accessTokens on Logout
   const isLoggedIn = accessToken != undefined && refreshToken != undefined;
 
   if (!isLoggedIn) {

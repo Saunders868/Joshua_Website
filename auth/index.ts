@@ -101,6 +101,10 @@ export const {
       },
     }),
   ],
+  session: {
+    strategy: "jwt",
+    maxAge: REFRESH_COOKIE_TIME,
+  },
   callbacks: {
     jwt: async ({ token, user }: { token: any; user: any }) => {
       user && (token.user = user);

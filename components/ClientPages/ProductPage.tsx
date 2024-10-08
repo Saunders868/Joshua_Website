@@ -83,7 +83,7 @@ const ProductPage = ({ product }: { product: ProductT }) => {
           <h1>{product.title}</h1>
           <h3>{product.desc}</h3>
           <h3>
-            <b>${product.price}</b>
+            <b>${product.price} USD</b>
           </h3>
         </div>
         <div className="cart__info">

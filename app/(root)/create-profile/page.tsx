@@ -29,10 +29,10 @@ const Page = () => {
             password={false}
           />
           <div className="hero__info">
-            <p>
+            <>
               Already have an account?{" "}
               <LinkItem path="/sign-in" linkname="sign-in" />
-            </p>
+            </>
           </div>
         </div>
       </div>

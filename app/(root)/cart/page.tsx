@@ -64,7 +64,7 @@ const Page = () => {
 
       <section>
         <h3>
-          <b>Total Price:</b> ${totalPrice} TTD
+          <b>Total Price:</b> ${totalPrice} USD
         </h3>
       </section>
 

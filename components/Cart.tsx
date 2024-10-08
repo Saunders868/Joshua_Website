@@ -65,7 +65,7 @@ const Cart = ({ cart }: { cart: cartT }) => {
       />
       <div>
         <p>
-          <b>Cart Total:</b> ${cartTotal} TTD
+          <b>Cart Total:</b> ${cartTotal} USD
         </p>
       </div>
     </section>

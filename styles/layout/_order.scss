@@ -1,0 +1,38 @@
+.order_complete__page {
+  padding: 2rem 1.5rem;
+
+  section {
+    margin-bottom: 1rem;
+
+    h3 {
+      @include text;
+      margin-bottom: 1rem;
+      font-weight: $bold-font;
+    }
+
+    b {
+      font-weight: $bold-font;
+    }
+
+    .book_link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+  }
+
+  p {
+    @include text;
+    text-align: left;
+    margin-top: 1rem;
+  }
+
+  a {
+    color: $black;
+  }
+
+  h1 {
+    @include section-title;
+  }
+}

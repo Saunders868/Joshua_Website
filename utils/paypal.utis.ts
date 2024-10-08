@@ -46,7 +46,7 @@ export const handleAPIOrderCreate = async ({
     };
   } else {
     toast.error(
-      "An network error occured when placing your order. Please try again later",
+      "An error occured when placing your order. Please try again later",
       {
         position: "bottom-right",
         autoClose: 5000,
@@ -121,7 +121,9 @@ export const paypalCreateOrder = async ({
       theme: "light",
     });
     throw new Error(
-      "An network error occured when placing your order. Please try again later"
+      "An error occured when placing your order. Please try again later"
     );
   }
 };
+
+export const handlePaypalSuccess = async () => {};

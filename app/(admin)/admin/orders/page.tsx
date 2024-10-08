@@ -45,7 +45,7 @@ const Page = () => {
       minWidth: 150,
       flex: 1,
       renderCell: (params) => {
-        return <p>{moment(params.value).format("MMM Do YY")}</p>;
+        return <p>{moment(params.value).format("MMM Do YYYY")}</p>;
       },
     },
     {

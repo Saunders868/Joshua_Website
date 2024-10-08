@@ -1,13 +1,16 @@
 import Link from "next/link";
 
 const DownloadItem = ({ item }: { item: string }) => {
-  const itemLink = `/profile/downloads/${item
-    .replace(/\s+/g, "-")
-    .toLowerCase()}`;
+  // const itemLink = `/profile/downloads/${item
+  //   .replace(/\s+/g, "-")
+  //   .toLowerCase()}`;
+  const itemLink = "/api/downloads";
   return (
     <>
       <li className="download__item">
-        <Link href={itemLink}>{item}</Link>
+        <a download href={itemLink}>
+          {item}
+        </a>
       </li>
       <div className="line" />
     </>

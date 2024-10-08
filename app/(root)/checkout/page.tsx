@@ -37,6 +37,7 @@ const Page = () => {
     { product_id: string; quantity: number }[]
   >([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [orderID, setOrderID] = useState("");
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -52,6 +53,7 @@ const Page = () => {
   }, [cartData]);
 
   let permissions: string[] = [];
+  console.log("initial: ", orderID);
 
   if (loading) return <Loading />;
 
@@ -89,7 +91,7 @@ const Page = () => {
 
       <section>
         <h3>
-          <b>Total Price:</b> ${totalPrice} TTD
+          <b>Total Price:</b> ${totalPrice} USD
         </h3>
       </section>
 
@@ -111,6 +113,9 @@ const Page = () => {
                     serializedData,
                   });
                   permissions = orderPermissions;
+                  setOrderID(orderId);
+                  console.log("on create: ", orderId);
+
                   return await paypalCreateOrder({
                     isSuccessful,
                     orderId,
@@ -140,7 +145,7 @@ const Page = () => {
                   }
 
                   const userUpdateResponse = await axiosCall({
-                    method: "patch",
+                    method: "PATCH",
                     url: `${USERS_URL}/${session.data.user.id}`,
                     payload: {
                       productPermissions: [
@@ -211,7 +216,10 @@ const Page = () => {
       </section>
 
       {showConfirmation && (
-        <Confirmation text="Order Completed Successfully!" location="/shop" />
+        <Confirmation
+          text="Order Completed Successfully!"
+          location={`/order-received/${orderID}`}
+        />
       )}
     </main>
   );

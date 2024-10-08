@@ -26,14 +26,14 @@ const Page = () => {
           <CreateSession />
           <div className="hero__info">
             <div className="hero__info__flex">
-              <p>
+              <div>
                 Don&apos;t have an account?{" "}
                 <LinkItem path="/create-profile" linkname="Sign Up" />
-              </p>
-              <p>
+              </div>
+              <div>
                 Forgot Password?{" "}
                 <LinkItem path="/forgot-password" linkname="Reset password" />
-              </p>
+              </div>
             </div>
           </div>
         </div>

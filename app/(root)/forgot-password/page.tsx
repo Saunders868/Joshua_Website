@@ -26,14 +26,14 @@ const Page = () => {
           <ForgotPassword active={active} setActive={setActive} />
           <div className="hero__info">
             {active === "email" ? (
-              <p>
+              <div>
                 Go Back <LinkItem path="/sign-in" linkname="sign-in" />
-              </p>
+              </div>
             ) : (
               <div className="hero__info__flex">
-                <p>
+                <div>
                   Go Back <LinkItem path="/sign-in" linkname="sign-in" />
-                </p>
+                </div>
                 <p>
                   Didn&apos;t get OTP
                   <div className="link-container">

@@ -65,18 +65,16 @@
       font-size: $text-font-desktop;
     }
 
-    p {
-      a {
-        margin-top: 1rem;
-        text-decoration: none;
-        font-size: $text-font-mobile;
-        @media (min-width: 768px) {
-          font-size: $text-font-desktop;
-        }
-        color: $black !important;
-        &::before {
-          background-color: $black !important;
-        }
+    a {
+      margin-top: 1rem;
+      text-decoration: none;
+      font-size: $text-font-mobile;
+      @media (min-width: 768px) {
+        font-size: $text-font-desktop;
+      }
+      color: $black !important;
+      &::before {
+        background-color: $black !important;
       }
     }
 
