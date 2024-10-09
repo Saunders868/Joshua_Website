@@ -1,7 +1,13 @@
 import { toast } from "react-toastify";
-import { signIn } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import { axiosCall } from "./Axios";
-import { MAIL_URL, USERS_URL } from "@/constants";
+import {
+  API_CONFLICT_CODE,
+  API_SUCCESS_CODE,
+  MAIL_URL,
+  SESSIONS_URL,
+  USERS_URL,
+} from "@/constants";
 import { SetStateAction } from "react";
 
 export function convertStringToBoolean(string: string) {
@@ -42,6 +48,7 @@ export async function createSession({
         theme: "light",
       });
     } else {
+      // try router that back
       push(url);
     }
   } catch (error) {
@@ -83,7 +90,7 @@ export async function createUser({
     payload: { ...values },
   });
 
-  if (response?.status === 200) {
+  if (response?.status === API_SUCCESS_CODE) {
     await axiosCall({
       method: "POST",
       url: MAIL_URL,
@@ -98,7 +105,7 @@ export async function createUser({
       push(redirectUrl);
     }
     setShowConfirmation(true);
-  } else if (response?.status === 409) {
+  } else if (response?.status === API_CONFLICT_CODE) {
     toast.error(response.data.error, {
       position: "bottom-right",
       autoClose: 5000,
@@ -120,6 +127,36 @@ export async function createUser({
       progress: undefined,
       theme: "light",
     });
+  }
+}
+
+export async function logOut({ push }: { push: (url: string) => void }) {
+  const response = await axiosCall({
+    method: "DELETE",
+    url: SESSIONS_URL,
+    payload: null,
+  });
+
+  if (response.status == API_SUCCESS_CODE) {
+    toast.success("Logged out.", {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+    await axiosCall({
+      method: "GET",
+      url: "/api/sign-out",
+      payload: null,
+    });
+
+    signOut({ redirect: false });
+    push("/");
   }
 }
 

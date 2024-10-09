@@ -22,14 +22,8 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
     "attachment; filename=TheFlavorJournalRecipeBook.pdf"
   );
   headers.append("Content-Type", "application/pdf");
-  //   res.appendHeader("Content-Type", "application/pdf");
-  //   res.appendHeader(
-  //     "Content-Disposition",
-  //     "attachment; filename=TheFlavorJournalRecipeBook.pdf"
-  //   );
 
   return new Response(fileBuffer, {
     headers,
   });
-  //   res.status(200).send(fileBuffer);
 }

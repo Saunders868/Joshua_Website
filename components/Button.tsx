@@ -7,6 +7,7 @@ import { axiosCall } from "@/utils/Axios";
 import { SESSIONS_URL } from "@/constants";
 import { signOut } from "next-auth/react";
 import { useAppDispatch } from "@/redux/hooks";
+import { logOut } from "@/utils/utils";
 
 const Button = ({
   link,
@@ -26,15 +27,10 @@ const Button = ({
 
   const logOutServer = async () => {
     setLoading(true);
-    const response = await axiosCall({
-      method: "delete",
-      url: SESSIONS_URL,
-      payload: null,
+    logOut({
+      push,
     });
-    signOut({ redirect: false });
     setLoading(false);
-
-    push("/");
   };
 
   if (loading) return "Loading...";
