@@ -9,6 +9,7 @@ import {
   USERS_URL,
 } from "@/constants";
 import { SetStateAction } from "react";
+import { CartP } from "@/redux/slices/cart.slice";
 
 export function convertStringToBoolean(string: string) {
   let boolean;
@@ -91,15 +92,11 @@ export async function createUser({
   });
 
   if (response?.status === API_SUCCESS_CODE) {
-    await axiosCall({
-      method: "POST",
-      url: MAIL_URL,
-      payload: {
-        username: values.firstName,
-        userEmail: values.email,
-        text: mailString,
-        subject: "Signup Successful",
-      },
+    await sendEmail({
+      username: values.firstName,
+      email: values.email,
+      body: mailString,
+      subject: "Signup Successful",
     });
     if (redirectUrl) {
       push(redirectUrl);
@@ -186,3 +183,75 @@ export function generateValidPassword() {
     .sort(() => 0.5 - Math.random())
     .join("");
 }
+
+export async function sendEmail({
+  username,
+  email,
+  body,
+  subject,
+}: {
+  username: string;
+  email: string;
+  body: string;
+  subject: string;
+}) {
+  await axiosCall({
+    method: "POST",
+    url: MAIL_URL,
+    payload: {
+      username,
+      userEmail: email,
+      text: body,
+      subject: subject,
+    },
+  });
+}
+
+export const emailTemplate = ({
+  userName,
+  products,
+  orderLink,
+}: {
+  userName: string;
+  products: CartP[];
+  orderLink: string;
+}) => `
+<body style="font-family: Arial, sans-serif; background-color: #ffffff; margin: 0; padding: 0;">
+    <div style="width: 100%; padding: 20px; background-color: #ffffff; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); max-width: 600px; margin: 40px auto;">
+        <div style="text-align: center; background-color: black; color: white; padding: 20px;">
+            <h1 color: white; style="margin: 0;">Order Confirmation</h1>
+        </div>
+        <div style="padding: 20px;">
+            <p>Hi ${userName},</p>
+            <p>Thank you for your order! Here are the details of your purchase:</p>
+
+            <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th style="padding: 10px; border: 1px solid #dddddd; background-color: #f8f8f8; text-align: left;">Product</th>
+                        <th style="padding: 10px; border: 1px solid #dddddd; background-color: #f8f8f8; text-align: left;">Quantity</th>
+                        <th style="padding: 10px; border: 1px solid #dddddd; background-color: #f8f8f8; text-align: left;">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${products
+                      .map(
+                        (product) => `
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #dddddd;">${product.title}</td>
+                        <td style="padding: 10px; border: 1px solid #dddddd;">${product.quantity}</td>
+                        <td style="padding: 10px; border: 1px solid #dddddd;">${product.price} USD</td>
+                    </tr>
+                    `
+                      )
+                      .join("")}
+                </tbody>
+            </table>
+
+            <p style="margin-top: 20px;">If you’d like to view the status of your order, click the link below:</p>
+            <a href="${orderLink}" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: black; text-align: center; color: white; text-decoration: none; border-radius: 5px;">View Order Here</a>
+        </div>
+    </div>
+</body>
+</html>
+`;

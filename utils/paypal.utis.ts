@@ -15,7 +15,7 @@ export const handleAPIOrderCreate = async ({
     method: "post",
     url: ORDERS_URL,
     payload: {
-      isCompleted: false,
+      isCompleted: true,
       cart: {
         products: serializedData,
       },

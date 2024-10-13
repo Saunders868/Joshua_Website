@@ -1,6 +1,7 @@
 "use client";
 
 import CreateUser from "@/components/Forms/CreateUser";
+import Loading from "@/components/Loading";
 import { useSession } from "next-auth/react";
 
 import { useRouter } from "next/navigation";
@@ -8,6 +9,7 @@ import { useEffect, useState } from "react";
 
 const Page = () => {
   const session = useSession();
+  const [loading, setLoading] = useState(true);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const { push } = useRouter();
 
@@ -15,7 +17,10 @@ const Page = () => {
     if (session.status === "authenticated") {
       push("/checkout");
     }
+    setLoading(false);
   }, [session.status, push]);
+
+  if (loading) return <Loading />;
 
   return (
     <main>

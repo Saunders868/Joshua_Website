@@ -106,8 +106,24 @@ export const {
     maxAge: REFRESH_COOKIE_TIME,
   },
   callbacks: {
-    jwt: async ({ token, user }: { token: any; user: any }) => {
+    jwt: async ({
+      token,
+      user,
+      trigger,
+      session,
+    }: {
+      token: any;
+      user: any;
+      trigger: any;
+      session: any;
+    }) => {
       user && (token.user = user);
+      if (trigger === "update" && session) {
+        console.log("user: ", user);
+        console.log("session: ", session);
+
+        token.user = { ...user, ...session };
+      }
       return token;
     },
     session: async ({ session, token }: { session: any; token: any }) => {

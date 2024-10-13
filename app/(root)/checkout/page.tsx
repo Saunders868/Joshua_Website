@@ -3,6 +3,7 @@
 import Loading from "@/components/Loading";
 import {
   BASE_URL,
+  FRONTEND_URL,
   ORDERS_URL,
   PAYPAL_CAPTURE,
   PAYPAL_CLIENT_ID,
@@ -17,9 +18,10 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import ClientCart from "@/components/ClientCart";
 import { handleAPIOrderCreate, paypalCreateOrder } from "@/utils/paypal.utis";
 import { axiosCall } from "@/utils/Axios";
-import { update } from "@/redux/slices/user.slice";
 import Confirmation from "@/components/Confirmation";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { emailTemplate, sendEmail } from "@/utils/utils";
 
 const initialOptions = {
   clientId: PAYPAL_CLIENT_ID,
@@ -29,8 +31,10 @@ const initialOptions = {
 };
 
 const Page = () => {
-  const session = useSession();
+  const { data: session, update } = useSession();
   const cartData = useAppSelector((state) => state.cart.products);
+  const { push } = useRouter();
+  const [clientLoading, setClientLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const [serializedData, setSerializedData] = useState<
@@ -52,10 +56,22 @@ const Page = () => {
     setSerializedData(serializedData);
   }, [cartData]);
 
-  let permissions: string[] = [];
-  console.log("initial: ", orderID);
+  console.log("Session Data: ", session);
+  console.log("Cart Data: ", cartData);
 
-  if (loading) return <Loading />;
+  useEffect(() => {
+    const hasMatchingTitle = session.user.productPermissions.some(
+      (string: string) => cartData.some((object) => object.title === string)
+    );
+    if (hasMatchingTitle) {
+      push("/profile/downloads");
+    }
+    setClientLoading(false);
+  }, [session]);
+
+  let permissions: string[] = [];
+
+  if (loading || clientLoading) return <Loading />;
 
   return (
     <main className="page checkout__page">
@@ -114,7 +130,6 @@ const Page = () => {
                   });
                   permissions = orderPermissions;
                   setOrderID(orderId);
-                  console.log("on create: ", orderId);
 
                   return await paypalCreateOrder({
                     isSuccessful,
@@ -146,10 +161,10 @@ const Page = () => {
 
                   const userUpdateResponse = await axiosCall({
                     method: "PATCH",
-                    url: `${USERS_URL}/${session.data.user.id}`,
+                    url: `${USERS_URL}/${session.user.id}`,
                     payload: {
                       productPermissions: [
-                        ...session.data.user.productPermissions,
+                        ...session.user.productPermissions,
                         ...permissions,
                       ],
                     },
@@ -159,9 +174,26 @@ const Page = () => {
                     throw new Error("Error updating user permissions.");
                   }
 
+                  sendEmail({
+                    username: session.user.name,
+                    email: session.user.email,
+                    body: emailTemplate({
+                      userName: session.user.name,
+                      products: cartData,
+                      orderLink: `${FRONTEND_URL}/profile/downloads`,
+                    }),
+                    subject: "Order Completed Successfully!",
+                  });
+
                   // need to update active user session, and send an email with the page with the order
 
-                  dispatch(update(permissions));
+                  await update({
+                    ...session.user,
+                    productPermissions: [
+                      ...session.user.productPermissions,
+                      permissions,
+                    ],
+                  });
 
                   const orderData = await response.json();
 

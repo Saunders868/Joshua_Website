@@ -79,7 +79,7 @@ const Page = () => {
             {error === null ? (
               <>
                 {response && response.data.length === 0 ? (
-                  <NoData text="Carts" />
+                  <NoData text="product" />
                 ) : (
                   <DataGrid
                     getRowId={(row) => row._id}

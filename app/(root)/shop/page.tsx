@@ -20,9 +20,13 @@ const Page = () => {
 
   return (
     <main className="shop">
-      {productsData.map((product) => (
-        <Card key={product._id} product={product} />
-      ))}
+      {productsData.length > 0 ? (
+        productsData.map((product) => (
+          <Card key={product._id} product={product} />
+        ))
+      ) : (
+        <p>There are no products in the shop...</p>
+      )}
     </main>
   );
 };

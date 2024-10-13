@@ -13,8 +13,8 @@ import { useSession } from "next-auth/react";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-  const session = useSession();
-  console.log("Session: ", session);
+  const { data: session, update } = useSession();
+  // console.log("Session: ", session);
   const infoSectionContainer = useRef(null);
   const productSectionContainer = useRef(null);
 
