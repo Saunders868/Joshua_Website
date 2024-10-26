@@ -15,7 +15,7 @@ const Page = () => {
   const { push } = useRouter();
   const [clientLoading, setClientLoading] = useState(true);
   const { response, error, loading } = useAxios({
-    url: `${USERS_URL}/${session.data.user.id}`,
+    url: `${USERS_URL}/${session.data?.user.id}`,
   });
 
   useEffect(() => {

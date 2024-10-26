@@ -9,7 +9,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     timeout: 5000,
   });
   const response: AxiosResponse = await instance.request({
-    url: "https://joshua-website-api.onrender.com/api/products",
+    url: "https://joshua-greene-34251045f406.herokuapp.com/api/products",
     method: "get",
     withCredentials: true,
     timeout: 10000,

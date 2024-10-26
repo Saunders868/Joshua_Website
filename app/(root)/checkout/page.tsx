@@ -60,7 +60,7 @@ const Page = () => {
   console.log("Cart Data: ", cartData);
 
   useEffect(() => {
-    const hasMatchingTitle = session.user.productPermissions.some(
+    const hasMatchingTitle = session?.user.productPermissions.some(
       (string: string) => cartData.some((object) => object.title === string)
     );
     if (hasMatchingTitle) {
@@ -161,10 +161,10 @@ const Page = () => {
 
                   const userUpdateResponse = await axiosCall({
                     method: "PATCH",
-                    url: `${USERS_URL}/${session.user.id}`,
+                    url: `${USERS_URL}/${session?.user.id}`,
                     payload: {
                       productPermissions: [
-                        ...session.user.productPermissions,
+                        ...session?.user.productPermissions,
                         ...permissions,
                       ],
                     },
@@ -175,10 +175,10 @@ const Page = () => {
                   }
 
                   sendEmail({
-                    username: session.user.name,
-                    email: session.user.email,
+                    username: session?.user.name,
+                    email: session?.user.email,
                     body: emailTemplate({
-                      userName: session.user.name,
+                      userName: session?.user.name,
                       products: cartData,
                       orderLink: `${FRONTEND_URL}/profile/downloads`,
                     }),
@@ -188,9 +188,9 @@ const Page = () => {
                   // need to update active user session, and send an email with the page with the order
 
                   await update({
-                    ...session.user,
+                    ...session?.user,
                     productPermissions: [
-                      ...session.user.productPermissions,
+                      ...session?.user.productPermissions,
                       permissions,
                     ],
                   });

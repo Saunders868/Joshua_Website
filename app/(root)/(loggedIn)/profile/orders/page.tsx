@@ -13,7 +13,7 @@ import Link from "next/link";
 const Page = () => {
   const session = useSession();
   const { response, error, loading } = useAxios({
-    url: `${ORDERS_URL}/user/${session.data.user.id}`,
+    url: `${ORDERS_URL}/user/${session.data?.user.id}`,
   });
 
   if (loading) return <Loading />;

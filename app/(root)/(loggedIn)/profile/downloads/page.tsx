@@ -13,7 +13,7 @@ const Page = () => {
   const session = useSession();
 
   const { response, error, loading } = useAxios({
-    url: `${USERS_URL}/${session.data.user.id}`,
+    url: `${USERS_URL}/${session.data?.user.id}`,
   });
 
   if (loading) return <Loading />;

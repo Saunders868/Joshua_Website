@@ -1,8 +1,8 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 import fs from "fs";
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest, res: NextResponse) {
   const filePath = path.resolve(
     "./private-files",
     "TheFlavorJournalRecipeBook.pdf"
@@ -10,8 +10,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
   const fileExists = fs.existsSync(filePath);
 
   if (!fileExists) {
-    res.status(404).send("File not found.");
-    return;
+    return NextResponse.json({ message: "File not found." }, { status: 404 });
   }
 
   const fileBuffer = fs.readFileSync(filePath);

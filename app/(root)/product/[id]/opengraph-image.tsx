@@ -1,6 +1,6 @@
 import { PRODUCTS_URL } from "@/constants";
 import { axiosCall } from "@/utils/Axios";
-import { ImageResponse } from "next/server";
+import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 

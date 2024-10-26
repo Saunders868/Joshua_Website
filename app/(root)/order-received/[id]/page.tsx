@@ -45,7 +45,9 @@ const Page = () => {
       </section>
       <section>
         <p>
-          <b>Click the button below to access "The Flavor Journal":</b>{" "}
+          <b>
+            Click the button below to access &quot;The Flavor Journal&quot;:
+          </b>{" "}
         </p>
         <div className="book_link">
           <Button fill link="/profile/downloads" text="Access Book" />

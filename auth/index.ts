@@ -81,9 +81,12 @@ export const {
         email: { label: "Username", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials: { email: string; password: string }) {
+      async authorize(credentials) {
         try {
-          const { email, password } = credentials;
+          const { email, password } = credentials as {
+            email: string;
+            password: string;
+          };
 
           const user = await login({ email, password });
 
@@ -91,9 +94,7 @@ export const {
             return user;
           }
 
-          return {
-            message: "Invalid Email or Password",
-          };
+          return null;
         } catch (err) {
           console.log(err);
           return null;
@@ -114,8 +115,8 @@ export const {
     }: {
       token: any;
       user: any;
-      trigger: any;
-      session: any;
+      session?: any;
+      trigger?: any;
     }) => {
       user && (token.user = user);
       if (trigger === "update" && session) {

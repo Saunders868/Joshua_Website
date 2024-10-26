@@ -1,7 +1,7 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest, res: NextResponse) {
   cookies().delete("accessToken");
   cookies().delete("refreshToken");
 
