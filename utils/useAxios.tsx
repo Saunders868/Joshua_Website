@@ -25,11 +25,13 @@ export function useAxios({ url }: { url: string }) {
         withCredentials: true,
         headers: {
           Authorization:
-            session.status == "authenticated"
-              ? session.data.user.accessToken
+            session?.status === "authenticated" &&
+            session?.data?.user?.accessToken
+              ? `Bearer ${session.data.user.accessToken}`
               : "",
           "x-refresh":
-            session.status == "authenticated"
+            session?.status === "authenticated" &&
+            session?.data?.user?.refreshToken
               ? session.data.user.refreshToken
               : "",
         },

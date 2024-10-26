@@ -39,7 +39,7 @@ function Header() {
                   <LinkItem path={link.path} linkname={link.linkname} />
                 </li>
               ))}
-              {session?.data != null && session?.data.user.role == "admin" ? (
+              {session?.data?.user?.role === "admin" ? (
                 <>
                   <li>
                     <LinkItem path={"/admin/dashboard"} linkname={"admin"} />
