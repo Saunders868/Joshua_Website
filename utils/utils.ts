@@ -24,12 +24,17 @@ export function convertStringToBoolean(string: string) {
 
 export async function createSession({
   values,
-  push,
+  router,
   url,
+  NoRedirect,
 }: {
   values: { email: string; password: string };
-  push: (url: string) => void;
-  url: string;
+  router: {
+    push: (url: string) => void;
+    back: () => void;
+  };
+  url?: string;
+  NoRedirect?: boolean;
 }) {
   try {
     const loginResult = await signIn("credentials", {
@@ -48,9 +53,15 @@ export async function createSession({
         progress: undefined,
         theme: "light",
       });
+      throw new Error("Invalid credentials");
     } else {
-      // try router that back
-      push(url);
+      if (NoRedirect == false) {
+        if (url) {
+          router.push(url);
+        } else {
+          router.back();
+        }
+      }
     }
   } catch (error) {
     toast.error("Incorrect email or password", {
@@ -63,6 +74,7 @@ export async function createSession({
       progress: undefined,
       theme: "light",
     });
+    throw new Error("Session creation failed");
   }
 }
 
@@ -70,7 +82,7 @@ export async function createUser({
   values,
   mailString,
   redirectUrl,
-  push,
+  router,
   setShowConfirmation,
 }: {
   values: {
@@ -81,9 +93,12 @@ export async function createUser({
     productPermissions: string[];
   };
   mailString: string;
-  push: (url: string) => void;
-  setShowConfirmation: React.Dispatch<SetStateAction<boolean>>;
+  router: {
+    push: (url: string) => void;
+    back: () => void;
+  };
   redirectUrl?: string;
+  setShowConfirmation?: React.Dispatch<SetStateAction<boolean>>;
 }) {
   const response = await axiosCall({
     method: "POST",
@@ -98,10 +113,12 @@ export async function createUser({
       body: mailString,
       subject: "Signup Successful",
     });
-    if (redirectUrl) {
-      push(redirectUrl);
+    if (setShowConfirmation) {
+      setShowConfirmation(true);
     }
-    setShowConfirmation(true);
+    if (redirectUrl) {
+      router.push(redirectUrl);
+    }
   } else if (response?.status === API_CONFLICT_CODE) {
     toast.error(response.data.error, {
       position: "bottom-right",
@@ -113,6 +130,7 @@ export async function createUser({
       progress: undefined,
       theme: "light",
     });
+    throw new Error("User conflict: " + response.data.error);
   } else {
     toast.error("An error occured.", {
       position: "bottom-right",
@@ -124,6 +142,7 @@ export async function createUser({
       progress: undefined,
       theme: "light",
     });
+    throw new Error("User creation failed");
   }
 }
 

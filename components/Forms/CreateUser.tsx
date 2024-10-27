@@ -1,13 +1,10 @@
 "use client";
 
-import { MAIL_URL, USERS_URL } from "@/constants";
 import { initialUserValues } from "@/data";
-import { axiosCall } from "@/utils/Axios";
 import { CreateUserValidation } from "@/validations";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import React, { useState, SetStateAction } from "react";
-import { toast } from "react-toastify";
 import Loading from "../Loading";
 import {
   createSession,
@@ -27,7 +24,7 @@ const CreateUser = ({
   password?: boolean;
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const { push } = useRouter();
+  const router = useRouter();
   let generatedPassword = generateValidPassword();
 
   const formik = useFormik({
@@ -37,33 +34,41 @@ const CreateUser = ({
     validationSchema: CreateUserValidation,
     onSubmit: async (values) => {
       setLoading(true);
-      console.log("here");
 
-      if (password == true) {
-        await createUser({
-          values: { ...values },
-          mailString: `Welcome from Joshua Greene! We're thrilled to have you join our community of valued customers! You can sign in to your account using the following credentials. Email: ${values.email}, Password: ${generatedPassword}`,
-          push,
-          setShowConfirmation,
-        });
+      try {
+        if (password === true) {
+          await createUser({
+            values: { ...values },
+            mailString: `Welcome from Joshua Greene! We're thrilled to have you join our community of valued customers! You can sign in to your account using the following credentials. Email: ${values.email}, Password: ${generatedPassword}`,
+            router,
+          });
 
-        await createSession({
-          values: { email: values.email, password: values.password },
-          push,
-          url: "/checkout",
-        });
-      } else {
-        await createUser({
-          values: { ...values },
-          mailString:
-            "Welcome from Joshua Greene! We're thrilled to have you join our community of valued customers!",
-          redirectUrl: "/sign-in",
-          push,
-          setShowConfirmation,
-        });
+          await createSession({
+            values: { email: values.email, password: values.password },
+            router,
+            url: "/checkout",
+            NoRedirect: false,
+          });
+        } else {
+          await createUser({
+            values: { ...values },
+            mailString:
+              "Welcome from Joshua Greene! We're thrilled to have you join our community of valued customers!",
+            router,
+            setShowConfirmation,
+          });
+
+          await createSession({
+            values: { email: values.email, password: values.password },
+            router,
+            NoRedirect: true,
+          });
+        }
+      } catch (error) {
+        console.error("Error during user creation or session creation:", error);
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     },
   });
 

@@ -1,20 +1,15 @@
 "use client";
 
 import { initialSessionValues } from "@/data";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { CreateSessionValidation } from "@/validations";
 import { useFormik } from "formik";
 import React, { useState } from "react";
-import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 import { createSession } from "@/utils/utils";
 
 const CreateSession = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const dispatch = useAppDispatch();
-  const userData = useAppSelector((state) => state.user.user);
-  const { push } = useRouter();
+  const router = useRouter();
 
   const formik = useFormik({
     initialValues: initialSessionValues,
@@ -24,8 +19,8 @@ const CreateSession = () => {
 
       createSession({
         values: { email: values.email, password: values.password },
-        push,
-        url: "/",
+        router,
+        NoRedirect: false,
       });
 
       setLoading(false);

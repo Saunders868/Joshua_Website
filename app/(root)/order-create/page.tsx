@@ -3,7 +3,6 @@
 import CreateUser from "@/components/Forms/CreateUser";
 import Loading from "@/components/Loading";
 import { useSession } from "next-auth/react";
-
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -14,11 +13,13 @@ const Page = () => {
   const { push } = useRouter();
 
   useEffect(() => {
-    if (session.status === "authenticated") {
-      push("/checkout");
+    if (session) {
+      if (session.status === "authenticated") {
+        push("/checkout");
+      }
     }
     setLoading(false);
-  }, [session.status, push]);
+  }, []);
 
   if (loading) return <Loading />;
 

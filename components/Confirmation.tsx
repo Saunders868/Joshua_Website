@@ -24,7 +24,7 @@ const Confirmation = ({
     }, 5000);
 
     return () => {
-      clearTimeout(timer); // Clear the timer when the component unmounts
+      clearTimeout(timer);
     };
   }, []);
 

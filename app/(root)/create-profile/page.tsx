@@ -3,17 +3,21 @@
 import Confirmation from "@/components/Confirmation";
 import CreateUser from "@/components/Forms/CreateUser";
 import LinkItem from "@/components/LinkItem";
-import { useAppSelector } from "@/redux/hooks";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Page = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const { push } = useRouter();
-  const userData = useAppSelector((state) => state.user.user);
-  if (userData.email !== "") {
-    push("/");
-  }
+  const router = useRouter();
+  const session = useSession();
+
+  useEffect(() => {
+    if (session.status === "authenticated") {
+      router.back();
+    }
+  }, []);
+
   return (
     <main>
       <div className="container">
@@ -37,7 +41,10 @@ const Page = () => {
         </div>
       </div>
       {showConfirmation && (
-        <Confirmation text="User Created Successfully!" location="/sign-in" />
+        <Confirmation
+          text="User Created Successfully!"
+          location="/profile/user"
+        />
       )}
     </main>
   );

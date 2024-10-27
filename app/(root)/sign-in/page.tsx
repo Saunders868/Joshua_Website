@@ -4,14 +4,17 @@ import CreateSession from "@/components/Forms/CreateSession";
 import LinkItem from "@/components/LinkItem";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const Page = () => {
   const router = useRouter();
   const session = useSession();
 
-  if (session.status == "authenticated") {
-    router.back();
-  }
+  useEffect(() => {
+    if (session.status === "authenticated") {
+      router.back();
+    }
+  }, [session.status, router]);
 
   return (
     <main>

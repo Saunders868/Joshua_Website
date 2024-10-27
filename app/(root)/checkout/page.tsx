@@ -56,15 +56,14 @@ const Page = () => {
     setSerializedData(serializedData);
   }, [cartData]);
 
-  console.log("Session Data: ", session);
-  console.log("Cart Data: ", cartData);
-
   useEffect(() => {
-    const hasMatchingTitle = session?.user.productPermissions.some(
-      (string: string) => cartData.some((object) => object.title === string)
-    );
-    if (hasMatchingTitle) {
-      push("/profile/downloads");
+    if (session != null) {
+      const hasMatchingTitle = session?.user?.productPermissions.some(
+        (string: string) => cartData.some((object) => object.title === string)
+      );
+      if (hasMatchingTitle) {
+        push("/profile/downloads");
+      }
     }
     setClientLoading(false);
   }, [session]);
@@ -174,7 +173,7 @@ const Page = () => {
                     throw new Error("Error updating user permissions.");
                   }
 
-                  sendEmail({
+                  await sendEmail({
                     username: session?.user.name,
                     email: session?.user.email,
                     body: emailTemplate({
@@ -185,7 +184,12 @@ const Page = () => {
                     subject: "Order Completed Successfully!",
                   });
 
-                  // need to update active user session, and send an email with the page with the order
+                  await sendEmail({
+                    username: "Josh",
+                    email: "saundersdaniel.10@gmail.com",
+                    body: "You know what it is.",
+                    subject: "Another day another dollar 💰💵🏦!",
+                  });
 
                   await update({
                     ...session?.user,

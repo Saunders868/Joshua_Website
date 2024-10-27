@@ -22,7 +22,7 @@ export const linksData: LinkT[] = [
   },
   {
     path: "/profile/user",
-    linkname: <Users color="white" />,
+    linkname: "account",
   },
   {
     path: "/cart",
@@ -45,7 +45,7 @@ export const linksDataMobile: LinkT[] = [
   },
   {
     path: "/profile/user",
-    linkname: <Users />,
+    linkname: "account",
   },
   {
     path: "/cart",
