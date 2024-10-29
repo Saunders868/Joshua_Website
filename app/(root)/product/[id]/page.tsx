@@ -10,8 +10,6 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  console.log("Params: ", params);
-  console.log("The url: ", `${FRONTEND_URL}/product/${params.id}`);
   try {
     const id = params.id;
 
@@ -20,7 +18,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: `${PRODUCTS_URL}/${id}`,
       payload: null,
     });
-    console.log("Product: ", product);
 
     if (!product) {
       return {
