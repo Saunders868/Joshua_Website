@@ -11,13 +11,17 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
+    console.log("Params: ", params);
+
     const id = params.id;
+    console.log("The url: ", `${FRONTEND_URL}/product/${id}`);
 
     const product = await axiosCall({
       method: "get",
       url: `${PRODUCTS_URL}/${id}`,
       payload: null,
     });
+    console.log("Product: ", product);
 
     if (!product) {
       return {
