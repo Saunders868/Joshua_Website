@@ -60,8 +60,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export const revalidate = 3600;
-
 async function getData(id: string) {
   const response = await axiosCall({
     method: "get",
