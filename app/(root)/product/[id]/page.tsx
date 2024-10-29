@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       },
     };
   } catch (error) {
-    console.log(error);
+    console.log("Error: ", error);
 
     return {
       title: "Not Found",
