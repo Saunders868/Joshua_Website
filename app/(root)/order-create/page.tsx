@@ -13,10 +13,8 @@ const Page = () => {
   const { push } = useRouter();
 
   useEffect(() => {
-    if (session) {
-      if (session.status === "authenticated") {
-        push("/checkout");
-      }
+    if (session.status == "authenticated") {
+      push("/checkout");
     }
     setLoading(false);
   }, []);
