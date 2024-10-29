@@ -13,13 +13,12 @@ const Page = () => {
   const { push } = useRouter();
 
   useEffect(() => {
-    console.log("Session: ", session);
-
-    // if (session.status == "authenticated") {
-    //   push("/checkout");
-    // }
-    setLoading(false);
-  }, []);
+    if (session?.status == "authenticated") {
+      push("/checkout");
+    } else {
+      setLoading(false);
+    }
+  }, [session]);
 
   if (loading) return <Loading />;
 

@@ -11,11 +11,10 @@ const Page = () => {
   const session = useSession();
 
   useEffect(() => {
-    console.log("Session: ", session);
-    // if (session.status == "authenticated") {
-    //   router.back();
-    // }
-  }, []);
+    if (session?.data?.user != null) {
+      router.back();
+    }
+  }, [session]);
 
   return (
     <main>
