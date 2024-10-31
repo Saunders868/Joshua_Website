@@ -55,11 +55,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 async function getData(id: string) {
-  const response = await axiosCall({
-    method: "get",
-    url: `${PRODUCTS_URL}/${id}`,
-    payload: null,
-  });
+  const response = await getProductData({ id: id });
 
   if (response.status != 200) {
     return "Not Found";
@@ -72,6 +68,70 @@ async function getData(id: string) {
 
 export default async function Page({ params }: { params: { id: string } }) {
   const product: ProductT = await getData(params.id);
+
+  const currentURL = `${FRONTEND_URL}/product/${params.id}`;
+
+  const jsonLD = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    mainEntity: {
+      "@type": "Book",
+      author: "Joshua Greene",
+      bookFormat: "https://schema.org/EBook",
+      datePublished: "1991-05-01",
+      inLanguage: "English",
+      name: "The Flavor Journal",
+      numberOfPages: "224",
+      offers: {
+        "@type": "Offer",
+        availability: "https://schema.org/InStock",
+        price: "9.99",
+        priceCurrency: "USD",
+      },
+    },
+  };
+
+  const googleJsonLD = {
+    "@context": "https://schema.org",
+    "@type": "DataFeed",
+    dataFeedElement: [
+      {
+        "@context": "https://schema.org",
+        "@type": "Book",
+        "@id": currentURL,
+        url: currentURL,
+        name: product.title,
+        inLanguage: "en",
+        author: {
+          "@type": "Person",
+          name: "Joshua Greene",
+        },
+        workExample: [
+          {
+            "@type": "Book",
+            "@id": currentURL,
+            bookEdition: "1st Edition",
+            bookFormat: "https://schema.org/EBook",
+            inLanguage: "en",
+            potentialAction: {
+              "@type": "ReadAction",
+              target: {
+                "@type": "EntryPoint",
+                urlTemplate: currentURL,
+                actionPlatform: ["https://schema.org/DesktopWebPlatform"],
+              },
+              expectsAcceptanceOf: {
+                "@type": "Offer",
+                category: "purchase",
+                price: 9.99,
+                priceCurrency: "USD",
+              },
+            },
+          },
+        ],
+      },
+    ],
+  };
 
   if ((product as unknown as string) == "Not Found") {
     return (
@@ -97,6 +157,20 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <main className="page">
       <ProductPage product={product} />
+      <script
+        key="structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLD),
+        }}
+      />
+      <script
+        key="structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(googleJsonLD),
+        }}
+      />
     </main>
   );
 }
