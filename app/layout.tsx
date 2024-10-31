@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import { FRONTEND_URL } from "@/constants";
 import { AuthContext } from "@/components/AuthProvider/AuthContext";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const hankenGrotesk = Hanken_Grotesk({ subsets: ["latin"] });
 
@@ -112,6 +113,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaORGJsonLd) }}
           id="schemaORG-jsonld"
         />
+        <GoogleAnalytics gaId="G-V2K1YJNMYZ" />
       </head>
       <body className={hankenGrotesk.className}>
         <AuthContext>
