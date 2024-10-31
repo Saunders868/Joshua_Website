@@ -7,6 +7,7 @@ import ToastProvider from "@/components/toast.provider";
 import Footer from "@/components/Footer";
 import { FRONTEND_URL } from "@/constants";
 import { AuthContext } from "@/components/AuthProvider/AuthContext";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const hankenGrotesk = Hanken_Grotesk({ subsets: ["latin"] });
 
@@ -41,6 +42,7 @@ export default function RootLayout({
             </ToastProvider>
           </Providers>
         </AuthContext>
+        <SpeedInsights />
       </body>
     </html>
   );

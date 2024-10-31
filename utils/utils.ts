@@ -76,12 +76,10 @@ export async function createSession({
         progress: undefined,
         theme: "light",
       });
-      if (NoRedirect == false) {
-        if (url) {
-          router.push(url);
-        } else {
-          router.push("/profile/user");
-        }
+      if (url) {
+        router.push(url);
+      } else {
+        router.push("/profile/user");
       }
     }
   } catch (error) {
