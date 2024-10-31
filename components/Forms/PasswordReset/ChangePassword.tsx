@@ -29,8 +29,6 @@ const ChangePassword = ({ email }: { email: string }) => {
         },
       });
 
-      console.log("reset password response", response);
-
       if (response?.status === 200) {
         push("/sign-in");
       } else if (response?.status === 404) {

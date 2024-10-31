@@ -16,17 +16,16 @@ const CloudinaryWidget = ({
       options={{ sources: ["local", "url"] }}
       signatureEndpoint="/api/sign-cloudinary-params"
       onSuccess={(result, { widget }) => {
-        console.log("result", result);
         setResource({
           info: result?.info as CloudinaryInfoT,
         });
         widget.close();
       }}
+      uploadPreset="joshua-website"
     >
       {({ open }) => {
         function handleOnClick() {
           setResource({ info: {} as CloudinaryInfoT });
-          console.log("unsuccessful resource: ", resource);
           open();
         }
         return (

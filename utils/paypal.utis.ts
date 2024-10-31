@@ -1,4 +1,4 @@
-import { BASE_URL, ORDERS_URL, PAYPAL_CREATE } from "@/constants";
+import { FRONTEND_URL, ORDERS_URL, PAYPAL_CREATE } from "@/constants";
 import { axiosCall } from "./Axios";
 import { toast } from "react-toastify";
 import { OrderResponseProduct } from "@/types";
@@ -76,16 +76,19 @@ export const paypalCreateOrder = async ({
   permissions: string[];
 }) => {
   if (isSuccessful) {
-    const response = await fetch(`${BASE_URL}${ORDERS_URL}/${PAYPAL_CREATE}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        orderId: orderId,
-        permissions: permissions,
-      }),
-    });
+    const response = await fetch(
+      `${FRONTEND_URL}/${ORDERS_URL}/${PAYPAL_CREATE}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orderId: orderId,
+          permissions: permissions,
+        }),
+      }
+    );
 
     const orderData = await response.json();
 

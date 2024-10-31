@@ -36,8 +36,6 @@ const UpdateOrder = ({
         },
       });
 
-      console.log(response);
-
       if (response?.status === 201) {
         toast.success("Order Successfully Updated!", {
           position: "bottom-right",

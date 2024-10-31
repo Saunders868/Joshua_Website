@@ -16,8 +16,6 @@ const Hamburger = ({
   const userData = useAppSelector((state) => state.user.user);
 
   const toggleMenu = () => {
-    console.log("is clicked", isClicked);
-
     if (!isClicked) {
       document.documentElement.style.overflow = "hidden";
       document.body.style.overflow = "hidden";

@@ -120,9 +120,6 @@ export const {
     }) => {
       user && (token.user = user);
       if (trigger === "update" && session) {
-        console.log("user: ", user);
-        console.log("session: ", session);
-
         token.user = { ...user, ...session };
       }
       return token;
@@ -132,5 +129,5 @@ export const {
       return session;
     },
   },
-  secret: process.env.NEXT_PUBLIC_JWT_SECRET,
+  secret: process.env.JWT_SECRET,
 });

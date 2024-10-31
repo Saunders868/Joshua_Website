@@ -8,7 +8,6 @@ export const authUserMiddleware = (
   accessToken: string
 ) => {
   const user: DecodedUserT = jwt_decode(accessToken);
-  console.log(user);
 
   if (user.role != "admin") {
     return NextResponse.redirect(new URL("/", req.url));
