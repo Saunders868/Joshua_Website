@@ -5,6 +5,7 @@ import {
   API_CONFLICT_CODE,
   API_SUCCESS_CODE,
   MAIL_URL,
+  PRODUCTS_URL,
   SESSIONS_URL,
   USERS_URL,
 } from "@/constants";
@@ -20,6 +21,16 @@ export function convertStringToBoolean(string: string) {
   }
 
   return boolean;
+}
+
+export async function getProductData({ id }: { id: string }) {
+  const product = await axiosCall({
+    method: "get",
+    url: `${PRODUCTS_URL}/${id}`,
+    payload: null,
+  });
+
+  return product;
 }
 
 export async function createSession({
@@ -55,11 +66,21 @@ export async function createSession({
       });
       throw new Error("Invalid credentials");
     } else {
+      toast.success("Logged in!", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       if (NoRedirect == false) {
         if (url) {
           router.push(url);
         } else {
-          router.back();
+          router.push("/profile/user");
         }
       }
     }

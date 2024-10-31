@@ -2,6 +2,7 @@ import ProductPage from "@/components/ClientPages/ProductPage";
 import { FRONTEND_URL, PRODUCTS_URL } from "@/constants";
 import { ProductT } from "@/types";
 import { axiosCall } from "@/utils/Axios";
+import { getProductData } from "@/utils/utils";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -13,11 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
     const id = params.id;
 
-    const product = await axiosCall({
-      method: "get",
-      url: `${PRODUCTS_URL}/${id}`,
-      payload: null,
-    });
+    const product = await getProductData({ id: id });
 
     if (!product) {
       return {

@@ -1,5 +1,4 @@
-import { PRODUCTS_URL } from "@/constants";
-import { axiosCall } from "@/utils/Axios";
+import { getProductData } from "@/utils/utils";
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
@@ -14,11 +13,7 @@ export const contentType = "image/png";
 export default async function Image({ params }: { params: { id: string } }) {
   const id = params.id;
 
-  const product = await axiosCall({
-    method: "get",
-    url: `${PRODUCTS_URL}/${id}`,
-    payload: null,
-  });
+  const product = await getProductData({ id: id });
 
   return new ImageResponse(
     (
