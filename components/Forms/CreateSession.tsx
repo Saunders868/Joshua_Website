@@ -17,10 +17,10 @@ const CreateSession = () => {
     onSubmit: async (values) => {
       setLoading(true);
 
-      createSession({
+      await createSession({
         values: { email: values.email, password: values.password },
         router,
-        NoRedirect: false,
+        url: "/profile/user",
       });
 
       setLoading(false);

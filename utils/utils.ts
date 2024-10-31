@@ -37,7 +37,6 @@ export async function createSession({
   values,
   router,
   url,
-  NoRedirect,
 }: {
   values: { email: string; password: string };
   router: {
@@ -45,7 +44,6 @@ export async function createSession({
     back: () => void;
   };
   url?: string;
-  NoRedirect?: boolean;
 }) {
   try {
     const loginResult = await signIn("credentials", {

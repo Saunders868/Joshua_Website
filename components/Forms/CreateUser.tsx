@@ -47,7 +47,6 @@ const CreateUser = ({
             values: { email: values.email, password: values.password },
             router,
             url: "/checkout",
-            NoRedirect: false,
           });
         } else {
           await createUser({
@@ -61,7 +60,6 @@ const CreateUser = ({
           await createSession({
             values: { email: values.email, password: values.password },
             router,
-            NoRedirect: true,
           });
         }
       } catch (error) {
