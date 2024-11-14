@@ -9,6 +9,7 @@ import { FRONTEND_URL } from "@/constants";
 import { AuthContext } from "@/components/AuthProvider/AuthContext";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import SessionManager from "@/components/SessionManager";
 
 const hankenGrotesk = Hanken_Grotesk({ subsets: ["latin"] });
 
@@ -119,6 +120,7 @@ export default function RootLayout({
         <AuthContext>
           <Providers>
             <ToastProvider>
+              <SessionManager />
               <div className="flex">
                 <Header />
                 {children}

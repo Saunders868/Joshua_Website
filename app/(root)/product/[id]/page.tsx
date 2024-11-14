@@ -69,68 +69,31 @@ async function getData(id: string) {
 export default async function Page({ params }: { params: { id: string } }) {
   const product: ProductT = await getData(params.id);
 
-  const currentURL = `${FRONTEND_URL}/product/${params.id}`;
-
   const jsonLD = {
     "@context": "https://schema.org",
-    "@type": "WebPage",
-    mainEntity: {
-      "@type": "Book",
-      author: "Joshua Greene",
-      bookFormat: "https://schema.org/EBook",
-      datePublished: "1991-05-01",
-      inLanguage: "English",
-      name: "The Flavor Journal",
-      numberOfPages: "224",
-      offers: {
-        "@type": "Offer",
-        availability: "https://schema.org/InStock",
-        price: "9.99",
-        priceCurrency: "USD",
-      },
+    "@type": "Product",
+    name: product.title,
+    description: product.desc,
+    image: product.image,
+    offers: {
+      "@type": "Offer",
+      availability: "https://schema.org/InStock",
+      price: "9.99",
+      priceCurrency: "USD",
     },
-  };
-
-  const googleJsonLD = {
-    "@context": "https://schema.org",
-    "@type": "DataFeed",
-    dataFeedElement: [
-      {
-        "@context": "https://schema.org",
-        "@type": "Book",
-        "@id": currentURL,
-        url: currentURL,
-        name: product.title,
-        inLanguage: "en",
-        author: {
-          "@type": "Person",
-          name: "Joshua Greene",
-        },
-        workExample: [
-          {
-            "@type": "Book",
-            "@id": currentURL,
-            bookEdition: "1st Edition",
-            bookFormat: "https://schema.org/EBook",
-            inLanguage: "en",
-            potentialAction: {
-              "@type": "ReadAction",
-              target: {
-                "@type": "EntryPoint",
-                urlTemplate: currentURL,
-                actionPlatform: ["https://schema.org/DesktopWebPlatform"],
-              },
-              expectsAcceptanceOf: {
-                "@type": "Offer",
-                category: "purchase",
-                price: 9.99,
-                priceCurrency: "USD",
-              },
-            },
-          },
-        ],
+    additionalType: "https://schema.org/Book",
+    isRelatedTo: {
+      "@type": "Book",
+      name: product.title,
+      author: {
+        "@type": "Person",
+        name: "Joshua Greene",
       },
-    ],
+      bookFormat: "https://schema.org/EBook",
+      datePublished: "2024-09-01",
+      inLanguage: "English",
+      numberOfPages: 40,
+    },
   };
 
   if ((product as unknown as string) == "Not Found") {
@@ -162,13 +125,6 @@ export default async function Page({ params }: { params: { id: string } }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(jsonLD),
-        }}
-      />
-      <script
-        key="structured-data"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(googleJsonLD),
         }}
       />
     </main>

@@ -3,10 +3,6 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { axiosCall } from "@/utils/Axios";
-import { SESSIONS_URL } from "@/constants";
-import { signOut } from "next-auth/react";
-import { useAppDispatch } from "@/redux/hooks";
 import { logOut } from "@/utils/utils";
 
 const Button = ({

@@ -16,3 +16,6 @@ export const PAYPAL_CLIENT_ID: string =
 export const API_SUCCESS_CODE = 200;
 export const API_FORBIDDEN_CODE = 403;
 export const API_CONFLICT_CODE = 409;
+
+export const ACCESS_COOKIE_TIME = 360000;
+export const REFRESH_COOKIE_TIME = 360000 * 2;

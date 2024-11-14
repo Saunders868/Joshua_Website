@@ -4,11 +4,12 @@ import { axiosCall } from "@/utils/Axios";
 import jwt_decode from "jwt-decode";
 import { cookies } from "next/headers";
 
-import { SESSIONS_URL } from "@/constants";
+import {
+  ACCESS_COOKIE_TIME,
+  REFRESH_COOKIE_TIME,
+  SESSIONS_URL,
+} from "@/constants";
 import { DecodedUserT } from "@/redux/slices/user.slice";
-
-const ACCESS_COOKIE_TIME = 360000;
-const REFRESH_COOKIE_TIME = 360000 * 2;
 
 const login = async (credentials: { email: string; password: string }) => {
   try {
