@@ -4,7 +4,7 @@ import React, { SetStateAction } from "react";
 import LinkItem from "../LinkItem";
 import { linksDataMobile } from "@/data";
 import Button from "../Button";
-import { useAppSelector } from "@/redux/hooks";
+import { useSession } from "next-auth/react";
 
 const Hamburger = ({
   setIsClicked,
@@ -13,7 +13,7 @@ const Hamburger = ({
   setIsClicked: React.Dispatch<SetStateAction<boolean>>;
   isClicked: boolean;
 }) => {
-  const userData = useAppSelector((state) => state.user.user);
+  const session = useSession();
 
   const toggleMenu = () => {
     if (!isClicked) {
@@ -54,14 +54,14 @@ const Hamburger = ({
               <LinkItem path={link.path} linkname={link.linkname} />
             </li>
           ))}
-          {userData.auth == "admin" ? (
+          {session?.data?.user?.role == "admin" ? (
             <>
               <li onClick={() => setIsClicked(false)}>
                 <LinkItem path={"/admin/dashboard"} linkname={"admin"} />
               </li>
             </>
           ) : null}
-          {userData.email !== "" ? (
+          {session?.data != null ? (
             <>
               <Button text="Logout" link={"sign-out"} />
             </>

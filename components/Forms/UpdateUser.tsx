@@ -39,7 +39,10 @@ const UpdateUser = ({
       const response = await axiosCall({
         method: "patch",
         url: `${USERS_URL}/${id}`,
-        payload: { ...values },
+        payload: {
+          ...values,
+          name: `${values.firstName} ${values.lastName}`,
+        },
       });
 
       if (response?.status === 200) {
@@ -53,7 +56,7 @@ const UpdateUser = ({
           progress: undefined,
           theme: "light",
         });
-        push("/profile/dashboard");
+        push("/profile/user");
       } else if (response?.status === 404) {
         toast.error("This user was not found.", {
           position: "bottom-right",

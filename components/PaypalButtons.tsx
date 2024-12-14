@@ -121,7 +121,7 @@ const PaypalButtons = ({
 
             await sendEmail({
               username: "Josh",
-              email: "saundersdaniel.10@gmail.com",
+              email: "joshuagreene7@gmail.com",
               body: "You know what it is.",
               subject: "Another day another dollar 💰💵🏦!",
             });

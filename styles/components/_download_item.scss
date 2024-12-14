@@ -8,6 +8,14 @@
       color: #000;
       position: relative;
       text-transform: capitalize;
+      display: flex;
+      align-items: center;
+
+      svg {
+        width: 24px;
+        height: 24px;
+        margin-left: 5px;
+      }
     }
   }
   .line {
